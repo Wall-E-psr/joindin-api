@@ -1,4 +1,7 @@
-<?php if (isset($_GET['noajax'])) { include(dirname(__FILE__) . '/suite-ui-noajax.tpl.php'); exit(0); } ?>
+<?php if (isset($_GET['noajax'])) {
+    include(dirname(__FILE__) . '/suite-ui-noajax.tpl.php');
+    exit(0);
+} ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -7,9 +10,11 @@
     <link rel="stylesheet" type="text/css" href="templates/sweety/css/main.css" />
     <script type="text/javascript">
     var sweetyTestCases = {};
-    <?php foreach ($testCases as $name): ?>
+    <?php foreach ($testCases as $name) :
+?>
     sweetyTestCases.<?php echo $name; ?> = true;
-    <?php endforeach; ?>
+    <?php
+    endforeach; ?>
     </script>
     <!-- XPath legacy is completely inert in DOM 3 XPath enabled browsers -->
     <script type="text/javascript" src="xpath-legacy.js"></script>
@@ -35,10 +40,12 @@
           <!-- Dynamically generated list of tests goes here -->
           <div id="sweety-testlist-container">
             
-            <?php $currentPackage = null; foreach ($testCases as $testCase): ?>
+            <?php $currentPackage = null; foreach ($testCases as $testCase) :
+?>
             
-            <?php if ($currentPackage != $package = preg_replace('/_?[^_]+$/', '', $testCase)): ?>
-              <?php $currentPackage = $package; ?>
+            <?php if ($currentPackage != $package = preg_replace('/_?[^_]+$/', '', $testCase)) :
+?>
+                <?php $currentPackage = $package; ?>
               <div id="sweety-package-<?php echo $package; ?>"
                 onmouseover="this.style.cursor='pointer';"
                 onclick="sweetyUI.initialize(); sweetyRunner.runAll('<?php echo $package; ?>');"
@@ -50,10 +57,11 @@
                   onclick="sweetyUI.togglePackage('<?php echo $package; ?>'); event.cancelBubble=true;" />
                 <?php echo preg_replace('/^.*_/', '', $package); ?> Tests
                 <span class="sweety-test-package">
-                  <?php echo preg_replace('/_?[^_]+$/', '', $package); ?>
+                    <?php echo preg_replace('/_?[^_]+$/', '', $package); ?>
                 </span>
               </div>
-            <?php endif; ?>
+            <?php
+            endif; ?>
             
             <div id="<?php echo $testCase; ?>" class="sweety-test sweety-idle"
               onmouseover="this.style.cursor='pointer';"
@@ -70,24 +78,27 @@
                 
                 <input id="sweety-field-<?php echo $testCase; ?>" class="sweety-check"
                   type="checkbox" name="runtests[]" value="<?php echo $testCase; ?>"
-                  <?php if (array_key_exists($testCase, $runTests)): ?>
+                    <?php if (array_key_exists($testCase, $runTests)) :
+?>
                   checked="checked"
-                  <?php endif; ?> />
+                    <?php
+                    endif; ?> />
                 
                 <label for="sweety-field-<?php echo $testCase; ?>"
                   onmouseover="this.style.cursor='pointer';" onclick="return false;">
-                  <?php echo preg_replace('/^.*_/', '', $testCase); ?>
+                    <?php echo preg_replace('/^.*_/', '', $testCase); ?>
                 </label>
                 
                 <span class="sweety-test-package">
-                  <?php echo $package; ?>
+                    <?php echo $package; ?>
                 </span>
               
               </div>
               
             </div>
             
-            <?php endforeach; ?>
+            <?php
+            endforeach; ?>
             
           </div>
           

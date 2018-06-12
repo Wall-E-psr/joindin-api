@@ -5,7 +5,7 @@
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
- 
+
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -13,7 +13,7 @@
 
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- 
+
  */
 
 /**
@@ -28,12 +28,18 @@
 /**
  * Allow occurences of Yay_Expectations::create() to be replaced with Expectations::create().
  */
-class Expectations extends Yay_Expectations { }
+class Expectations extends Yay_Expectations
+{
+
+}
 
 /**
  * Allows occurences of new Yay_Mockery() to be replaced with new Mockery().
  */
-class Mockery extends Yay_Mockery { }
+class Mockery extends Yay_Mockery
+{
+
+}
 
 //Argument matchers
 
@@ -42,7 +48,7 @@ class Mockery extends Yay_Mockery { }
  */
 function optional($value = null)
 {
-  return Yay::optional($value);
+    return Yay::optional($value);
 }
 
 /**
@@ -50,7 +56,7 @@ function optional($value = null)
  */
 function any($type = null)
 {
-  return Yay::any($type);
+    return Yay::any($type);
 }
 
 /**
@@ -58,7 +64,7 @@ function any($type = null)
  */
 function none($type = null)
 {
-  return Yay::none($type);
+    return Yay::none($type);
 }
 
 /**
@@ -66,7 +72,7 @@ function none($type = null)
  */
 function identical($value)
 {
-  return Yay::identical($value);
+    return Yay::identical($value);
 }
 
 /**
@@ -74,7 +80,7 @@ function identical($value)
  */
 function notIdentical($value)
 {
-  return Yay::notIdentical($value);
+    return Yay::notIdentical($value);
 }
 
 /**
@@ -82,7 +88,7 @@ function notIdentical($value)
  */
 function equal($value)
 {
-  return Yay::equal($value);
+    return Yay::equal($value);
 }
 
 /**
@@ -90,7 +96,7 @@ function equal($value)
  */
 function notEqual($value)
 {
-  return Yay::notEqual($value);
+    return Yay::notEqual($value);
 }
 
 /**
@@ -98,7 +104,7 @@ function notEqual($value)
  */
 function pattern($pattern)
 {
-  return Yay::pattern($pattern);
+    return Yay::pattern($pattern);
 }
 
 /**
@@ -106,7 +112,7 @@ function pattern($pattern)
  */
 function noPattern($pattern)
 {
-  return Yay::noPattern($pattern);
+    return Yay::noPattern($pattern);
 }
 
 /**
@@ -114,7 +120,7 @@ function noPattern($pattern)
  */
 function bounds($a, $b)
 {
-  return Yay::bounds($a, $b);
+    return Yay::bounds($a, $b);
 }
 
 /**
@@ -122,7 +128,7 @@ function bounds($a, $b)
  */
 function outside($a, $b)
 {
-  return Yay::outside($a, $b);
+    return Yay::outside($a, $b);
 }
 
 /**
@@ -130,7 +136,7 @@ function outside($a, $b)
  */
 function reference(&$ref)
 {
-  return Yay::reference($ref);
+    return Yay::reference($ref);
 }
 
 /**
@@ -138,7 +144,7 @@ function reference(&$ref)
  */
 function noReference(&$ref)
 {
-  return Yay::noReference($ref);
+    return Yay::noReference($ref);
 }
 
 //Actions
@@ -148,7 +154,7 @@ function noReference(&$ref)
  */
 function returnValue($value)
 {
-  return Yay::returnValue($value);
+    return Yay::returnValue($value);
 }
 
 /**
@@ -156,7 +162,7 @@ function returnValue($value)
  */
 function returnReference(&$ref)
 {
-  return Yay::returnReference($ref);
+    return Yay::returnReference($ref);
 }
 
 /**
@@ -164,7 +170,7 @@ function returnReference(&$ref)
  */
 function throwException(Exception $e)
 {
-  return Yay::throwException($e);
+    return Yay::throwException($e);
 }
 
 /**
@@ -172,5 +178,5 @@ function throwException(Exception $e)
  */
 function call($callback)
 {
-  return Yay::call($callback);
+    return Yay::call($callback);
 }

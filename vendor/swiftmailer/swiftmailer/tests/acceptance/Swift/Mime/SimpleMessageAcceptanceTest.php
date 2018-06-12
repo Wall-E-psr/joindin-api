@@ -2,8 +2,7 @@
 
 require_once 'Swift/Tests/SwiftUnitTestCase.php';
 
-class Swift_Mime_SimpleMessageAcceptanceTest
-    extends Swift_Tests_SwiftUnitTestCase
+class Swift_Mime_SimpleMessageAcceptanceTest extends Swift_Tests_SwiftUnitTestCase
 {
     public function setUp()
     {
@@ -27,7 +26,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             'Content-Transfer-Encoding: quoted-printable' . "\r\n",
             $message->toString(),
             '%s: Only required headers, and non-empty headers should be displayed'
-            );
+        );
     }
 
     public function testSubjectIsDisplayedIfSet()
@@ -45,7 +44,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             'Content-Type: text/plain' . "\r\n" .
             'Content-Transfer-Encoding: quoted-printable' . "\r\n",
             $message->toString()
-            );
+        );
     }
 
     public function testDateCanBeSet()
@@ -63,7 +62,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             'Content-Type: text/plain' . "\r\n" .
             'Content-Transfer-Encoding: quoted-printable' . "\r\n",
             $message->toString()
-            );
+        );
     }
 
     public function testMessageIdCanBeSet()
@@ -81,7 +80,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             'Content-Type: text/plain' . "\r\n" .
             'Content-Transfer-Encoding: quoted-printable' . "\r\n",
             $message->toString()
-            );
+        );
     }
 
     public function testContentTypeCanBeChanged()
@@ -100,7 +99,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             'Content-Type: text/html' . "\r\n" .
             'Content-Transfer-Encoding: quoted-printable' . "\r\n",
             $message->toString()
-            );
+        );
     }
 
     public function testCharsetCanBeSet()
@@ -120,7 +119,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             'Content-Type: text/html; charset=iso-8859-1' . "\r\n" .
             'Content-Transfer-Encoding: quoted-printable' . "\r\n",
             $message->toString()
-            );
+        );
     }
 
     public function testFormatCanBeSet()
@@ -139,7 +138,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             'Content-Type: text/plain; format=flowed' . "\r\n" .
             'Content-Transfer-Encoding: quoted-printable' . "\r\n",
             $message->toString()
-            );
+        );
     }
 
     public function testEncoderCanBeSet()
@@ -149,7 +148,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
         $message->setContentType('text/html');
         $message->setEncoder(
             new Swift_Mime_ContentEncoder_PlainContentEncoder('7bit')
-            );
+        );
         $id = $message->getId();
         $date = $message->getDate();
         $this->assertEqual(
@@ -161,7 +160,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             'Content-Type: text/html' . "\r\n" .
             'Content-Transfer-Encoding: 7bit' . "\r\n",
             $message->toString()
-            );
+        );
     }
 
     public function testFromAddressCanBeSet()
@@ -180,7 +179,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             'Content-Type: text/plain' . "\r\n" .
             'Content-Transfer-Encoding: quoted-printable' . "\r\n",
             $message->toString()
-            );
+        );
     }
 
     public function testFromAddressCanBeSetWithName()
@@ -199,7 +198,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             'Content-Type: text/plain' . "\r\n" .
             'Content-Transfer-Encoding: quoted-printable' . "\r\n",
             $message->toString()
-            );
+        );
     }
 
     public function testMultipleFromAddressesCanBeSet()
@@ -221,7 +220,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             'Content-Type: text/plain' . "\r\n" .
             'Content-Transfer-Encoding: quoted-printable' . "\r\n",
             $message->toString()
-            );
+        );
     }
 
     public function testReturnPathAddressCanBeSet()
@@ -243,7 +242,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             'Content-Type: text/plain' . "\r\n" .
             'Content-Transfer-Encoding: quoted-printable' . "\r\n",
             $message->toString()
-            );
+        );
     }
 
     public function testEmptyReturnPathHeaderCanBeUsed()
@@ -265,7 +264,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             'Content-Type: text/plain' . "\r\n" .
             'Content-Transfer-Encoding: quoted-printable' . "\r\n",
             $message->toString()
-            );
+        );
     }
 
     public function testSenderCanBeSet()
@@ -285,7 +284,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             'Content-Type: text/plain' . "\r\n" .
             'Content-Transfer-Encoding: quoted-printable' . "\r\n",
             $message->toString()
-            );
+        );
     }
 
     public function testSenderCanBeSetWithName()
@@ -305,7 +304,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             'Content-Type: text/plain' . "\r\n" .
             'Content-Transfer-Encoding: quoted-printable' . "\r\n",
             $message->toString()
-            );
+        );
     }
 
     public function testReplyToCanBeSet()
@@ -326,7 +325,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             'Content-Type: text/plain' . "\r\n" .
             'Content-Transfer-Encoding: quoted-printable' . "\r\n",
             $message->toString()
-            );
+        );
     }
 
     public function testMultipleReplyAddressCanBeUsed()
@@ -350,7 +349,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             'Content-Type: text/plain' . "\r\n" .
             'Content-Transfer-Encoding: quoted-printable' . "\r\n",
             $message->toString()
-            );
+        );
     }
 
     public function testToAddressCanBeSet()
@@ -376,7 +375,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             'Content-Type: text/plain' . "\r\n" .
             'Content-Transfer-Encoding: quoted-printable' . "\r\n",
             $message->toString()
-            );
+        );
     }
 
     public function testMultipleToAddressesCanBeSet()
@@ -404,7 +403,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             'Content-Type: text/plain' . "\r\n" .
             'Content-Transfer-Encoding: quoted-printable' . "\r\n",
             $message->toString()
-            );
+        );
     }
 
     public function testCcAddressCanBeSet()
@@ -434,7 +433,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             'Content-Type: text/plain' . "\r\n" .
             'Content-Transfer-Encoding: quoted-printable' . "\r\n",
             $message->toString()
-            );
+        );
     }
 
     public function testMultipleCcAddressesCanBeSet()
@@ -467,7 +466,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             'Content-Type: text/plain' . "\r\n" .
             'Content-Transfer-Encoding: quoted-printable' . "\r\n",
             $message->toString()
-            );
+        );
     }
 
     public function testBccAddressCanBeSet()
@@ -504,7 +503,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             'Content-Type: text/plain' . "\r\n" .
             'Content-Transfer-Encoding: quoted-printable' . "\r\n",
             $message->toString()
-            );
+        );
     }
 
     public function testMultipleBccAddressesCanBeSet()
@@ -541,7 +540,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             'Content-Type: text/plain' . "\r\n" .
             'Content-Transfer-Encoding: quoted-printable' . "\r\n",
             $message->toString()
-            );
+        );
     }
 
     public function testStringBodyIsAppended()
@@ -554,7 +553,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
         $message->setBody(
             'just a test body' . "\r\n" .
             'with a new line'
-            );
+        );
         $id = $message->getId();
         $date = $message->getDate();
         $this->assertEqual(
@@ -570,7 +569,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             'just a test body' . "\r\n" .
             'with a new line',
             $message->toString()
-            );
+        );
     }
 
     public function testStringBodyIsEncoded()
@@ -583,7 +582,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
         $message->setBody(
             'Just s' . pack('C*', 0xC2, 0x01, 0x01) . 'me multi-' . "\r\n" .
             'line message!'
-            );
+        );
         $id = $message->getId();
         $date = $message->getDate();
         $this->assertEqual(
@@ -599,7 +598,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             'Just s=C2=01=01me multi-' . "\r\n" .
             'line message!',
             $message->toString()
-            );
+        );
     }
 
     public function testChildrenCanBeAttached()
@@ -652,7 +651,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             "\r\n\r\n" .
             '--' . $boundary . '--' . "\r\n",
             $message->toString()
-            );
+        );
     }
 
     public function testAttachmentsBeingAttached()
@@ -714,7 +713,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             '--' . $boundary . '--' . "\r\n" .
             '$~D',
             $message->toString()
-            );
+        );
     }
 
     public function testAttachmentsAndEmbeddedFilesBeingAttached()
@@ -800,7 +799,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             '--' . $boundary . '--' . "\r\n" .
             '$~D',
             $message->toString()
-            );
+        );
     }
 
     public function testComplexEmbeddingOfContent()
@@ -877,7 +876,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             '--' . $boundary . '--' . "\r\n" .
             '$~D',
             $message->toString()
-            );
+        );
     }
 
     public function testAttachingAndDetachingContent()
@@ -952,7 +951,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             '$~D',
             $message->toString(),
             '%s: Attachment should have been detached'
-            );
+        );
     }
 
     public function testBoundaryDoesNotAppearAfterAllPartsAreDetached()
@@ -995,7 +994,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             'Content-Transfer-Encoding: quoted-printable' . "\r\n",
             $message->toString(),
             '%s: Message should be restored to orignal state after parts are detached'
-            );
+        );
     }
 
     public function testCharsetFormatOrDelSpAreNotShownWhenBoundaryIsSet()
@@ -1051,7 +1050,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             "\r\n\r\n" .
             '--' . $boundary . '--' . "\r\n",
             $message->toString()
-            );
+        );
     }
 
     public function testBodyCanBeSetWithAttachments()
@@ -1101,7 +1100,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             "\r\n\r\n" .
             '--' . $boundary . '--' . "\r\n",
             $message->toString()
-            );
+        );
     }
 
     public function testHtmlPartAlwaysAppearsLast()
@@ -1151,7 +1150,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             "\r\n\r\n" .
             '--' . $boundary . '--' . "\r\n",
             $message->toString()
-            );
+        );
     }
 
     public function testBodyBecomesPartIfOtherPartsAttached()
@@ -1198,7 +1197,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             "\r\n\r\n" .
             '--' . $boundary . '--' . "\r\n",
             $message->toString()
-            );
+        );
     }
 
     public function testBodyIsCanonicalized()
@@ -1211,7 +1210,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
         $message->setBody(
             'just a test body' . "\n" .
             'with a new line'
-            );
+        );
         $id = $message->getId();
         $date = $message->getDate();
         $this->assertEqual(
@@ -1227,7 +1226,7 @@ class Swift_Mime_SimpleMessageAcceptanceTest
             'just a test body' . "\r\n" .
             'with a new line',
             $message->toString()
-            );
+        );
     }
 
     // -- Private helpers

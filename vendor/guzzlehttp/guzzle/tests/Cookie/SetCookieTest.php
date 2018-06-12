@@ -192,10 +192,10 @@ class SetCookieTest extends \PHPUnit_Framework_TestCase
                     'Domain' => 'allseeing-i.com',
                     'Path' => '/',
                     'PHPSESSID' => '6c951590e7a9359bcedde25cda73e43c',
-                    'Max-Age' => NULL,
+                    'Max-Age' => null,
                     'Expires' => 'Sat, 26-Jul-2008 17:00:42 GMT',
-                    'Secure' => NULL,
-                    'Discard' => NULL,
+                    'Secure' => null,
+                    'Discard' => null,
                     'Name' => 'ASIHTTPRequestTestCookie',
                     'Value' => 'This+is+the+value',
                     'HttpOnly' => false

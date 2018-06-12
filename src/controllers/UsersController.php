@@ -359,7 +359,6 @@ class UsersController extends BaseApiController
             // the password wasn't acceptable, tell the user why
             throw new Exception(implode(". ", $validity), 400);
         }
-
     }
 
     public function deleteUser(Request $request, PDO $db)

@@ -254,8 +254,10 @@ abstract class Swift_Mime_Headers_AbstractHeader implements Swift_Mime_Header
             // and make it a quoted-string
             if (preg_match('/^' . $this->getGrammar()->getDefinition('text') . '*$/D', $phraseStr)) {
                 $phraseStr = $this->getGrammar()->escapeSpecials(
-                    $phraseStr, array('"'), $this->getGrammar()->getSpecials()
-                    );
+                    $phraseStr,
+                    array('"'),
+                    $this->getGrammar()->getSpecials()
+                );
                 $phraseStr = '"' . $phraseStr . '"';
             } else { // ... otherwise it needs encoding
                 // Determine space remaining on line if first line
@@ -372,16 +374,20 @@ abstract class Swift_Mime_Headers_AbstractHeader implements Swift_Mime_Header
         }
         $encodingWrapperLength = strlen(
             '=?' . $charsetDecl . '?' . $this->_encoder->getName() . '??='
-            );
+        );
 
         if ($firstLineOffset >= 75) { //Does this logic need to be here?
             $firstLineOffset = 0;
         }
 
-        $encodedTextLines = explode("\r\n",
+        $encodedTextLines = explode(
+            "\r\n",
             $this->_encoder->encodeString(
-                $token, $firstLineOffset, 75 - $encodingWrapperLength, $this->_charset
-                )
+                $token,
+                $firstLineOffset,
+                75 - $encodingWrapperLength,
+                $this->_charset
+            )
         );
 
         if (strtolower($this->_charset) !== 'iso-2022-jp') { // special encoding for iso-2022-jp using mb_encode_mimeheader
@@ -486,8 +492,7 @@ abstract class Swift_Mime_Headers_AbstractHeader implements Swift_Mime_Header
             // Line longer than specified maximum or token was just a new line
             if (("\r\n" == $token) ||
                 ($i > 0 && strlen($currentLine . $token) > $this->_lineLength)
-                && 0 < strlen($currentLine))
-            {
+                && 0 < strlen($currentLine)) {
                 $headerLines[] = '';
                 $currentLine =& $headerLines[$lineCount++];
             }

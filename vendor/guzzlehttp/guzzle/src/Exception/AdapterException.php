@@ -2,4 +2,7 @@
 
 namespace GuzzleHttp\Exception;
 
-class AdapterException extends TransferException {}
+class AdapterException extends TransferException
+{
+
+}

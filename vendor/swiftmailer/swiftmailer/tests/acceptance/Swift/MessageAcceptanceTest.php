@@ -3,8 +3,7 @@
 require_once 'swift_required.php';
 require_once 'Swift/Mime/SimpleMessageAcceptanceTest.php';
 
-class Swift_MessageAcceptanceTest
-    extends Swift_Mime_SimpleMessageAcceptanceTest
+class Swift_MessageAcceptanceTest extends Swift_Mime_SimpleMessageAcceptanceTest
 {
     public function testAddPartWrapper()
     {
@@ -43,7 +42,7 @@ class Swift_MessageAcceptanceTest
             "\r\n\r\n" .
             '--' . $boundary . '--' . "\r\n",
             $message->toString()
-            );
+        );
     }
 
     // -- Private helpers

@@ -17,8 +17,7 @@ class Swift_Transport_MailTransportTest extends Swift_Tests_SwiftUnitTestCase
             -> one($invoker)->mail(any(), any(), any(), any(), optional())
             -> ignoring($dispatcher)
             -> ignoring($headers)
-            -> ignoring($message)
-        );
+            -> ignoring($message));
 
         $transport->send($message);
     }
@@ -41,8 +40,7 @@ class Swift_Transport_MailTransportTest extends Swift_Tests_SwiftUnitTestCase
             -> ignoring($dispatcher)
             -> ignoring($headers)
             -> ignoring($message)
-            -> ignoring($to)
-        );
+            -> ignoring($to));
 
         $transport->send($message);
     }
@@ -65,8 +63,7 @@ class Swift_Transport_MailTransportTest extends Swift_Tests_SwiftUnitTestCase
             -> ignoring($dispatcher)
             -> ignoring($headers)
             -> ignoring($message)
-            -> ignoring($subj)
-        );
+            -> ignoring($subj));
 
         $transport->send($message);
     }
@@ -85,12 +82,11 @@ class Swift_Transport_MailTransportTest extends Swift_Tests_SwiftUnitTestCase
                 "To: Foo <foo@bar>\r\n" .
                 "\r\n" .
                 "This body"
-                )
+            )
             -> one($invoker)->mail(any(), any(), "This body", any(), optional())
             -> ignoring($dispatcher)
             -> ignoring($headers)
-            -> ignoring($message)
-        );
+            -> ignoring($message));
 
         $transport->send($message);
     }
@@ -109,12 +105,11 @@ class Swift_Transport_MailTransportTest extends Swift_Tests_SwiftUnitTestCase
                 "Subject: Stuff\r\n" .
                 "\r\n" .
                 "This body"
-                )
+            )
             -> one($invoker)->mail(any(), any(), any(), "Subject: Stuff" . PHP_EOL, optional())
             -> ignoring($dispatcher)
             -> ignoring($headers)
-            -> ignoring($message)
-        );
+            -> ignoring($message));
 
         $transport->send($message);
     }
@@ -134,8 +129,7 @@ class Swift_Transport_MailTransportTest extends Swift_Tests_SwiftUnitTestCase
             -> one($invoker)->mail(any(), any(), any(), any(), optional()) -> returns(true)
             -> ignoring($dispatcher)
             -> ignoring($headers)
-            -> ignoring($message)
-        );
+            -> ignoring($message));
 
         $this->assertEqual(3, $transport->send($message));
     }
@@ -155,8 +149,7 @@ class Swift_Transport_MailTransportTest extends Swift_Tests_SwiftUnitTestCase
             -> one($invoker)->mail(any(), any(), any(), any(), optional()) -> returns(false)
             -> ignoring($dispatcher)
             -> ignoring($headers)
-            -> ignoring($message)
-        );
+            -> ignoring($message));
 
         $this->assertEqual(0, $transport->send($message));
     }
@@ -179,8 +172,7 @@ class Swift_Transport_MailTransportTest extends Swift_Tests_SwiftUnitTestCase
             -> ignoring($dispatcher)
             -> ignoring($headers)
             -> ignoring($message)
-            -> ignoring($to)
-        );
+            -> ignoring($to));
 
         $transport->send($message);
     }
@@ -203,8 +195,7 @@ class Swift_Transport_MailTransportTest extends Swift_Tests_SwiftUnitTestCase
             -> ignoring($dispatcher)
             -> ignoring($headers)
             -> ignoring($message)
-            -> ignoring($subject)
-        );
+            -> ignoring($subject));
 
         $transport->send($message);
     }
@@ -227,8 +218,7 @@ class Swift_Transport_MailTransportTest extends Swift_Tests_SwiftUnitTestCase
             -> ignoring($dispatcher)
             -> ignoring($headers)
             -> ignoring($message)
-            -> ignoring($to)
-        );
+            -> ignoring($to));
 
         $transport->send($message);
     }
@@ -251,8 +241,7 @@ class Swift_Transport_MailTransportTest extends Swift_Tests_SwiftUnitTestCase
             -> ignoring($dispatcher)
             -> ignoring($headers)
             -> ignoring($message)
-            -> ignoring($subject)
-        );
+            -> ignoring($subject));
 
         $transport->send($message);
     }
@@ -279,8 +268,7 @@ class Swift_Transport_MailTransportTest extends Swift_Tests_SwiftUnitTestCase
         $message = $this->_mock('Swift_Mime_Message');
 
         $this->_checking(Expectations::create()
-            -> allowing($message)->getHeaders() -> returns($headers)
-            );
+            -> allowing($message)->getHeaders() -> returns($headers));
 
         return $message;
     }
@@ -293,8 +281,7 @@ class Swift_Transport_MailTransportTest extends Swift_Tests_SwiftUnitTestCase
             foreach ($headers as $name => $header) {
                 $this->_checking(Expectations::create()
                     -> allowing($set)->get($name) -> returns($header)
-                    -> allowing($set)->has($name) -> returns(true)
-                );
+                    -> allowing($set)->has($name) -> returns(true));
             }
         }
 
@@ -302,8 +289,7 @@ class Swift_Transport_MailTransportTest extends Swift_Tests_SwiftUnitTestCase
         $this->_checking(Expectations::create()
             -> allowing($set)->get(any()) -> returns($header)
             -> allowing($set)->has(any()) -> returns(true)
-            -> ignoring($header)
-        );
+            -> ignoring($header));
 
         return $set;
     }

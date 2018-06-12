@@ -70,9 +70,10 @@ class Swift_Mime_Headers_PathHeaderTest extends Swift_Tests_SwiftUnitTestCase
     {
         $header = $this->_getHeader('Return-Path');
         $header->setAddress('chris@swiftmailer.org');
-        $this->assertEqual('Return-Path: <chris@swiftmailer.org>' . "\r\n",
+        $this->assertEqual(
+            'Return-Path: <chris@swiftmailer.org>' . "\r\n",
             $header->toString()
-            );
+        );
     }
 
     // -- Private methods

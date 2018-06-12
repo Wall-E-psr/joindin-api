@@ -35,7 +35,6 @@ class QueryParser
         $decoder = self::getDecoder($urlEncoding);
 
         foreach (explode('&', $str) as $kvp) {
-
             $parts = explode('=', $kvp, 2);
             $key = $decoder($parts[0]);
             $value = isset($parts[1]) ? $decoder($parts[1]) : null;
@@ -84,7 +83,9 @@ class QueryParser
         } elseif ($type == Query::RFC1738) {
             return 'urldecode';
         } else {
-            return function ($str) { return $str; };
+            return function ($str) {
+                return $str;
+            };
         }
     }
 

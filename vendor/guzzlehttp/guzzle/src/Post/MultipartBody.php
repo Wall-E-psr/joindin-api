@@ -89,7 +89,6 @@ class MultipartBody implements StreamInterface
         }
 
         foreach ($files as $file) {
-
             if (!$file instanceof PostFileInterface) {
                 throw new \InvalidArgumentException('All POST fields must '
                     . 'implement PostFieldInterface');

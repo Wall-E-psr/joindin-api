@@ -25,13 +25,14 @@ class Swift_Encoder_Rfc2231EncoderAcceptanceTest extends UnitTestCase
 
             $encoding = $encodingDir;
             $charStream = new Swift_CharacterStream_ArrayCharacterStream(
-                $this->_factory, $encoding);
+                $this->_factory,
+                $encoding
+            );
             $encoder = new Swift_Encoder_Rfc2231Encoder($charStream);
 
             $sampleDir = $this->_samplesDir . '/' . $encodingDir;
 
             if (is_dir($sampleDir)) {
-
                 $fileFp = opendir($sampleDir);
                 while (false !== $sampleFile = readdir($fileFp)) {
                     if (substr($sampleFile, 0, 1) == '.') {
@@ -42,14 +43,14 @@ class Swift_Encoder_Rfc2231EncoderAcceptanceTest extends UnitTestCase
                     $encodedText = $encoder->encodeString($text);
 
                     $this->assertEqual(
-                        urldecode(implode('', explode("\r\n", $encodedText))), $text,
+                        urldecode(implode('', explode("\r\n", $encodedText))),
+                        $text,
                         '%s: Encoded string should decode back to original string for sample ' .
                         $sampleDir . '/' . $sampleFile
-                        );
+                    );
                 }
                 closedir($fileFp);
             }
-
         }
         closedir($sampleFp);
     }

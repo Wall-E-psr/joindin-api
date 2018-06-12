@@ -5,8 +5,7 @@ require_once 'Swift/Encoder/QpEncoder.php';
 require_once 'Swift/CharacterStream/ArrayCharacterStream.php';
 require_once 'Swift/CharacterReaderFactory/SimpleCharacterReaderFactory.php';
 
-class Swift_Encoder_QpEncoderAcceptanceTest
-    extends Swift_Tests_SwiftUnitTestCase
+class Swift_Encoder_QpEncoderAcceptanceTest extends Swift_Tests_SwiftUnitTestCase
 {
     private $_samplesDir;
     private $_factory;
@@ -27,13 +26,14 @@ class Swift_Encoder_QpEncoderAcceptanceTest
 
             $encoding = $encodingDir;
             $charStream = new Swift_CharacterStream_ArrayCharacterStream(
-                $this->_factory, $encoding);
+                $this->_factory,
+                $encoding
+            );
             $encoder = new Swift_Encoder_QpEncoder($charStream);
 
             $sampleDir = $this->_samplesDir . '/' . $encodingDir;
 
             if (is_dir($sampleDir)) {
-
                 $fileFp = opendir($sampleDir);
                 while (false !== $sampleFile = readdir($fileFp)) {
                     if (substr($sampleFile, 0, 1) == '.') {
@@ -44,14 +44,14 @@ class Swift_Encoder_QpEncoderAcceptanceTest
                     $encodedText = $encoder->encodeString($text);
 
                     $this->assertEqual(
-                        quoted_printable_decode($encodedText), $text,
+                        quoted_printable_decode($encodedText),
+                        $text,
                         '%s: Encoded string should decode back to original string for sample ' .
                         $sampleDir . '/' . $sampleFile
-                        );
+                    );
                 }
                 closedir($fileFp);
             }
-
         }
         closedir($sampleFp);
     }

@@ -9,7 +9,8 @@ require_once 'Swift/CharacterStream.php';
 class Swift_StreamCollector implements Yay_Action
 {
     public $content = '';
-    public function &invoke(Yay_Invocation $inv) {
+    public function &invoke(Yay_Invocation $inv)
+    {
         $args = $inv->getArguments();
         $this->content .= current($args);
     }
@@ -19,14 +20,13 @@ class Swift_StreamCollector implements Yay_Action
     }
 }
 
-class Swift_Mime_ContentEncoder_QpContentEncoderTest
-    extends Swift_Tests_SwiftUnitTestCase
+class Swift_Mime_ContentEncoder_QpContentEncoderTest extends Swift_Tests_SwiftUnitTestCase
 {
     public function testNameIsQuotedPrintable()
     {
         $encoder = new Swift_Mime_ContentEncoder_QpContentEncoder(
             $this->_createCharacterStream(true)
-            );
+        );
         $this->assertEqual('quoted-printable', $encoder->getName());
     }
 
@@ -74,8 +74,7 @@ class Swift_Mime_ContentEncoder_QpContentEncoderTest
                 -> allowing($is)->write(any(), optional()) -> will($collection)
                 -> ignoring($is)
 
-                -> ignoring($os)
-                );
+                -> ignoring($os));
 
             $encoder = new Swift_Mime_ContentEncoder_QpContentEncoder($charStream);
             $encoder->encodeByteStream($os, $is);
@@ -131,8 +130,7 @@ class Swift_Mime_ContentEncoder_QpContentEncoderTest
             -> allowing($is)->write(any(), optional()) -> will($collection)
             -> ignoring($is)
 
-            -> ignoring($os)
-            );
+            -> ignoring($os));
 
         $encoder = new Swift_Mime_ContentEncoder_QpContentEncoder($charStream);
         $encoder->encodeByteStream($os, $is);
@@ -159,8 +157,7 @@ class Swift_Mime_ContentEncoder_QpContentEncoderTest
             -> allowing($is)->write(any(), optional()) -> will($collection)
             -> ignoring($is)
 
-            -> ignoring($os)
-            );
+            -> ignoring($os));
 
         $encoder = new Swift_Mime_ContentEncoder_QpContentEncoder($charStream);
         $encoder->encodeByteStream($os, $is);
@@ -219,8 +216,7 @@ class Swift_Mime_ContentEncoder_QpContentEncoderTest
             -> allowing($is)->write(any(), optional()) -> will($collection)
             -> ignoring($is)
 
-            -> ignoring($os)
-            );
+            -> ignoring($os));
 
         $encoder = new Swift_Mime_ContentEncoder_QpContentEncoder($charStream);
         $encoder->encodeByteStream($os, $is);
@@ -251,17 +247,14 @@ class Swift_Mime_ContentEncoder_QpContentEncoderTest
             -> allowing($is)->write(any(), optional()) -> will($collection)
             -> ignoring($is)
 
-            -> ignoring($os)
-            );
+            -> ignoring($os));
 
         for ($seq = 0; $seq <= 140; ++$seq) {
             $this->_checking(Expectations::create()
-                -> one($charStream)->readBytes(any()) -> returns(array(ord('a')))
-                );
+                -> one($charStream)->readBytes(any()) -> returns(array(ord('a'))));
         }
         $this->_checking(Expectations::create()
-            -> allowing($charStream)->readBytes(any()) -> returns(false)
-            );
+            -> allowing($charStream)->readBytes(any()) -> returns(false));
 
         $encoder = new Swift_Mime_ContentEncoder_QpContentEncoder($charStream);
         $encoder->encodeByteStream($os, $is);
@@ -282,19 +275,16 @@ class Swift_Mime_ContentEncoder_QpContentEncoderTest
             -> allowing($is)->write(any(), optional()) -> will($collection)
             -> ignoring($is)
 
-            -> ignoring($os)
-            );
+            -> ignoring($os));
 
 
         for ($seq = 0; $seq <= 100; ++$seq) {
             $this->_checking(Expectations::create()
-                -> one($charStream)->readBytes(any()) -> returns(array(ord('a')))
-                );
+                -> one($charStream)->readBytes(any()) -> returns(array(ord('a'))));
         }
 
         $this->_checking(Expectations::create()
-            -> one($charStream)->readBytes(any()) -> returns(false)
-            );
+            -> one($charStream)->readBytes(any()) -> returns(false));
 
         $encoder = new Swift_Mime_ContentEncoder_QpContentEncoder($charStream);
         $encoder->encodeByteStream($os, $is, 0, 54);
@@ -325,8 +315,7 @@ class Swift_Mime_ContentEncoder_QpContentEncoderTest
                 -> allowing($is)->write(any(), optional()) -> will($collection)
                 -> ignoring($is)
 
-                -> ignoring($os)
-                );
+                -> ignoring($os));
 
             $encoder = new Swift_Mime_ContentEncoder_QpContentEncoder($charStream);
             $encoder->encodeByteStream($os, $is);
@@ -357,8 +346,7 @@ class Swift_Mime_ContentEncoder_QpContentEncoderTest
             -> allowing($is)->write(any(), optional()) -> will($collection)
             -> ignoring($is)
 
-            -> ignoring($os)
-            );
+            -> ignoring($os));
 
         $encoder = new Swift_Mime_ContentEncoder_QpContentEncoder($charStream);
         $encoder->encodeByteStream($os, $is);
@@ -389,8 +377,7 @@ class Swift_Mime_ContentEncoder_QpContentEncoderTest
                 -> allowing($is)->write(any(), optional()) -> will($collection)
                 -> ignoring($is)
 
-                -> ignoring($os)
-                );
+                -> ignoring($os));
 
             $encoder = new Swift_Mime_ContentEncoder_QpContentEncoder($charStream);
             $encoder->encodeByteStream($os, $is);
@@ -412,24 +399,21 @@ class Swift_Mime_ContentEncoder_QpContentEncoderTest
             -> allowing($is)->write(any(), optional()) -> will($collection)
             -> ignoring($is)
 
-            -> ignoring($os)
-            );
+            -> ignoring($os));
 
         for ($seq = 0; $seq <= 140; ++$seq) {
             $this->_checking(Expectations::create()
-                -> one($charStream)->readBytes(any()) -> returns(array(ord('a')))
-                );
+                -> one($charStream)->readBytes(any()) -> returns(array(ord('a'))));
         }
         $this->_checking(Expectations::create()
-            -> one($charStream)->readBytes(any()) -> returns(false)
-            );
+            -> one($charStream)->readBytes(any()) -> returns(false));
 
         $encoder = new Swift_Mime_ContentEncoder_QpContentEncoder($charStream);
         $encoder->encodeByteStream($os, $is, 22);
         $this->assertEqual(
             str_repeat('a', 53) . "=\r\n" . str_repeat('a', 75) . "=\r\n" . str_repeat('a', 13),
             $collection->content
-            );
+        );
     }
 
     public function testObserverInterfaceCanChangeCharset()
@@ -437,8 +421,7 @@ class Swift_Mime_ContentEncoder_QpContentEncoderTest
         $stream = $this->_createCharacterStream();
         $this->_checking(Expectations::create()
             -> one($stream)->setCharacterSet('windows-1252')
-            -> ignoring($stream)
-            );
+            -> ignoring($stream));
         $encoder = new Swift_Mime_ContentEncoder_QpContentEncoder($stream);
         $encoder->charsetChanged('windows-1252');
     }

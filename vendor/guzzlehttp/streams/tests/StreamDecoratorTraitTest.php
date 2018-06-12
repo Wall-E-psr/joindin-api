@@ -37,7 +37,9 @@ class StreamDecoratorTraitTest extends \PHPUnit_Framework_TestCase
             ->method('read')
             ->will($this->throwException(new \Exception('foo')));
         $msg = '';
-        set_error_handler(function ($errNo, $str) use (&$msg) { $msg = $str; });
+        set_error_handler(function ($errNo, $str) use (&$msg) {
+            $msg = $str;
+        });
         echo new Str($s);
         restore_error_handler();
         $this->assertContains('foo', $msg);
@@ -141,5 +143,7 @@ class BadStream
 {
     use StreamDecoratorTrait;
 
-    public function __construct() {}
+    public function __construct()
+    {
+    }
 }

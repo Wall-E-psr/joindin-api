@@ -9,12 +9,15 @@ class Swift_Mime_MimePartTest extends Swift_Mime_AbstractMimeEntityTest
 {
     public function testNestingLevelIsSubpart()
     {
-        $part = $this->_createMimePart($this->_createHeaderSet(),
-            $this->_createEncoder(), $this->_createCache()
-            );
+        $part = $this->_createMimePart(
+            $this->_createHeaderSet(),
+            $this->_createEncoder(),
+            $this->_createCache()
+        );
         $this->assertEqual(
-            Swift_Mime_MimeEntity::LEVEL_ALTERNATIVE, $part->getNestingLevel()
-            );
+            Swift_Mime_MimeEntity::LEVEL_ALTERNATIVE,
+            $part->getNestingLevel()
+        );
     }
 
     public function testCharsetIsReturnedFromHeader()
@@ -31,45 +34,57 @@ class Swift_Mime_MimePartTest extends Swift_Mime_AbstractMimeEntityTest
         must be assumed in the absence of a charset parameter, is US-ASCII.
         */
 
-        $cType = $this->_createHeader('Content-Type', 'text/plain',
+        $cType = $this->_createHeader(
+            'Content-Type',
+            'text/plain',
             array('charset' => 'iso-8859-1')
-            );
-        $part = $this->_createMimePart($this->_createHeaderSet(array(
+        );
+        $part = $this->_createMimePart(
+            $this->_createHeaderSet(array(
             'Content-Type' => $cType)),
-            $this->_createEncoder(), $this->_createCache()
-            );
+            $this->_createEncoder(),
+            $this->_createCache()
+        );
         $this->assertEqual('iso-8859-1', $part->getCharset());
     }
 
     public function testCharsetIsSetInHeader()
     {
-        $cType = $this->_createHeader('Content-Type', 'text/plain',
-            array('charset' => 'iso-8859-1'), false
-            );
+        $cType = $this->_createHeader(
+            'Content-Type',
+            'text/plain',
+            array('charset' => 'iso-8859-1'),
+            false
+        );
         $this->_checking(Expectations::create()
             -> one($cType)->setParameter('charset', 'utf-8')
-            -> ignoring($cType)
-            );
-        $part = $this->_createMimePart($this->_createHeaderSet(array(
+            -> ignoring($cType));
+        $part = $this->_createMimePart(
+            $this->_createHeaderSet(array(
             'Content-Type' => $cType)),
-            $this->_createEncoder(), $this->_createCache()
-            );
+            $this->_createEncoder(),
+            $this->_createCache()
+        );
         $part->setCharset('utf-8');
     }
 
     public function testCharsetIsSetInHeaderIfPassedToSetBody()
     {
-        $cType = $this->_createHeader('Content-Type', 'text/plain',
-            array('charset' => 'iso-8859-1'), false
-            );
+        $cType = $this->_createHeader(
+            'Content-Type',
+            'text/plain',
+            array('charset' => 'iso-8859-1'),
+            false
+        );
         $this->_checking(Expectations::create()
             -> one($cType)->setParameter('charset', 'utf-8')
-            -> ignoring($cType)
-            );
-        $part = $this->_createMimePart($this->_createHeaderSet(array(
+            -> ignoring($cType));
+        $part = $this->_createMimePart(
+            $this->_createHeaderSet(array(
             'Content-Type' => $cType)),
-            $this->_createEncoder(), $this->_createCache()
-            );
+            $this->_createEncoder(),
+            $this->_createCache()
+        );
         $part->setBody('', 'text/plian', 'utf-8');
     }
 
@@ -78,11 +93,12 @@ class Swift_Mime_MimePartTest extends Swift_Mime_AbstractMimeEntityTest
         $encoder = $this->_createEncoder('quoted-printable', false);
         $this->_checking(Expectations::create()
             -> one($encoder)->charsetChanged('utf-8')
-            -> ignoring($encoder)
-            );
-        $part = $this->_createMimePart($this->_createHeaderSet(),
-            $encoder, $this->_createCache()
-            );
+            -> ignoring($encoder));
+        $part = $this->_createMimePart(
+            $this->_createHeaderSet(),
+            $encoder,
+            $this->_createCache()
+        );
         $part->setCharset('utf-8');
     }
 
@@ -91,11 +107,12 @@ class Swift_Mime_MimePartTest extends Swift_Mime_AbstractMimeEntityTest
         $headers = $this->_createHeaderSet(array(), false);
         $this->_checking(Expectations::create()
             -> one($headers)->charsetChanged('utf-8')
-            -> ignoring($headers)
-            );
-        $part = $this->_createMimePart($headers, $this->_createEncoder(),
+            -> ignoring($headers));
+        $part = $this->_createMimePart(
+            $headers,
+            $this->_createEncoder(),
             $this->_createCache()
-            );
+        );
         $part->setCharset('utf-8');
     }
 
@@ -105,29 +122,34 @@ class Swift_Mime_MimePartTest extends Swift_Mime_AbstractMimeEntityTest
 
         $this->_checking(Expectations::create()
             -> one($child)->charsetChanged('windows-874')
-            -> ignoring($child)
-            );
+            -> ignoring($child));
 
-        $part = $this->_createMimePart($this->_createHeaderSet(),
-            $this->_createEncoder(), $this->_createCache()
-            );
+        $part = $this->_createMimePart(
+            $this->_createHeaderSet(),
+            $this->_createEncoder(),
+            $this->_createCache()
+        );
         $part->setChildren(array($child));
         $part->setCharset('windows-874');
     }
 
     public function testCharsetChangeUpdatesCharset()
     {
-        $cType = $this->_createHeader('Content-Type', 'text/plain',
-            array('charset' => 'iso-8859-1'), false
-            );
+        $cType = $this->_createHeader(
+            'Content-Type',
+            'text/plain',
+            array('charset' => 'iso-8859-1'),
+            false
+        );
         $this->_checking(Expectations::create()
             -> one($cType)->setParameter('charset', 'utf-8')
-            -> ignoring($cType)
-            );
-        $part = $this->_createMimePart($this->_createHeaderSet(array(
+            -> ignoring($cType));
+        $part = $this->_createMimePart(
+            $this->_createHeaderSet(array(
             'Content-Type' => $cType)),
-            $this->_createEncoder(), $this->_createCache()
-            );
+            $this->_createEncoder(),
+            $this->_createCache()
+        );
         $part->charsetChanged('utf-8');
     }
 
@@ -137,19 +159,19 @@ class Swift_Mime_MimePartTest extends Swift_Mime_AbstractMimeEntityTest
         $this->_checking(Expectations::create()
             -> ignoring($headers)->toString() -> returns(
                 "Content-Type: text/plain; charset=utf-8\r\n"
-                )
-            -> ignoring($headers)
-            );
+            )
+            -> ignoring($headers));
 
         $cache = $this->_createCache(false);
         $this->_checking(Expectations::create()
             -> one($cache)->clearKey(any(), 'body')
-            -> ignoring($cache)
-            );
+            -> ignoring($cache));
 
-        $entity = $this->_createEntity($headers, $this->_createEncoder(),
+        $entity = $this->_createEntity(
+            $headers,
+            $this->_createEncoder(),
             $cache
-            );
+        );
 
         $entity->setBody("blah\r\nblah!");
         $entity->toString();
@@ -162,13 +184,17 @@ class Swift_Mime_MimePartTest extends Swift_Mime_AbstractMimeEntityTest
         /* -- RFC 3676.
      */
 
-        $cType = $this->_createHeader('Content-Type', 'text/plain',
+        $cType = $this->_createHeader(
+            'Content-Type',
+            'text/plain',
             array('format' => 'flowed')
-            );
-        $part = $this->_createMimePart($this->_createHeaderSet(array(
+        );
+        $part = $this->_createMimePart(
+            $this->_createHeaderSet(array(
             'Content-Type' => $cType)),
-            $this->_createEncoder(), $this->_createCache()
-            );
+            $this->_createEncoder(),
+            $this->_createCache()
+        );
         $this->assertEqual('flowed', $part->getFormat());
     }
 
@@ -177,12 +203,13 @@ class Swift_Mime_MimePartTest extends Swift_Mime_AbstractMimeEntityTest
         $cType = $this->_createHeader('Content-Type', 'text/plain', array(), false);
         $this->_checking(Expectations::create()
             -> one($cType)->setParameter('format', 'fixed')
-            -> ignoring($cType)
-            );
-        $part = $this->_createMimePart($this->_createHeaderSet(array(
+            -> ignoring($cType));
+        $part = $this->_createMimePart(
+            $this->_createHeaderSet(array(
             'Content-Type' => $cType)),
-            $this->_createEncoder(), $this->_createCache()
-            );
+            $this->_createEncoder(),
+            $this->_createCache()
+        );
         $part->setFormat('fixed');
     }
 
@@ -191,13 +218,17 @@ class Swift_Mime_MimePartTest extends Swift_Mime_AbstractMimeEntityTest
         /* -- RFC 3676.
      */
 
-        $cType = $this->_createHeader('Content-Type', 'text/plain',
+        $cType = $this->_createHeader(
+            'Content-Type',
+            'text/plain',
             array('delsp' => 'no')
-            );
-        $part = $this->_createMimePart($this->_createHeaderSet(array(
+        );
+        $part = $this->_createMimePart(
+            $this->_createHeaderSet(array(
             'Content-Type' => $cType)),
-            $this->_createEncoder(), $this->_createCache()
-            );
+            $this->_createEncoder(),
+            $this->_createCache()
+        );
         $this->assertIdentical(false, $part->getDelSp());
     }
 
@@ -206,22 +237,26 @@ class Swift_Mime_MimePartTest extends Swift_Mime_AbstractMimeEntityTest
         $cType = $this->_createHeader('Content-Type', 'text/plain', array(), false);
         $this->_checking(Expectations::create()
             -> one($cType)->setParameter('delsp', 'yes')
-            -> ignoring($cType)
-            );
-        $part = $this->_createMimePart($this->_createHeaderSet(array(
+            -> ignoring($cType));
+        $part = $this->_createMimePart(
+            $this->_createHeaderSet(array(
             'Content-Type' => $cType)),
-            $this->_createEncoder(), $this->_createCache()
-            );
+            $this->_createEncoder(),
+            $this->_createCache()
+        );
         $part->setDelSp(true);
     }
 
     public function testFluidInterface()
     {
-        $part = $this->_createMimePart($this->_createHeaderSet(),
-            $this->_createEncoder(), $this->_createCache()
-            );
+        $part = $this->_createMimePart(
+            $this->_createHeaderSet(),
+            $this->_createEncoder(),
+            $this->_createCache()
+        );
 
-        $this->assertSame($part,
+        $this->assertSame(
+            $part,
             $part
             ->setContentType('text/plain')
             ->setEncoder($this->_createEncoder())
@@ -234,7 +269,7 @@ class Swift_Mime_MimePartTest extends Swift_Mime_AbstractMimeEntityTest
             ->setCharset('utf-8')
             ->setFormat('flowed')
             ->setDelSp(true)
-            );
+        );
     }
 
     // -- Private helpers

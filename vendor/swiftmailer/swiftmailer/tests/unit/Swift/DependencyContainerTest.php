@@ -141,8 +141,9 @@ class Swift_DependencyContainerTest extends Swift_Tests_SwiftUnitTestCase
             ->withDependencies(array('one', 'foo'));
         $deps = $this->_container->createDependenciesFor('two');
         $this->assertEqual(
-            array($this->_container->lookup('one'), 'FOO'), $deps
-            );
+            array($this->_container->lookup('one'), 'FOO'),
+            $deps
+        );
     }
 
     public function testArrayOfDependenciesCanBeSpecified()

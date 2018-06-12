@@ -16,8 +16,7 @@ class Swift_Plugins_LoggerPluginTest extends Swift_Tests_SwiftUnitTestCase
     {
         $logger = $this->_createLogger();
         $this->_checking(Expectations::create()
-            -> one($logger)->add('foo')
-            );
+            -> one($logger)->add('foo'));
 
         $plugin = $this->_createPlugin($logger);
         $plugin->add('foo');
@@ -27,8 +26,7 @@ class Swift_Plugins_LoggerPluginTest extends Swift_Tests_SwiftUnitTestCase
     {
         $logger = $this->_createLogger();
         $this->_checking(Expectations::create()
-            -> one($logger)->dump() -> returns('foobar')
-            );
+            -> one($logger)->dump() -> returns('foobar'));
 
         $plugin = $this->_createPlugin($logger);
         $this->assertEqual('foobar', $plugin->dump());
@@ -38,8 +36,7 @@ class Swift_Plugins_LoggerPluginTest extends Swift_Tests_SwiftUnitTestCase
     {
         $logger = $this->_createLogger();
         $this->_checking(Expectations::create()
-            -> one($logger)->clear()
-            );
+            -> one($logger)->clear());
 
         $plugin = $this->_createPlugin($logger);
         $plugin->clear();
@@ -50,8 +47,7 @@ class Swift_Plugins_LoggerPluginTest extends Swift_Tests_SwiftUnitTestCase
         $evt = $this->_createCommandEvent("foo\r\n");
         $logger = $this->_createLogger();
         $this->_checking(Expectations::create()
-            -> one($logger)->add(pattern('~foo\r\n~'))
-            );
+            -> one($logger)->add(pattern('~foo\r\n~')));
 
         $plugin = $this->_createPlugin($logger);
         $plugin->commandSent($evt);
@@ -62,8 +58,7 @@ class Swift_Plugins_LoggerPluginTest extends Swift_Tests_SwiftUnitTestCase
         $evt = $this->_createResponseEvent("354 Go ahead\r\n");
         $logger = $this->_createLogger();
         $this->_checking(Expectations::create()
-            -> one($logger)->add(pattern('~354 Go ahead\r\n~'))
-            );
+            -> one($logger)->add(pattern('~354 Go ahead\r\n~')));
 
         $plugin = $this->_createPlugin($logger);
         $plugin->responseReceived($evt);
@@ -74,8 +69,7 @@ class Swift_Plugins_LoggerPluginTest extends Swift_Tests_SwiftUnitTestCase
         $evt = $this->_createTransportChangeEvent();
         $logger = $this->_createLogger();
         $this->_checking(Expectations::create()
-            -> one($logger)->add(any())
-            );
+            -> one($logger)->add(any()));
 
         $plugin = $this->_createPlugin($logger);
         $plugin->beforeTransportStarted($evt);
@@ -86,8 +80,7 @@ class Swift_Plugins_LoggerPluginTest extends Swift_Tests_SwiftUnitTestCase
         $evt = $this->_createTransportChangeEvent();
         $logger = $this->_createLogger();
         $this->_checking(Expectations::create()
-            -> one($logger)->add(any())
-            );
+            -> one($logger)->add(any()));
 
         $plugin = $this->_createPlugin($logger);
         $plugin->transportStarted($evt);
@@ -98,8 +91,7 @@ class Swift_Plugins_LoggerPluginTest extends Swift_Tests_SwiftUnitTestCase
         $evt = $this->_createTransportChangeEvent();
         $logger = $this->_createLogger();
         $this->_checking(Expectations::create()
-            -> one($logger)->add(any())
-            );
+            -> one($logger)->add(any()));
 
         $plugin = $this->_createPlugin($logger);
         $plugin->transportStopped($evt);
@@ -110,8 +102,7 @@ class Swift_Plugins_LoggerPluginTest extends Swift_Tests_SwiftUnitTestCase
         $evt = $this->_createTransportChangeEvent();
         $logger = $this->_createLogger();
         $this->_checking(Expectations::create()
-            -> one($logger)->add(any())
-            );
+            -> one($logger)->add(any()));
 
         $plugin = $this->_createPlugin($logger);
         $plugin->beforeTransportStopped($evt);
@@ -124,8 +115,7 @@ class Swift_Plugins_LoggerPluginTest extends Swift_Tests_SwiftUnitTestCase
         $logger = $this->_createLogger();
         $this->_checking(Expectations::create()
             -> one($logger)->add(any())
-            -> allowing($logger)
-            );
+            -> allowing($logger));
 
         $plugin = $this->_createPlugin($logger);
         try {
@@ -152,8 +142,7 @@ class Swift_Plugins_LoggerPluginTest extends Swift_Tests_SwiftUnitTestCase
         $evt = $this->_mock('Swift_Events_CommandEvent');
         $this->_checking(Expectations::create()
             -> ignoring($evt)->getCommand() -> returns($command)
-            -> ignoring($evt)
-            );
+            -> ignoring($evt));
 
         return $evt;
     }
@@ -163,8 +152,7 @@ class Swift_Plugins_LoggerPluginTest extends Swift_Tests_SwiftUnitTestCase
         $evt = $this->_mock('Swift_Events_ResponseEvent');
         $this->_checking(Expectations::create()
             -> ignoring($evt)->getResponse() -> returns($response)
-            -> ignoring($evt)
-            );
+            -> ignoring($evt));
 
         return $evt;
     }
@@ -179,8 +167,7 @@ class Swift_Plugins_LoggerPluginTest extends Swift_Tests_SwiftUnitTestCase
         $evt = $this->_mock('Swift_Events_TransportChangeEvent');
         $this->_checking(Expectations::create()
             -> ignoring($evt)->getSource() -> returns($this->_createTransport())
-            -> ignoring($evt)
-            );
+            -> ignoring($evt));
 
         return $evt;
     }
@@ -190,8 +177,7 @@ class Swift_Plugins_LoggerPluginTest extends Swift_Tests_SwiftUnitTestCase
         $evt = $this->_mock('Swift_Events_TransportExceptionEvent');
         $this->_checking(Expectations::create()
             -> ignoring($evt)->getException() -> returns(new Swift_TransportException(''))
-            -> ignoring($evt)
-            );
+            -> ignoring($evt));
 
         return $evt;
     }

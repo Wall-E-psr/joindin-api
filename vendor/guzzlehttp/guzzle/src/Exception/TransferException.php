@@ -2,4 +2,7 @@
 
 namespace GuzzleHttp\Exception;
 
-class TransferException extends \RuntimeException {}
+class TransferException extends \RuntimeException
+{
+
+}

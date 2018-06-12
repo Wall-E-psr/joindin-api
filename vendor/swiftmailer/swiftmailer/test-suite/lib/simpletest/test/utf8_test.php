@@ -8,22 +8,26 @@ require_once(dirname(__FILE__) . '/../url.php');
 Mock::generate('SimpleHtmlSaxParser');
 Mock::generate('SimpleSaxListener');
      
-class TestOfHtmlSaxParserWithDifferentCharset extends UnitTestCase {
-    function testWithTextInUTF8() {
+class TestOfHtmlSaxParserWithDifferentCharset extends UnitTestCase
+{
+    function testWithTextInUTF8()
+    {
         $regex = &new ParallelRegex(false);
         $regex->addPattern("eé");
         $this->assertTrue($regex->match("eéêè", $match));
         $this->assertEqual($match, "eé");
     }
     
-    function testWithTextInLatin1() {
+    function testWithTextInLatin1()
+    {
         $regex = &new ParallelRegex(false);
         $regex->addPattern(utf8_decode("eé"));
         $this->assertTrue($regex->match(utf8_decode("eéêè"), $match));
         $this->assertEqual($match, utf8_decode("eé"));
     }
     
-    function &createParser() {
+    function &createParser()
+    {
         $parser = &new MockSimpleHtmlSaxParser();
         $parser->setReturnValue('acceptStartToken', true);
         $parser->setReturnValue('acceptEndToken', true);
@@ -34,7 +38,8 @@ class TestOfHtmlSaxParserWithDifferentCharset extends UnitTestCase {
         return $parser;
     }
 
-    function testTagWithAttributesInUTF8() {
+    function testTagWithAttributesInUTF8()
+    {
         $parser = &$this->createParser();
         $parser->expectOnce('acceptTextToken', array('label', '*'));
         $parser->expectAt(0, 'acceptStartToken', array('<a', '*'));
@@ -50,7 +55,8 @@ class TestOfHtmlSaxParserWithDifferentCharset extends UnitTestCase {
         $this->assertTrue($lexer->parse('<a href = "hère.html">label</a>'));
     }
 
-    function testTagWithAttributesInLatin1() {
+    function testTagWithAttributesInLatin1()
+    {
         $parser = &$this->createParser();
         $parser->expectOnce('acceptTextToken', array('label', '*'));
         $parser->expectAt(0, 'acceptStartToken', array('<a', '*'));
@@ -67,12 +73,12 @@ class TestOfHtmlSaxParserWithDifferentCharset extends UnitTestCase {
     }
 }
 
-class TestOfUrlithDifferentCharset extends UnitTestCase {
-    function testUsernameAndPasswordInUTF8() {
+class TestOfUrlithDifferentCharset extends UnitTestCase
+{
+    function testUsernameAndPasswordInUTF8()
+    {
         $url = new SimpleUrl('http://pÈrick:penËt@www.lastcraft.com');
         $this->assertEqual($url->getUsername(), 'pÈrick');
         $this->assertEqual($url->getPassword(), 'penËt');
     }
 }
-
-?>

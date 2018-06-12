@@ -3,9 +3,11 @@
 require_once dirname(__FILE__) . '/../../../autorun.php';
 require_once(dirname(__FILE__) . '/../../recorder.php');
 
-class TestOfRecorder extends UnitTestCase {
+class TestOfRecorder extends UnitTestCase
+{
     
-    function testContentOfRecorderWithOnePassAndOneFailure() {
+    function testContentOfRecorderWithOnePassAndOneFailure()
+    {
         $test = &new TestSuite();
         $test->addTestFile(dirname(__FILE__) . '/sample.php');
         $recorder = new Recorder();
@@ -25,4 +27,3 @@ class TestOfRecorder extends UnitTestCase {
         $this->assertPattern("/Expected false, got \[Boolean: true\] at \[.*recorder\/test\/sample\.php line 11\]/", $recorder->results[1]['message']);
     }
 }
-?>

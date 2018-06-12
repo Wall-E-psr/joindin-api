@@ -29,8 +29,12 @@ for ($i = 0; $i < $total; $i++) {
 }
 $totalTime = microtime(true) - $t;
 $perRequest = ($totalTime / $total) * 1000;
-printf("Serial:   %f (%f ms / request) %d total\n",
-    $totalTime, $perRequest, $total);
+printf(
+    "Serial:   %f (%f ms / request) %d total\n",
+    $totalTime,
+    $perRequest,
+    $total
+);
 
 // Create a generator used to yield batches of requests to sendAll
 $reqs = function () use ($client, $total) {
@@ -43,5 +47,10 @@ $t = microtime(true);
 $client->sendAll($reqs(), ['parallel' => $parallel]);
 $totalTime = microtime(true) - $t;
 $perRequest = ($totalTime / $total) * 1000;
-printf("Parallel: %f (%f ms / request) %d total with %d in parallel\n",
-    $totalTime, $perRequest, $total, $parallel);
+printf(
+    "Parallel: %f (%f ms / request) %d total with %d in parallel\n",
+    $totalTime,
+    $perRequest,
+    $total,
+    $parallel
+);

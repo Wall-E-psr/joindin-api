@@ -13,9 +13,10 @@ class Swift_Tests_SwiftSmokeTestCase extends Swift_Tests_SwiftUnitTestCase
 {
     public function skip()
     {
-        $this->skipUnless(SWIFT_SMOKE_TRANSPORT_TYPE,
+        $this->skipUnless(
+            SWIFT_SMOKE_TRANSPORT_TYPE,
             '%s: Smoke tests are skipped if tests/smoke.conf.php is not edited'
-            );
+        );
     }
 
     protected function _getMailer()

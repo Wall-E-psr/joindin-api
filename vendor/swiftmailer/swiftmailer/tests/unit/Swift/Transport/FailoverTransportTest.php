@@ -6,8 +6,7 @@ require_once 'Swift/TransportException.php';
 require_once 'Swift/Transport.php';
 require_once 'Swift/Events/EventListener.php';
 
-class Swift_Transport_FailoverTransportTest
-    extends Swift_Tests_SwiftUnitTestCase
+class Swift_Transport_FailoverTransportTest extends Swift_Tests_SwiftUnitTestCase
 {
     public function testFirstTransportIsUsed()
     {
@@ -28,8 +27,7 @@ class Swift_Transport_FailoverTransportTest
             -> ignoring($t1)
             -> never($t2)->start()
             -> never($t2)->send(any(), optional())
-            -> ignoring($t2)
-            );
+            -> ignoring($t2));
 
         $transport = $this->_getTransport(array($t1, $t2));
         $transport->start();
@@ -59,8 +57,7 @@ class Swift_Transport_FailoverTransportTest
             -> allowing($t2)->isStarted() -> returns(true) -> when($con2->is('on'))
             -> one($t2)->start() -> when($con2->isNot('on')) -> then($con2->is('on'))
             -> one($t2)->send($message, optional()) -> returns(1) -> when($con2->is('on'))
-            -> ignoring($t2)
-            );
+            -> ignoring($t2));
 
         $transport = $this->_getTransport(array($t1, $t2));
         $transport->start();
@@ -80,8 +77,7 @@ class Swift_Transport_FailoverTransportTest
             -> allowing($t1)->isStarted() -> returns(true) -> when($con->is('on'))
             -> one($t1)->start() -> when($con->isNot('on')) -> then($con->is('on'))
             -> one($t1)->send($message, optional()) -> returns(0) -> when($con->is('on'))
-            -> ignoring($t1)
-            );
+            -> ignoring($t1));
 
         $transport = $this->_getTransport(array($t1));
         $transport->start();
@@ -122,8 +118,7 @@ class Swift_Transport_FailoverTransportTest
             -> one($t2)->send($message2, optional()) -> returns(1) -> when($con2->is('on'))
             -> one($t2)->send($message3, optional()) -> returns(1) -> when($con2->is('on'))
             -> one($t2)->send($message4, optional()) -> returns(1) -> when($con2->is('on'))
-            -> ignoring($t2)
-            );
+            -> ignoring($t2));
 
         $transport = $this->_getTransport(array($t1, $t2));
         $transport->start();
@@ -154,8 +149,7 @@ class Swift_Transport_FailoverTransportTest
             -> allowing($t2)->isStarted() -> returns(true) -> when($con2->is('on'))
             -> one($t2)->start() -> when($con2->isNot('on')) -> then($con2->is('on'))
             -> one($t2)->send($message, optional()) -> throws($e) -> when($con2->is('on'))
-            -> ignoring($t2)
-            );
+            -> ignoring($t2));
 
         $transport = $this->_getTransport(array($t1, $t2));
         $transport->start();
@@ -180,8 +174,7 @@ class Swift_Transport_FailoverTransportTest
             -> ignoring($t1)
             -> allowing($t2)->isStarted() -> returns(true) -> when($con2->is('on'))
             -> one($t2)->stop() -> when($con2->is('on')) -> then($con2->is('off'))
-            -> ignoring($t2)
-            );
+            -> ignoring($t2));
 
         $transport = $this->_getTransport(array($t1, $t2));
         $transport->start();
@@ -210,8 +203,7 @@ class Swift_Transport_FailoverTransportTest
             -> allowing($t2)->isStarted() -> returns(true) -> when($con2->is('on'))
             -> one($t2)->start() -> when($con2->isNot('on')) -> then($con2->is('on'))
             -> one($t2)->send($message, optional()) -> throws($e) -> when($con2->is('on'))
-            -> ignoring($t2)
-            );
+            -> ignoring($t2));
 
         $transport = $this->_getTransport(array($t1, $t2));
         $transport->start();
@@ -250,8 +242,7 @@ class Swift_Transport_FailoverTransportTest
             -> one($t2)->start() -> when($con2->isNot('on')) -> then($con2->is('on'))
             -> one($t2)->send($message1, optional()) -> throws($e) -> when($con2->is('on'))
             -> never($t2)->send($message2, optional())
-            -> ignoring($t2)
-            );
+            -> ignoring($t2));
 
         $transport = $this->_getTransport(array($t1, $t2));
         $transport->start();
@@ -283,8 +274,7 @@ class Swift_Transport_FailoverTransportTest
             -> allowing($t1)->isStarted() -> returns(true) -> when($con->is('on'))
             -> one($t1)->start() -> when($con->isNot('on')) -> then($con->is('on'))
             -> one($t1)->send($message, reference($failures)) -> returns(1) -> when($con->is('on'))
-            -> ignoring($t1)
-            );
+            -> ignoring($t1));
 
         $transport = $this->_getTransport(array($t1));
         $transport->start();
@@ -304,8 +294,7 @@ class Swift_Transport_FailoverTransportTest
             -> one($t1)->registerPlugin($plugin)
             -> one($t2)->registerPlugin($plugin)
             -> ignoring($t1)
-            -> ignoring($t2)
-            );
+            -> ignoring($t2));
 
         $transport = $this->_getTransport(array($t1, $t2));
         $transport->registerPlugin($plugin);

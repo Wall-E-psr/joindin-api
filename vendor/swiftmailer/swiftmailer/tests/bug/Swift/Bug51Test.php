@@ -36,7 +36,8 @@ class Swift_Bug51Test extends Swift_Tests_SwiftUnitTestCase
         //Run 100 times with 10KB attachments
         for ($i = 0; $i < 10; ++$i) {
             $message = $this->_createMessageWithRandomAttachment(
-                10000, $this->_attachmentFile
+                10000,
+                $this->_attachmentFile
             );
 
             file_put_contents($this->_outputFile, '');
@@ -58,7 +59,8 @@ class Swift_Bug51Test extends Swift_Tests_SwiftUnitTestCase
         //Run 100 times with 10KB attachments
         for ($i = 0; $i < 10; ++$i) {
             $message = $this->_createMessageWithRandomAttachment(
-                10000, $this->_attachmentFile
+                10000,
+                $this->_attachmentFile
             );
 
             $emailSource = $message->toString();
@@ -84,7 +86,8 @@ class Swift_Bug51Test extends Swift_Tests_SwiftUnitTestCase
             $attachmentBase64 = trim(substr($source, $attachmentDataStart));
         } else {
             $attachmentBase64 = trim(substr(
-                $source, $attachmentDataStart,
+                $source,
+                $attachmentDataStart,
                 $attachmentDataEnd - $attachmentDataStart
             ));
         }

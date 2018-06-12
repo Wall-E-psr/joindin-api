@@ -48,23 +48,23 @@ class Yay_Expectations implements Yay_InvocationRecorder
    * @var array
    * @access private
    */
-  private $_expectations = array();
+    private $_expectations = array();
 
   /**
    * The current Expectation to proxy any recording to.
    * @var Yay_Expectation
    * @access private
    */
-  private $_currentEndpoint;
+    private $_currentEndpoint;
 
   /**
    * Create a new instance of Expectations.
    * @return Yay_Expectations
    */
-  final public static function create()
-  {
-    return new self();
-  }
+    final public static function create()
+    {
+        return new self();
+    }
 
   /**
    * Expect one Invocation on the $mock object.
@@ -72,10 +72,10 @@ class Yay_Expectations implements Yay_InvocationRecorder
    * @param Yay_MockObject $mock
    * @return Yay_Expectations
    */
-  public function one(Yay_MockObject $mock)
-  {
-    return $this->exactly(1)->of($mock);
-  }
+    public function one(Yay_MockObject $mock)
+    {
+        return $this->exactly(1)->of($mock);
+    }
 
   /**
    * Expect exactly $n Invocations on a mock object specified with a following
@@ -84,10 +84,10 @@ class Yay_Expectations implements Yay_InvocationRecorder
    * @param integer $n
    * @return Yay_Expectations
    */
-  public function exactly($n)
-  {
-    return $this->_setEndpoint(new Yay_Expectations_ExactlyExpectation($n));
-  }
+    public function exactly($n)
+    {
+        return $this->_setEndpoint(new Yay_Expectations_ExactlyExpectation($n));
+    }
 
   /**
    * Expect at least $n Invocations on a mock object specified with a following
@@ -96,10 +96,10 @@ class Yay_Expectations implements Yay_InvocationRecorder
    * @param integer $n
    * @return Yay_Expectations
    */
-  public function atLeast($n)
-  {
-    return $this->_setEndpoint(new Yay_Expectations_AtLeastExpectation($n));
-  }
+    public function atLeast($n)
+    {
+        return $this->_setEndpoint(new Yay_Expectations_AtLeastExpectation($n));
+    }
 
   /**
    * Expect at most $n Invocations on a mock object specified with a following
@@ -108,10 +108,10 @@ class Yay_Expectations implements Yay_InvocationRecorder
    * @param integer $n
    * @return Yay_Expectations
    */
-  public function atMost($n)
-  {
-    return $this->_setEndpoint(new Yay_Expectations_AtMostExpectation($n));
-  }
+    public function atMost($n)
+    {
+        return $this->_setEndpoint(new Yay_Expectations_AtMostExpectation($n));
+    }
 
   /**
    * Expect at between $min and $max Invocations on a mock object specified
@@ -120,20 +120,20 @@ class Yay_Expectations implements Yay_InvocationRecorder
    * @param integer $n
    * @return Yay_Expectations
    */
-  public function between($min, $max)
-  {
-    return $this->_setEndpoint(new Yay_Expectations_BetweenExpectation($min, $max));
-  }
+    public function between($min, $max)
+    {
+        return $this->_setEndpoint(new Yay_Expectations_BetweenExpectation($min, $max));
+    }
 
   /**
    * Ignore Invocations on the $mock object specified.
    * @param Yay_MockObject $mock
    * @return Yay_Expectations
    */
-  public function ignoring(Yay_MockObject $mock)
-  {
-    return $this->atLeast(0)->of($mock);
-  }
+    public function ignoring(Yay_MockObject $mock)
+    {
+        return $this->atLeast(0)->of($mock);
+    }
 
   /**
    * Allow Invocations on the $mock object specified.
@@ -142,20 +142,20 @@ class Yay_Expectations implements Yay_InvocationRecorder
    * @param Yay_MockObject $mock
    * @return Yay_Expectations
    */
-  public function allowing(Yay_MockObject $mock)
-  {
-    return $this->ignoring($mock);
-  }
+    public function allowing(Yay_MockObject $mock)
+    {
+        return $this->ignoring($mock);
+    }
 
   /**
    * Deny Invocations on the $mock object specified.
    * @param Yay_MockObject $mock
    * @return Yay_Expectations
    */
-  public function never(Yay_MockObject $mock)
-  {
-    return $this->exactly(0)->of($mock);
-  }
+    public function never(Yay_MockObject $mock)
+    {
+        return $this->exactly(0)->of($mock);
+    }
 
   /**
    * Specify the MockObject which the Invocation will occur.
@@ -163,109 +163,109 @@ class Yay_Expectations implements Yay_InvocationRecorder
    * @param Yay_MockObject $mock
    * @return Yay_InvocationProxy
    */
-  public function of(Yay_MockObject $mock)
-  {
-    $this->_getEndpoint()->of($mock);
-    return new Yay_InvocationProxy($this, $mock);
-  }
+    public function of(Yay_MockObject $mock)
+    {
+        $this->_getEndpoint()->of($mock);
+        return new Yay_InvocationProxy($this, $mock);
+    }
 
   /**
    * Specify the Action to run if a match occurs.
    * @param Yay_Action $action
    */
-  public function will(Yay_Action $action)
-  {
-    $this->_getEndpoint()->will($action);
-    return $this;
-  }
+    public function will(Yay_Action $action)
+    {
+        $this->_getEndpoint()->will($action);
+        return $this;
+    }
 
   /**
    * Only be expected when in the given State predicate.
    * @param Yay_StatePredicate $predicate
    */
-  public function when(Yay_StatePredicate $predicate)
-  {
-    $this->_getEndpoint()->when($predicate);
-    return $this;
-  }
+    public function when(Yay_StatePredicate $predicate)
+    {
+        $this->_getEndpoint()->when($predicate);
+        return $this;
+    }
 
   /**
    * Activate the given $state if a match occurs.
    * @param Yay_State $state
    */
-  public function then(Yay_State $state)
-  {
-    $this->_getEndpoint()->then($state);
-    return $this;
-  }
+    public function then(Yay_State $state)
+    {
+        $this->_getEndpoint()->then($state);
+        return $this;
+    }
 
   /**
    * Constrain the current expectation to occur in the given sequence.
    * @param Yay_Sequence $seq
    */
-  public function inSequence(Yay_Sequence $seq)
-  {
-    $this->_getEndpoint()->inSequence($seq);
-    return $this;
-  }
+    public function inSequence(Yay_Sequence $seq)
+    {
+        $this->_getEndpoint()->inSequence($seq);
+        return $this;
+    }
 
   /**
    * A wrapper for will(Yay::returnValue($value)).
    * @param mixed $value
    */
-  public function returns($value)
-  {
-    $this->_getEndpoint()->will(new Yay_Actions_ReturnValueAction($value));
-    return $this;
-  }
+    public function returns($value)
+    {
+        $this->_getEndpoint()->will(new Yay_Actions_ReturnValueAction($value));
+        return $this;
+    }
 
   /**
    * A wrapper for will(Yay::returnReference($ref)).
    * @param mixed $ref
    */
-  public function returnsReference(&$ref)
-  {
-    $this->_getEndpoint()->will(new Yay_Actions_ReturnReferenceAction($ref));
-    return $this;
-  }
+    public function returnsReference(&$ref)
+    {
+        $this->_getEndpoint()->will(new Yay_Actions_ReturnReferenceAction($ref));
+        return $this;
+    }
 
   /**
    * A wrapper for will(Yay::throwException($e)).
    * @param Exception $e
    */
-  public function throws(Exception $e)
-  {
-    $this->_getEndpoint()->will(new Yay_Actions_ThrowAction($e));
-    return $this;
-  }
+    public function throws(Exception $e)
+    {
+        $this->_getEndpoint()->will(new Yay_Actions_ThrowAction($e));
+        return $this;
+    }
 
   /**
    * A wrapper for will(Yay::call($callback)).
    * @param callback $callback
    */
-  public function calls($callback)
-  {
-    $this->_getEndpoint()->will(new Yay_Actions_CallbackAction($callback));
-    return $this;
-  }
+    public function calls($callback)
+    {
+        $this->_getEndpoint()->will(new Yay_Actions_CallbackAction($callback));
+        return $this;
+    }
 
   /**
    * Record any Invocations on the MockObject whilst it's in record mode.
    * @param Yay_Invocation $invocation
    */
-  public function recordInvocation(Yay_Invocation $invocation)
-  {
-    $this->_getEndpoint()->recordInvocation($invocation);
-  }
+    public function recordInvocation(Yay_Invocation $invocation)
+    {
+        $this->_getEndpoint()->recordInvocation($invocation);
+    }
 
   /**
    * Returns the Expectation stack.
    * @return Yay_Expectation
    */
-  public function getExpectations()
-  {
-    return $this->_expectations;
-  }
+    public function getExpectations()
+    {
+        return $this->_expectations;
+    }
 
   // -- Private methods
 
@@ -275,32 +275,28 @@ class Yay_Expectations implements Yay_InvocationRecorder
    * @return Yay_Expectations
    * @access private
    */
-  private function _setEndpoint(Yay_Expectation $expectation)
-  {
-    $this->_expectations[] = $expectation;
-    $this->_currentEndpoint = $expectation;
-    return $this;
-  }
+    private function _setEndpoint(Yay_Expectation $expectation)
+    {
+        $this->_expectations[] = $expectation;
+        $this->_currentEndpoint = $expectation;
+        return $this;
+    }
 
   /**
    * Gets the current endpoint (current expectation).
    * @return Yay_Expectation
    * @access private
    */
-  private function _getEndpoint()
-  {
-    if (!isset($this->_currentEndpoint))
+    private function _getEndpoint()
     {
-      throw new BadMethodCallException(
-        'No cardinality clause has yet been made.  First call one(), atLeast(), ' .
-        'atMost(), exactly(), between(), ignoring(), allowing() or never() ' .
-        'before performing this operation.'
-        );
+        if (!isset($this->_currentEndpoint)) {
+            throw new BadMethodCallException(
+                'No cardinality clause has yet been made.  First call one(), atLeast(), ' .
+                'atMost(), exactly(), between(), ignoring(), allowing() or never() ' .
+                'before performing this operation.'
+            );
+        } else {
+            return $this->_currentEndpoint;
+        }
     }
-    else
-    {
-      return $this->_currentEndpoint;
-    }
-  }
-
 }

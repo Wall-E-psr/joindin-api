@@ -1,13 +1,11 @@
 <?php
 
-if (!isset($argv[1]))
-{
-  die('You must provide the version (1.0.0)');
+if (!isset($argv[1])) {
+    die('You must provide the version (1.0.0)');
 }
 
-if (!isset($argv[2]))
-{
-  die('You must provide the stability (alpha, beta, or stable)');
+if (!isset($argv[2])) {
+    die('You must provide the stability (alpha, beta, or stable)');
 }
 
 $context = array(
@@ -21,13 +19,11 @@ $context = array(
 
 $context['files'] = '';
 $path = realpath(dirname(__FILE__).'/lib/classes/Swift');
-foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path), RecursiveIteratorIterator::LEAVES_ONLY) as $file)
-{
-  if (preg_match('/\.php$/', $file))
-  {
-    $name = str_replace($path.'/', '', $file);
-    $context['files'] .= '        <file install-as="Swift/'.$name.'" name="'.$name.'" role="php" />'."\n";
-  }
+foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path), RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
+    if (preg_match('/\.php$/', $file)) {
+        $name = str_replace($path.'/', '', $file);
+        $context['files'] .= '        <file install-as="Swift/'.$name.'" name="'.$name.'" role="php" />'."\n";
+    }
 }
 
 $template = file_get_contents(dirname(__FILE__).'/package.xml.tpl');
@@ -36,7 +32,7 @@ file_put_contents(dirname(__FILE__).'/package.xml', $content);
 
 function replace_parameters($matches)
 {
-  global $context;
+    global $context;
 
-  return isset($context[$matches[1]]) ? $context[$matches[1]] : null;
+    return isset($context[$matches[1]]) ? $context[$matches[1]] : null;
 }

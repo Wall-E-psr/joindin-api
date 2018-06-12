@@ -399,7 +399,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         ];
 
         $client->sendAll($requests);
-        $requests = array_map(function ($r) { return $r->getMethod(); }, $history->getRequests());
+        $requests = array_map(function ($r) {
+            return $r->getMethod();
+        }, $history->getRequests());
         $this->assertContains('GET', $requests);
         $this->assertContains('POST', $requests);
         $this->assertContains('PUT', $requests);

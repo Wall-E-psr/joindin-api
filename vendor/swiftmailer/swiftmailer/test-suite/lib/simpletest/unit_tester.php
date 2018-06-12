@@ -20,7 +20,8 @@ require_once(dirname(__FILE__) . '/dumper.php');
  *    @package  SimpleTest
  *    @subpackage   UnitTester
  */
-class UnitTestCase extends SimpleTestCase {
+class UnitTestCase extends SimpleTestCase
+{
 
     /**
      *    Creates an empty test case. Should be subclassed
@@ -29,7 +30,8 @@ class UnitTestCase extends SimpleTestCase {
      *                             the class name if none specified.
      *    @access public
      */
-    function __construct($label = false) {
+    function __construct($label = false)
+    {
         if (! $label) {
             $label = get_class($this);
         }
@@ -45,7 +47,8 @@ class UnitTestCase extends SimpleTestCase {
      *    @return boolean           True on pass
      *    @access public
      */
-    function assertTrue($result, $message = '%s') {
+    function assertTrue($result, $message = '%s')
+    {
         return $this->assert(new TrueExpectation(), $result, $message);
     }
 
@@ -59,7 +62,8 @@ class UnitTestCase extends SimpleTestCase {
      *    @return boolean           True on pass
      *    @access public
      */
-    function assertFalse($result, $message = '%s') {
+    function assertFalse($result, $message = '%s')
+    {
         return $this->assert(new FalseExpectation(), $result, $message);
     }
 
@@ -70,11 +74,13 @@ class UnitTestCase extends SimpleTestCase {
      *    @return boolean                        True on pass
      *    @access public
      */
-    function assertNull($value, $message = '%s') {
+    function assertNull($value, $message = '%s')
+    {
         $dumper = new SimpleDumper();
         $message = sprintf(
-                $message,
-                '[' . $dumper->describeValue($value) . '] should be null');
+            $message,
+            '[' . $dumper->describeValue($value) . '] should be null'
+        );
         return $this->assertTrue(! isset($value), $message);
     }
 
@@ -85,11 +91,13 @@ class UnitTestCase extends SimpleTestCase {
      *    @return boolean               True on pass.
      *    @access public
      */
-    function assertNotNull($value, $message = '%s') {
+    function assertNotNull($value, $message = '%s')
+    {
         $dumper = new SimpleDumper();
         $message = sprintf(
-                $message,
-                '[' . $dumper->describeValue($value) . '] should not be null');
+            $message,
+            '[' . $dumper->describeValue($value) . '] should not be null'
+        );
         return $this->assertTrue(isset($value), $message);
     }
 
@@ -103,11 +111,13 @@ class UnitTestCase extends SimpleTestCase {
      *    @return boolean              True on pass.
      *    @access public
      */
-    function assertIsA($object, $type, $message = '%s') {
+    function assertIsA($object, $type, $message = '%s')
+    {
         return $this->assert(
-                new IsAExpectation($type),
-                $object,
-                $message);
+            new IsAExpectation($type),
+            $object,
+            $message
+        );
     }
 
     /**
@@ -120,11 +130,13 @@ class UnitTestCase extends SimpleTestCase {
      *    @return boolean              True on pass.
      *    @access public
      */
-    function assertNotA($object, $type, $message = '%s') {
+    function assertNotA($object, $type, $message = '%s')
+    {
         return $this->assert(
-                new NotAExpectation($type),
-                $object,
-                $message);
+            new NotAExpectation($type),
+            $object,
+            $message
+        );
     }
 
     /**
@@ -136,11 +148,13 @@ class UnitTestCase extends SimpleTestCase {
      *    @return boolean              True on pass
      *    @access public
      */
-    function assertEqual($first, $second, $message = '%s') {
+    function assertEqual($first, $second, $message = '%s')
+    {
         return $this->assert(
-                new EqualExpectation($first),
-                $second,
-                $message);
+            new EqualExpectation($first),
+            $second,
+            $message
+        );
     }
 
     /**
@@ -152,11 +166,13 @@ class UnitTestCase extends SimpleTestCase {
      *    @return boolean               True on pass
      *    @access public
      */
-    function assertNotEqual($first, $second, $message = '%s') {
+    function assertNotEqual($first, $second, $message = '%s')
+    {
         return $this->assert(
-                new NotEqualExpectation($first),
-                $second,
-                $message);
+            new NotEqualExpectation($first),
+            $second,
+            $message
+        );
     }
 
     /**
@@ -169,11 +185,13 @@ class UnitTestCase extends SimpleTestCase {
      *    @return boolean              True on pass
      *    @access public
      */
-    function assertWithinMargin($first, $second, $margin, $message = '%s') {
+    function assertWithinMargin($first, $second, $margin, $message = '%s')
+    {
         return $this->assert(
-                new WithinMarginExpectation($first, $margin),
-                $second,
-                $message);
+            new WithinMarginExpectation($first, $margin),
+            $second,
+            $message
+        );
     }
 
     /**
@@ -186,11 +204,13 @@ class UnitTestCase extends SimpleTestCase {
      *    @return boolean              True on pass
      *    @access public
      */
-    function assertOutsideMargin($first, $second, $margin, $message = '%s') {
+    function assertOutsideMargin($first, $second, $margin, $message = '%s')
+    {
         return $this->assert(
-                new OutsideMarginExpectation($first, $margin),
-                $second,
-                $message);
+            new OutsideMarginExpectation($first, $margin),
+            $second,
+            $message
+        );
     }
 
     /**
@@ -202,11 +222,13 @@ class UnitTestCase extends SimpleTestCase {
      *    @return boolean               True on pass
      *    @access public
      */
-    function assertIdentical($first, $second, $message = '%s') {
+    function assertIdentical($first, $second, $message = '%s')
+    {
         return $this->assert(
-                new IdenticalExpectation($first),
-                $second,
-                $message);
+            new IdenticalExpectation($first),
+            $second,
+            $message
+        );
     }
 
     /**
@@ -218,11 +240,13 @@ class UnitTestCase extends SimpleTestCase {
      *    @return boolean               True on pass
      *    @access public
      */
-    function assertNotIdentical($first, $second, $message = '%s') {
+    function assertNotIdentical($first, $second, $message = '%s')
+    {
         return $this->assert(
-                new NotIdenticalExpectation($first),
-                $second,
-                $message);
+            new NotIdenticalExpectation($first),
+            $second,
+            $message
+        );
     }
 
     /**
@@ -237,16 +261,19 @@ class UnitTestCase extends SimpleTestCase {
      *    @return boolean               True on pass
      *    @access public
      */
-    function assertReference(&$first, &$second, $message = '%s') {
+    function assertReference(&$first, &$second, $message = '%s')
+    {
         $dumper = new SimpleDumper();
         $message = sprintf(
-                $message,
-                '[' . $dumper->describeValue($first) .
+            $message,
+            '[' . $dumper->describeValue($first) .
                         '] and [' . $dumper->describeValue($second) .
-                        '] should reference the same object');
+            '] should reference the same object'
+        );
         return $this->assertTrue(
-                SimpleTestCompatibility::isReference($first, $second),
-                $message);
+            SimpleTestCompatibility::isReference($first, $second),
+            $message
+        );
     }
 
     /**
@@ -262,13 +289,15 @@ class UnitTestCase extends SimpleTestCase {
      *    @return boolean               True on pass
      *    @access public
      */
-    function assertSame($first, $second, $message = '%s') {
+    function assertSame($first, $second, $message = '%s')
+    {
         $dumper = new SimpleDumper();
         $message = sprintf(
-                $message,
-                '[' . $dumper->describeValue($first) .
+            $message,
+            '[' . $dumper->describeValue($first) .
                         '] and [' . $dumper->describeValue($second) .
-                        '] should reference the same object');
+            '] should reference the same object'
+        );
         return $this->assertTrue($first === $second, $message);
     }
 
@@ -282,17 +311,20 @@ class UnitTestCase extends SimpleTestCase {
      *    @return boolean               True on pass
      *    @access public
      */
-    function assertClone($first, $second, $message = '%s') {
+    function assertClone($first, $second, $message = '%s')
+    {
         $dumper = new SimpleDumper();
         $message = sprintf(
-                $message,
-                '[' . $dumper->describeValue($first) .
+            $message,
+            '[' . $dumper->describeValue($first) .
                         '] and [' . $dumper->describeValue($second) .
-                        '] should not be the same object');
+            '] should not be the same object'
+        );
         $identical = new IdenticalExpectation($first);
         return $this->assertTrue(
-                $identical->test($second) && ! ($first === $second),
-                $message);
+            $identical->test($second) && ! ($first === $second),
+            $message
+        );
     }
 
     /**
@@ -307,16 +339,19 @@ class UnitTestCase extends SimpleTestCase {
      *    @return boolean               True on pass
      *    @access public
      */
-    function assertCopy(&$first, &$second, $message = "%s") {
+    function assertCopy(&$first, &$second, $message = "%s")
+    {
         $dumper = new SimpleDumper();
         $message = sprintf(
-                $message,
-                "[" . $dumper->describeValue($first) .
+            $message,
+            "[" . $dumper->describeValue($first) .
                         "] and [" . $dumper->describeValue($second) .
-                        "] should not be the same object");
+            "] should not be the same object"
+        );
         return $this->assertFalse(
-                SimpleTestCompatibility::isReference($first, $second),
-                $message);
+            SimpleTestCompatibility::isReference($first, $second),
+            $message
+        );
     }
 
     /**
@@ -329,11 +364,13 @@ class UnitTestCase extends SimpleTestCase {
      *    @return boolean           True on pass
      *    @access public
      */
-    function assertPattern($pattern, $subject, $message = '%s') {
+    function assertPattern($pattern, $subject, $message = '%s')
+    {
         return $this->assert(
-                new PatternExpectation($pattern),
-                $subject,
-                $message);
+            new PatternExpectation($pattern),
+            $subject,
+            $message
+        );
     }
 
     /**
@@ -346,11 +383,13 @@ class UnitTestCase extends SimpleTestCase {
      *    @return boolean           True on pass
      *    @access public
      */
-    function assertNoPattern($pattern, $subject, $message = '%s') {
+    function assertNoPattern($pattern, $subject, $message = '%s')
+    {
         return $this->assert(
-                new NoPatternExpectation($pattern),
-                $subject,
-                $message);
+            new NoPatternExpectation($pattern),
+            $subject,
+            $message
+        );
     }
 
     /**
@@ -361,7 +400,8 @@ class UnitTestCase extends SimpleTestCase {
      *    @param string $message                      Message on failure.
      *    @access public
      */
-    function expectError($expected = false, $message = '%s') {
+    function expectError($expected = false, $message = '%s')
+    {
         $queue = SimpleTest::getContext()->get('SimpleErrorQueue');
         $queue->expectError($this->coerceExpectation($expected), $message);
     }
@@ -374,7 +414,8 @@ class UnitTestCase extends SimpleTestCase {
      *    @param string $message                        Message on failure.
      *    @access public
      */
-    function expectException($expected = false, $message = '%s') {
+    function expectException($expected = false, $message = '%s')
+    {
         $queue = SimpleTest::getContext()->get('SimpleExceptionTrap');
         $line = $this->getAssertionLine();
         $queue->expectException($expected, $message . $line);
@@ -388,7 +429,8 @@ class UnitTestCase extends SimpleTestCase {
      *    @return SimpleExpectation   Expectation object.
      *    @access private
      */
-    protected function coerceExpectation($expected) {
+    protected function coerceExpectation($expected)
+    {
         if ($expected == false) {
             return new TrueExpectation();
         }
@@ -396,7 +438,7 @@ class UnitTestCase extends SimpleTestCase {
             return $expected;
         }
         return new EqualExpectation(
-                is_string($expected) ? str_replace('%', '%%', $expected) : $expected);
+            is_string($expected) ? str_replace('%', '%%', $expected) : $expected
+        );
     }
 }
-?>

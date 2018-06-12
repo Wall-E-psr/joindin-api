@@ -156,7 +156,8 @@ class RequestEventsTest extends \PHPUnit_Framework_TestCase
 
     public function prepareEventProvider()
     {
-        $cb = function () {};
+        $cb = function () {
+        };
 
         return [
             [[], ['complete'], $cb, ['complete' => [$cb]]],

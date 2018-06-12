@@ -6,8 +6,7 @@ require_once 'Swift/CharacterStream/ArrayCharacterStream.php';
 require_once 'Swift/CharacterReaderFactory/SimpleCharacterReaderFactory.php';
 require_once 'Swift/ByteStream/ArrayByteStream.php';
 
-class Swift_Mime_ContentEncoder_QpContentEncoderAcceptanceTest
-    extends Swift_Tests_SwiftUnitTestCase
+class Swift_Mime_ContentEncoder_QpContentEncoderAcceptanceTest extends Swift_Tests_SwiftUnitTestCase
 {
     private $_samplesDir;
     private $_factory;
@@ -28,13 +27,14 @@ class Swift_Mime_ContentEncoder_QpContentEncoderAcceptanceTest
 
             $encoding = $encodingDir;
             $charStream = new Swift_CharacterStream_NgCharacterStream(
-                $this->_factory, $encoding);
+                $this->_factory,
+                $encoding
+            );
             $encoder = new Swift_Mime_ContentEncoder_QpContentEncoder($charStream);
 
             $sampleDir = $this->_samplesDir . '/' . $encodingDir;
 
             if (is_dir($sampleDir)) {
-
                 $fileFp = opendir($sampleDir);
                 while (false !== $sampleFile = readdir($fileFp)) {
                     if (substr($sampleFile, 0, 1) == '.') {
@@ -55,14 +55,14 @@ class Swift_Mime_ContentEncoder_QpContentEncoderAcceptanceTest
                     }
 
                     $this->assertEqual(
-                        quoted_printable_decode($encoded), $text,
+                        quoted_printable_decode($encoded),
+                        $text,
                         '%s: Encoded string should decode back to original string for sample ' .
                         $sampleDir . '/' . $sampleFile
-                        );
+                    );
                 }
                 closedir($fileFp);
             }
-
         }
         closedir($sampleFp);
     }
@@ -81,7 +81,6 @@ class Swift_Mime_ContentEncoder_QpContentEncoderAcceptanceTest
             $sampleDir = $this->_samplesDir . '/' . $encodingDir;
 
             if (is_dir($sampleDir)) {
-
                 $fileFp = opendir($sampleDir);
                 while (false !== $sampleFile = readdir($fileFp)) {
                     if (substr($sampleFile, 0, 1) == '.') {
@@ -102,14 +101,14 @@ class Swift_Mime_ContentEncoder_QpContentEncoderAcceptanceTest
                     }
 
                     $this->assertEqual(
-                        str_replace("\r\n", "\n", quoted_printable_decode($encoded)), str_replace("\r\n", "\n", $text),
+                        str_replace("\r\n", "\n", quoted_printable_decode($encoded)),
+                        str_replace("\r\n", "\n", $text),
                         '%s: Encoded string should decode back to original string for sample ' .
                         $sampleDir . '/' . $sampleFile
-                        );
+                    );
                 }
                 closedir($fileFp);
             }
-
         }
         closedir($sampleFp);
     }

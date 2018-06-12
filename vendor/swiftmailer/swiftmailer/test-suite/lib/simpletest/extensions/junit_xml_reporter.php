@@ -1,8 +1,8 @@
 <?php
 /**
- *	@package	SimpleTest
- *	@subpackage	Extensions
- *	@version	$Id: junit_xml_reporter.php 1802 2008-09-08 10:43:58Z maetl_ $
+ *  @package    SimpleTest
+ *  @subpackage Extensions
+ *  @version    $Id: junit_xml_reporter.php 1802 2008-09-08 10:43:58Z maetl_ $
  *  @author Patrice Neff - mailinglists@patrice.ch (original code)
  */
 
@@ -14,8 +14,10 @@ require_once dirname(__FILE__).'/../reporter.php';
  * test suite with continuous integration servers such as
  * Atlassian Bamboo.
  */
-class JUnitXMLReporter extends SimpleReporter {
-    function JUnitXMLReporter() {
+class JUnitXMLReporter extends SimpleReporter
+{
+    function JUnitXMLReporter()
+    {
         $this->SimpleReporter();
 
         $this->doc = new DOMDocument();
@@ -23,7 +25,8 @@ class JUnitXMLReporter extends SimpleReporter {
         $this->root = $this->doc->documentElement;
     }
 
-    function paintHeader($test_name) {
+    function paintHeader($test_name)
+    {
         $this->testsStart = microtime(true);
         
         $this->root->setAttribute('name', $test_name);
@@ -40,7 +43,8 @@ class JUnitXMLReporter extends SimpleReporter {
      *    @param string $test_name        Name class of test.
      *    @access public
      */
-    function paintFooter($test_name) {
+    function paintFooter($test_name)
+    {
         echo "-->\n";
         
         $duration = microtime(true) - $this->testsStart;
@@ -57,23 +61,27 @@ class JUnitXMLReporter extends SimpleReporter {
         echo "\n";
     }
     
-    function paintCaseStart($case) {
+    function paintCaseStart($case)
+    {
         echo "- case start $case\n";
         $this->currentCaseName = $case;
     }
 
-    function paintCaseEnd($case) {
+    function paintCaseEnd($case)
+    {
         // No output here
     }
     
-    function paintMethodStart($test) {
+    function paintMethodStart($test)
+    {
         echo "  - test start: $test\n";
         
         $this->methodStart = microtime(true);
         $this->currCase = $this->doc->createElement('testcase');
     }
     
-    function paintMethodEnd($test) {
+    function paintMethodEnd($test)
+    {
         $duration = microtime(true) - $this->methodStart;
         
         $this->currCase->setAttribute('name', $test);
@@ -82,21 +90,24 @@ class JUnitXMLReporter extends SimpleReporter {
         $this->root->appendChild($this->currCase);
     }
     
-    function paintFail($message) {
+    function paintFail($message)
+    {
         parent::paintFail($message);
 
         error_log("Failure: " . $message);
         $this->terminateAbnormally($message);
     }
     
-    function paintException($exception) {
+    function paintException($exception)
+    {
         parent::paintException($exception);
         
         error_log("Exception: " . $exception);
         $this->terminateAbnormally($exception);
     }
     
-    function terminateAbnormally($message) {
+    function terminateAbnormally($message)
+    {
         if (!$this->currCase) {
             error_log("!! currCase was not set.");
             return;
@@ -114,5 +125,3 @@ class JUnitXMLReporter extends SimpleReporter {
         $this->currCase->appendChild($ch);
     }
 }
-?>
-

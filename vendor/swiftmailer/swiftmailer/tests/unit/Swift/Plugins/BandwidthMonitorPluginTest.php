@@ -7,8 +7,7 @@ require_once 'Swift/Events/CommandEvent.php';
 require_once 'Swift/Events/ResponseEvent.php';
 require_once 'Swift/Mime/Message.php';
 
-class Swift_Plugins_BandwidthMonitorPluginTest
-    extends Swift_Tests_SwiftUnitTestCase
+class Swift_Plugins_BandwidthMonitorPluginTest extends Swift_Tests_SwiftUnitTestCase
 {
     public function setUp()
     {
@@ -79,8 +78,7 @@ class Swift_Plugins_BandwidthMonitorPluginTest
     {
         $evt = $this->_mock('Swift_Events_SendEvent');
         $this->_checking(Expectations::create()
-            -> ignoring($evt)->getMessage() -> returns($message)
-            );
+            -> ignoring($evt)->getMessage() -> returns($message));
 
         return $evt;
     }
@@ -89,8 +87,7 @@ class Swift_Plugins_BandwidthMonitorPluginTest
     {
         $evt = $this->_mock('Swift_Events_CommandEvent');
         $this->_checking(Expectations::create()
-            -> ignoring($evt)->getCommand() -> returns($command)
-            );
+            -> ignoring($evt)->getCommand() -> returns($command));
 
         return $evt;
     }
@@ -99,8 +96,7 @@ class Swift_Plugins_BandwidthMonitorPluginTest
     {
         $evt = $this->_mock('Swift_Events_ResponseEvent');
         $this->_checking(Expectations::create()
-            -> ignoring($evt)->getResponse() -> returns($response)
-            );
+            -> ignoring($evt)->getResponse() -> returns($response));
 
         return $evt;
     }
@@ -110,8 +106,7 @@ class Swift_Plugins_BandwidthMonitorPluginTest
         $this->_bytes = $bytes;
         $msg = $this->_mock('Swift_Mime_Message');
         $this->_checking(Expectations::create()
-            -> ignoring($msg)->toByteStream(any()) -> calls(array($this, '_write'))
-        );
+            -> ignoring($msg)->toByteStream(any()) -> calls(array($this, '_write')));
 
         return $msg;
     }
@@ -125,5 +120,4 @@ class Swift_Plugins_BandwidthMonitorPluginTest
             $is->write('x');
         }
     }
-
 }

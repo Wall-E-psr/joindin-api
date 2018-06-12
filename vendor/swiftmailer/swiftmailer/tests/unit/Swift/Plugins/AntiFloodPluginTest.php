@@ -31,8 +31,7 @@ class Swift_Plugins_AntiFloodPluginTest extends Swift_Tests_SwiftUnitTestCase
         $this->_checking(Expectations::create()
             -> one($transport)->start()
             -> one($transport)->stop()
-            -> ignoring($transport)
-            );
+            -> ignoring($transport));
 
         $plugin = new Swift_Plugins_AntiFloodPlugin(10);
         for ($i = 0; $i < 12; $i++) {
@@ -47,8 +46,7 @@ class Swift_Plugins_AntiFloodPluginTest extends Swift_Tests_SwiftUnitTestCase
         $this->_checking(Expectations::create()
             -> exactly(5)->of($transport)->start()
             -> exactly(5)->of($transport)->stop()
-            -> ignoring($transport)
-            );
+            -> ignoring($transport));
 
         $plugin = new Swift_Plugins_AntiFloodPlugin(2);
         for ($i = 0; $i < 11; $i++) {
@@ -65,8 +63,7 @@ class Swift_Plugins_AntiFloodPluginTest extends Swift_Tests_SwiftUnitTestCase
             -> one($sleeper)->sleep(10)
             -> one($transport)->start()
             -> one($transport)->stop()
-            -> ignoring($transport)
-            );
+            -> ignoring($transport));
 
         $plugin = new Swift_Plugins_AntiFloodPlugin(99, 10, $sleeper);
         for ($i = 0; $i < 101; $i++) {
@@ -86,8 +83,7 @@ class Swift_Plugins_AntiFloodPluginTest extends Swift_Tests_SwiftUnitTestCase
         $evt = $this->_mock('Swift_Events_SendEvent');
         $this->_checking(Expectations::create()
             -> ignoring($evt)->getSource() -> returns($transport)
-            -> ignoring($evt)->getTransport() -> returns($transport)
-            );
+            -> ignoring($evt)->getTransport() -> returns($transport));
 
         return $evt;
     }

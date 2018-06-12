@@ -1,4 +1,4 @@
-jQuery(function($) {
+jQuery(function ($) {
     var themap = $('<div id="themap"></div>').css({
         'width': '90%',
         'height': '500px'
@@ -15,7 +15,7 @@ jQuery(function($) {
         2 // Zoom level appropriate for Brighton city centre
     );
 
-    $('.vcard').each(function() {
+    $('.vcard').each(function () {
         var hcard = $(this);
     
         var latitude = hcard.find('.geo .latitude').text();

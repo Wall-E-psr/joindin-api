@@ -5,8 +5,7 @@ require_once 'Swift/InputByteStream.php';
 require_once 'Swift/ByteStream/FileByteStream.php';
 require_once 'Swift/StreamFilters/StringReplacementFilter.php';
 
-class Swift_ByteStream_FileByteStreamAcceptanceTest
-    extends Swift_Tests_SwiftUnitTestCase
+class Swift_ByteStream_FileByteStreamAcceptanceTest extends Swift_Tests_SwiftUnitTestCase
 {
     private $_tmpDir;
     private $_testFile;
@@ -14,9 +13,10 @@ class Swift_ByteStream_FileByteStreamAcceptanceTest
     public function skip()
     {
         $this->skipUnless(
-            SWIFT_TMP_DIR, 'Cannot run test without a writable directory to use (' .
+            SWIFT_TMP_DIR,
+            'Cannot run test without a writable directory to use (' .
             'define SWIFT_TMP_DIR in tests/config.php if you wish to run this test)'
-            );
+        );
     }
 
     public function setUp()
@@ -58,8 +58,9 @@ class Swift_ByteStream_FileByteStreamAcceptanceTest
     public function testFileCanBeWrittenTo()
     {
         $file = $this->_createFileStream(
-            $this->_testFile, true
-            );
+            $this->_testFile,
+            true
+        );
         $file->write('foobar');
         $this->assertEqual('foobar', $file->read(8192));
     }
@@ -67,8 +68,9 @@ class Swift_ByteStream_FileByteStreamAcceptanceTest
     public function testReadingFromThenWritingToFile()
     {
         $file = $this->_createFileStream(
-            $this->_testFile, true
-            );
+            $this->_testFile,
+            true
+        );
         $file->write('foobar');
         $this->assertEqual('foobar', $file->read(8192));
         $file->write('zipbutton');
@@ -78,8 +80,9 @@ class Swift_ByteStream_FileByteStreamAcceptanceTest
     public function testWritingToFileWithCanonicalization()
     {
         $file = $this->_createFileStream(
-            $this->_testFile, true
-            );
+            $this->_testFile,
+            true
+        );
         $file->addFilter($this->_createFilter(array("\r\n", "\r"), "\n"), 'allToLF');
         $file->write("foo\r\nbar\r");
         $file->write("\nzip\r\ntest\r");
@@ -90,8 +93,9 @@ class Swift_ByteStream_FileByteStreamAcceptanceTest
     public function testBindingOtherStreamsMirrorsWriteOperations()
     {
         $file = $this->_createFileStream(
-            $this->_testFile, true
-            );
+            $this->_testFile,
+            true
+        );
         $is1 = $this->_createMockInputStream();
         $is2 = $this->_createMockInputStream();
 
@@ -99,8 +103,7 @@ class Swift_ByteStream_FileByteStreamAcceptanceTest
             -> one($is1)->write('x')
             -> one($is2)->write('x')
             -> one($is1)->write('y')
-            -> one($is2)->write('y')
-        );
+            -> one($is2)->write('y'));
 
         $file->bind($is1);
         $file->bind($is2);
@@ -112,15 +115,15 @@ class Swift_ByteStream_FileByteStreamAcceptanceTest
     public function testBindingOtherStreamsMirrorsFlushOperations()
     {
         $file = $this->_createFileStream(
-            $this->_testFile, true
-            );
+            $this->_testFile,
+            true
+        );
         $is1 = $this->_createMockInputStream();
         $is2 = $this->_createMockInputStream();
 
         $this->_checking(Expectations::create()
             -> one($is1)->flushBuffers()
-            -> one($is2)->flushBuffers()
-        );
+            -> one($is2)->flushBuffers());
 
         $file->bind($is1);
         $file->bind($is2);
@@ -131,16 +134,16 @@ class Swift_ByteStream_FileByteStreamAcceptanceTest
     public function testUnbindingStreamPreventsFurtherWrites()
     {
         $file = $this->_createFileStream(
-            $this->_testFile, true
-            );
+            $this->_testFile,
+            true
+        );
         $is1 = $this->_createMockInputStream();
         $is2 = $this->_createMockInputStream();
 
         $this->_checking(Expectations::create()
             -> one($is1)->write('x')
             -> one($is2)->write('x')
-            -> one($is1)->write('y')
-        );
+            -> one($is1)->write('y'));
 
         $file->bind($is1);
         $file->bind($is2);

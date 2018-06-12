@@ -63,7 +63,6 @@ class Server
 
         $data = [];
         foreach ((array) $responses as $response) {
-
             // Create the response object from a string
             if (is_string($response)) {
                 $response = $factory->fromMessage($response);

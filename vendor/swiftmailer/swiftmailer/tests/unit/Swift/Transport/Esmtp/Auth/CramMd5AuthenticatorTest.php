@@ -5,8 +5,7 @@ require_once 'Swift/Transport/SmtpAgent.php';
 require_once 'Swift/Transport/Esmtp/Auth/CramMd5Authenticator.php';
 require_once 'Swift/TransportException.php';
 
-class Swift_Transport_Esmtp_Auth_CramMd5AuthenticatorTest
-    extends Swift_Tests_SwiftUnitTestCase
+class Swift_Transport_Esmtp_Auth_CramMd5AuthenticatorTest extends Swift_Tests_SwiftUnitTestCase
 {
     private $_agent;
 
@@ -32,12 +31,12 @@ class Swift_Transport_Esmtp_Auth_CramMd5AuthenticatorTest
             -> one($this->_agent)->executeCommand("AUTH CRAM-MD5\r\n", array(334))
                 -> returns('334 ' . base64_encode('<foo@bar>') . "\r\n")
             // The use of any() is controversial, but here to avoid crazy test logic
-            -> one($this->_agent)->executeCommand(any(), array(235))
-            );
+            -> one($this->_agent)->executeCommand(any(), array(235)));
 
-        $this->assertTrue($cram->authenticate($this->_agent, 'jack', 'pass'),
+        $this->assertTrue(
+            $cram->authenticate($this->_agent, 'jack', 'pass'),
             '%s: The buffer accepted all commands authentication should succeed'
-            );
+        );
     }
 
     public function testAuthenticationFailureSendRsetAndReturnFalse()
@@ -48,14 +47,14 @@ class Swift_Transport_Esmtp_Auth_CramMd5AuthenticatorTest
                 -> returns('334 ' . base64_encode('<foo@bar>') . "\r\n")
             // The use of any() is controversial, but here to avoid crazy test logic
             -> one($this->_agent)->executeCommand(any(), array(235))
-       -> throws(new Swift_TransportException(""))
+        -> throws(new Swift_TransportException(""))
 
-            -> one($this->_agent)->executeCommand("RSET\r\n", array(250))
-            );
+            -> one($this->_agent)->executeCommand("RSET\r\n", array(250)));
 
-        $this->assertFalse($cram->authenticate($this->_agent, 'jack', 'pass'),
+        $this->assertFalse(
+            $cram->authenticate($this->_agent, 'jack', 'pass'),
             '%s: Authentication fails, so RSET should be sent'
-            );
+        );
     }
 
     // -- Private helpers

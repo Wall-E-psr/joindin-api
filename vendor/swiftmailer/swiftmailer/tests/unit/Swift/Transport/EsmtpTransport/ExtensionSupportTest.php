@@ -11,8 +11,7 @@ interface Swift_Transport_EsmtpHandlerMixin extends Swift_Transport_EsmtpHandler
     public function setPassword($pass);
 }
 
-class Swift_Transport_EsmtpTransport_ExtensionSupportTest
-    extends Swift_Transport_EsmtpTransportTest
+class Swift_Transport_EsmtpTransport_ExtensionSupportTest extends Swift_Transport_EsmtpTransportTest
 {
     public function testExtensionHandlersAreSortedAsNeeded()
     {
@@ -26,8 +25,7 @@ class Swift_Transport_EsmtpTransport_ExtensionSupportTest
             -> allowing($ext2)->getHandledKeyword() -> returns('STARTTLS')
             -> allowing($ext2)->getPriorityOver('AUTH') -> returns(-1)
             -> ignoring($ext1)
-            -> ignoring($ext2)
-            );
+            -> ignoring($ext2));
         $this->_finishBuffer($buf);
         $smtp->setExtensionHandlers(array($ext1, $ext2));
         $this->assertEqual(array($ext2, $ext1), $smtp->getExtensionHandlers());
@@ -52,8 +50,7 @@ class Swift_Transport_EsmtpTransport_ExtensionSupportTest
             -> allowing($ext2)->getHandledKeyword() -> returns('SIZE')
             -> allowing($ext2)->setKeywordParams(array('123456'))
             -> ignoring($ext1)
-            -> ignoring($ext2)
-            );
+            -> ignoring($ext2));
         $this->_finishBuffer($buf);
         $smtp->setExtensionHandlers(array($ext1, $ext2));
         $smtp->start();
@@ -82,8 +79,7 @@ class Swift_Transport_EsmtpTransport_ExtensionSupportTest
             -> never($ext3)->afterEhlo(any())
             -> ignoring($ext1)
             -> ignoring($ext2)
-            -> ignoring($ext3)
-            );
+            -> ignoring($ext3));
         $this->_finishBuffer($buf);
         $smtp->setExtensionHandlers(array($ext1, $ext2, $ext3));
         $smtp->start();
@@ -123,8 +119,7 @@ class Swift_Transport_EsmtpTransport_ExtensionSupportTest
             -> never($ext3)->getMailParams()
             -> ignoring($ext1)
             -> ignoring($ext2)
-            -> ignoring($ext3)
-            );
+            -> ignoring($ext3));
         $this->_finishBuffer($buf);
         $smtp->setExtensionHandlers(array($ext1, $ext2, $ext3));
         $smtp->start();
@@ -165,8 +160,7 @@ class Swift_Transport_EsmtpTransport_ExtensionSupportTest
             -> never($ext3)->getRcptParams()
             -> ignoring($ext1)
             -> ignoring($ext2)
-            -> ignoring($ext3)
-            );
+            -> ignoring($ext3));
         $this->_finishBuffer($buf);
         $smtp->setExtensionHandlers(array($ext1, $ext2, $ext3));
         $smtp->start();
@@ -198,8 +192,7 @@ class Swift_Transport_EsmtpTransport_ExtensionSupportTest
             -> never($ext3)->onCommand(any(), any(), any(), optional())
             -> ignoring($ext1)
             -> ignoring($ext2)
-            -> ignoring($ext3)
-            );
+            -> ignoring($ext3));
         $this->_finishBuffer($buf);
         $smtp->setExtensionHandlers(array($ext1, $ext2, $ext3));
         $smtp->start();
@@ -230,8 +223,7 @@ class Swift_Transport_EsmtpTransport_ExtensionSupportTest
             -> never($ext3)->onCommand(any(), any(), any(), optional())
             -> ignoring($ext1)
             -> ignoring($ext2)
-            -> ignoring($ext3)
-            );
+            -> ignoring($ext3));
         $this->_finishBuffer($buf);
         $smtp->setExtensionHandlers(array($ext1, $ext2, $ext3));
         $smtp->start();
@@ -260,8 +252,7 @@ class Swift_Transport_EsmtpTransport_ExtensionSupportTest
             -> one($ext1)->setPassword('pass')
             -> allowing($ext2)->getHandledKeyword() -> returns('STARTTLS')
             -> ignoring($ext1)
-            -> ignoring($ext2)
-            );
+            -> ignoring($ext2));
         $this->_finishBuffer($buf);
         $smtp->setExtensionHandlers(array($ext1, $ext2));
         $smtp->setUsername('mick');
@@ -277,12 +268,11 @@ class Swift_Transport_EsmtpTransport_ExtensionSupportTest
         $this->_checking(Expectations::create()
             -> allowing($ext1)->getHandledKeyword() -> returns('AUTH')
             -> allowing($ext1)->exposeMixinMethods() -> returns(array('setUsername', 'setPassword'))
-            -> one($ext1)->setUsername('mick') -> returns(NULL)
-            -> one($ext1)->setPassword('pass') -> returns(NULL)
+            -> one($ext1)->setUsername('mick') -> returns(null)
+            -> one($ext1)->setPassword('pass') -> returns(null)
             -> allowing($ext2)->getHandledKeyword() -> returns('STARTTLS')
             -> ignoring($ext1)
-            -> ignoring($ext2)
-            );
+            -> ignoring($ext2));
         $this->_finishBuffer($buf);
         $smtp->setExtensionHandlers(array($ext1, $ext2));
         $ret = $smtp->setUsername('mick');
@@ -304,8 +294,7 @@ class Swift_Transport_EsmtpTransport_ExtensionSupportTest
             -> one($ext1)->setPassword('pass') -> returns('x')
             -> allowing($ext2)->getHandledKeyword() -> returns('STARTTLS')
             -> ignoring($ext1)
-            -> ignoring($ext2)
-            );
+            -> ignoring($ext2));
         $this->_finishBuffer($buf);
         $smtp->setExtensionHandlers(array($ext1, $ext2));
         $this->assertEqual('x', $smtp->setUsername('mick'));

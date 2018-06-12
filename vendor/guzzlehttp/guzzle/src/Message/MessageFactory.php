@@ -58,8 +58,13 @@ class MessageFactory implements MessageFactoryInterface
             unset($options['version']);
         }
 
-        $request = new Request($method, $url, [], null,
-            isset($options['config']) ? $options['config'] : []);
+        $request = new Request(
+            $method,
+            $url,
+            [],
+            null,
+            isset($options['config']) ? $options['config'] : []
+        );
 
         unset($options['config']);
 
@@ -319,7 +324,8 @@ class MessageFactory implements MessageFactoryInterface
             throw new \InvalidArgumentException('events value must be an array');
         }
 
-        $this->attachListeners($request, $this->prepareListeners($value,
+        $this->attachListeners($request, $this->prepareListeners(
+            $value,
             ['before', 'complete', 'error', 'headers']
         ));
     }

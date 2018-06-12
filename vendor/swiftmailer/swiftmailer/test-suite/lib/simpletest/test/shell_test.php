@@ -3,36 +3,42 @@
 require_once(dirname(__FILE__) . '/../autorun.php');
 require_once(dirname(__FILE__) . '/../shell_tester.php');
 
-class TestOfShell extends UnitTestCase {
+class TestOfShell extends UnitTestCase
+{
     
-    function testEcho() {
+    function testEcho()
+    {
         $shell = new SimpleShell();
         $this->assertIdentical($shell->execute('echo Hello'), 0);
         $this->assertPattern('/Hello/', $shell->getOutput());
     }
     
-    function testBadCommand() {
+    function testBadCommand()
+    {
         $shell = new SimpleShell();
         $this->assertNotEqual($ret = $shell->execute('blurgh! 2>&1'), 0);
     }
 }
 
-class TestOfShellTesterAndShell extends ShellTestCase {
+class TestOfShellTesterAndShell extends ShellTestCase
+{
     
-    function testEcho() {
+    function testEcho()
+    {
         $this->assertTrue($this->execute('echo Hello'));
         $this->assertExitCode(0);
         $this->assertoutput('Hello');
     }
     
-    function testFileExistence() {
+    function testFileExistence()
+    {
         $this->assertFileExists(dirname(__FILE__) . '/all_tests.php');
         $this->assertFileNotExists('wibble');
     }
     
-    function testFilePatterns() {
+    function testFilePatterns()
+    {
         $this->assertFilePattern('/all[_ ]tests/i', dirname(__FILE__) . '/all_tests.php');
         $this->assertNoFilePattern('/sputnik/i', dirname(__FILE__) . '/all_tests.php');
     }
 }
-?>

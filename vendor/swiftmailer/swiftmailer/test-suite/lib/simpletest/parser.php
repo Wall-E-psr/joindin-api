@@ -25,7 +25,8 @@ foreach (array('LEXER_ENTER', 'LEXER_MATCHED',
  *    @package SimpleTest
  *    @subpackage WebTester
  */
-class ParallelRegex {
+class ParallelRegex
+{
     private $patterns;
     private $labels;
     private $regex;
@@ -37,7 +38,8 @@ class ParallelRegex {
      *                            for insensitive.
      *    @access public
      */
-    function __construct($case) {
+    function __construct($case)
+    {
         $this->case = $case;
         $this->patterns = array();
         $this->labels = array();
@@ -52,7 +54,8 @@ class ParallelRegex {
      *                                on a match.
      *    @access public
      */
-    function addPattern($pattern, $label = true) {
+    function addPattern($pattern, $label = true)
+    {
         $count = count($this->patterns);
         $this->patterns[$count] = $pattern;
         $this->labels[$count] = $label;
@@ -68,7 +71,8 @@ class ParallelRegex {
      *    @return boolean             True on success.
      *    @access public
      */
-    function match($subject, &$match) {
+    function match($subject, &$match)
+    {
         if (count($this->patterns) == 0) {
             return false;
         }
@@ -93,13 +97,15 @@ class ParallelRegex {
      *    @param array $patterns    List of patterns in order.
      *    @access private
      */
-    protected function getCompoundedRegex() {
+    protected function getCompoundedRegex()
+    {
         if ($this->regex == null) {
             for ($i = 0, $count = count($this->patterns); $i < $count; $i++) {
                 $this->patterns[$i] = '(' . str_replace(
-                        array('/', '(', ')'),
-                        array('\/', '\(', '\)'),
-                        $this->patterns[$i]) . ')';
+                    array('/', '(', ')'),
+                    array('\/', '\(', '\)'),
+                    $this->patterns[$i]
+                ) . ')';
             }
             $this->regex = "/" . implode("|", $this->patterns) . "/" . $this->getPerlMatchingFlags();
         }
@@ -111,7 +117,8 @@ class ParallelRegex {
      *    @return string       Perl regex flags.
      *    @access private
      */
-    protected function getPerlMatchingFlags() {
+    protected function getPerlMatchingFlags()
+    {
         return ($this->case ? "msS" : "msSi");
     }
 }
@@ -121,7 +128,8 @@ class ParallelRegex {
  *    @package SimpleTest
  *    @subpackage WebTester
  */
-class SimpleStateStack {
+class SimpleStateStack
+{
     private $stack;
     
     /**
@@ -129,7 +137,8 @@ class SimpleStateStack {
      *    @param string $start        Starting state name.
      *    @access public
      */
-    function __construct($start) {
+    function __construct($start)
+    {
         $this->stack = array($start);
     }
     
@@ -138,7 +147,8 @@ class SimpleStateStack {
      *    @return string       State.
      *    @access public
      */
-    function getCurrent() {
+    function getCurrent()
+    {
         return $this->stack[count($this->stack) - 1];
     }
     
@@ -148,7 +158,8 @@ class SimpleStateStack {
      *    @param string $state        New state.
      *    @access public
      */
-    function enter($state) {
+    function enter($state)
+    {
         array_push($this->stack, $state);
     }
     
@@ -159,7 +170,8 @@ class SimpleStateStack {
      *                       the bottom of the list.
      *    @access public
      */
-    function leave() {
+    function leave()
+    {
         if (count($this->stack) == 1) {
             return false;
         }
@@ -177,7 +189,8 @@ class SimpleStateStack {
  *    @package SimpleTest
  *    @subpackage WebTester
  */
-class SimpleLexer {
+class SimpleLexer
+{
     private $regexes;
     private $parser;
     private $mode;
@@ -193,7 +206,8 @@ class SimpleLexer {
      *    @param boolean $case            True for case sensitive.
      *    @access public
      */
-    function __construct($parser, $start = "accept", $case = false) {
+    function __construct($parser, $start = "accept", $case = false)
+    {
         $this->case = $case;
         $this->regexes = array();
         $this->parser = $parser;
@@ -212,7 +226,8 @@ class SimpleLexer {
      *                                this type of input.
      *    @access public
      */
-    function addPattern($pattern, $mode = "accept") {
+    function addPattern($pattern, $mode = "accept")
+    {
         if (! isset($this->regexes[$mode])) {
             $this->regexes[$mode] = new ParallelRegex($this->case);
         }
@@ -235,7 +250,8 @@ class SimpleLexer {
      *                                nested mode.
      *    @access public
      */
-    function addEntryPattern($pattern, $mode, $new_mode) {
+    function addEntryPattern($pattern, $mode, $new_mode)
+    {
         if (! isset($this->regexes[$mode])) {
             $this->regexes[$mode] = new ParallelRegex($this->case);
         }
@@ -253,7 +269,8 @@ class SimpleLexer {
      *    @param string $mode         Mode to leave.
      *    @access public
      */
-    function addExitPattern($pattern, $mode) {
+    function addExitPattern($pattern, $mode)
+    {
         if (! isset($this->regexes[$mode])) {
             $this->regexes[$mode] = new ParallelRegex($this->case);
         }
@@ -275,7 +292,8 @@ class SimpleLexer {
      *    @param string $special      Use this mode for this one token.
      *    @access public
      */
-    function addSpecialPattern($pattern, $mode, $special) {
+    function addSpecialPattern($pattern, $mode, $special)
+    {
         if (! isset($this->regexes[$mode])) {
             $this->regexes[$mode] = new ParallelRegex($this->case);
         }
@@ -291,7 +309,8 @@ class SimpleLexer {
      *    @param string $handler     New target handler.
      *    @access public
      */
-    function mapHandler($mode, $handler) {
+    function mapHandler($mode, $handler)
+    {
         $this->mode_handlers[$mode] = $handler;
     }
     
@@ -305,7 +324,8 @@ class SimpleLexer {
      *    @return boolean           True on success, else false.
      *    @access public
      */
-    function parse($raw) {
+    function parse($raw)
+    {
         if (! isset($this->parser)) {
             return false;
         }
@@ -341,7 +361,8 @@ class SimpleLexer {
      *                                from the parser.
      *    @access private
      */
-    protected function dispatchTokens($unmatched, $matched, $mode = false) {
+    protected function dispatchTokens($unmatched, $matched, $mode = false)
+    {
         if (! $this->invokeParser($unmatched, LEXER_UNMATCHED)) {
             return false;
         }
@@ -373,7 +394,8 @@ class SimpleLexer {
      *    @return boolean        True if this is the exit mode.
      *    @access private
      */
-    protected function isModeEnd($mode) {
+    protected function isModeEnd($mode)
+    {
         return ($mode === "__exit");
     }
     
@@ -385,7 +407,8 @@ class SimpleLexer {
      *    @return boolean        True if this is the exit mode.
      *    @access private
      */
-    protected function isSpecialMode($mode) {
+    protected function isSpecialMode($mode)
+    {
         return (strncmp($mode, "_", 1) == 0);
     }
     
@@ -396,7 +419,8 @@ class SimpleLexer {
      *    @return string         Underlying mode name.
      *    @access private
      */
-    protected function decodeSpecial($mode) {
+    protected function decodeSpecial($mode)
+    {
         return substr($mode, 1);
     }
     
@@ -409,7 +433,8 @@ class SimpleLexer {
      *                                  than unparsed data.
      *    @access private
      */
-    protected function invokeParser($content, $is_match) {
+    protected function invokeParser($content, $is_match)
+    {
         if (($content === '') || ($content === false)) {
             return true;
         }
@@ -431,7 +456,8 @@ class SimpleLexer {
      *                               is a parsing error.
      *    @access private
      */
-    protected function reduce($raw) {
+    protected function reduce($raw)
+    {
         if ($action = $this->regexes[$this->mode->getCurrent()]->match($raw, $match)) {
             $unparsed_character_count = strpos($raw, $match);
             $unparsed = substr($raw, 0, $unparsed_character_count);
@@ -447,7 +473,8 @@ class SimpleLexer {
  *    @package SimpleTest
  *    @subpackage WebTester
  */
-class SimpleHtmlLexer extends SimpleLexer {
+class SimpleHtmlLexer extends SimpleLexer
+{
     
     /**
      *    Sets up the lexer with case insensitive matching
@@ -456,7 +483,8 @@ class SimpleHtmlLexer extends SimpleLexer {
      *                                    reference.
      *    @access public
      */
-    function __construct($parser) {
+    function __construct($parser)
+    {
         parent::__construct($parser, 'text');
         $this->mapHandler('text', 'acceptTextToken');
         $this->addSkipping();
@@ -471,7 +499,8 @@ class SimpleHtmlLexer extends SimpleLexer {
      *    @return array        List of searched for tags.
      *    @access private
      */
-    protected function getParsedTags() {
+    protected function getParsedTags()
+    {
         return array('a', 'base', 'title', 'form', 'input', 'button', 'textarea', 'select',
                 'option', 'frameset', 'frame', 'label');
     }
@@ -481,7 +510,8 @@ class SimpleHtmlLexer extends SimpleLexer {
      *    as server code, client code and styles.
      *    @access private
      */
-    protected function addSkipping() {
+    protected function addSkipping()
+    {
         $this->mapHandler('css', 'ignore');
         $this->addEntryPattern('<style', 'text', 'css');
         $this->addExitPattern('</style>', 'css');
@@ -498,7 +528,8 @@ class SimpleHtmlLexer extends SimpleLexer {
      *    @param string $tag          Name of tag to scan for.
      *    @access private
      */
-    protected function addTag($tag) {
+    protected function addTag($tag)
+    {
         $this->addSpecialPattern("</$tag>", 'text', 'acceptEndToken');
         $this->addEntryPattern("<$tag", 'text', 'tag');
     }
@@ -508,7 +539,8 @@ class SimpleHtmlLexer extends SimpleLexer {
      *    including the attributes and their quoting.
      *    @access private
      */
-    protected function addInTagTokens() {
+    protected function addInTagTokens()
+    {
         $this->mapHandler('tag', 'acceptStartToken');
         $this->addSpecialPattern('\s+', 'tag', 'ignore');
         $this->addAttributeTokens();
@@ -521,7 +553,8 @@ class SimpleHtmlLexer extends SimpleLexer {
      *    double quoted or unquoted.
      *    @access private
      */
-    protected function addAttributeTokens() {
+    protected function addAttributeTokens()
+    {
         $this->mapHandler('dq_attribute', 'acceptAttributeToken');
         $this->addEntryPattern('=\s*"', 'tag', 'dq_attribute');
         $this->addPattern("\\\\\"", 'dq_attribute');
@@ -540,7 +573,8 @@ class SimpleHtmlLexer extends SimpleLexer {
  *    @package SimpleTest
  *    @subpackage WebTester
  */
-class SimpleHtmlSaxParser {
+class SimpleHtmlSaxParser
+{
     private $lexer;
     private $listener;
     private $tag;
@@ -552,7 +586,8 @@ class SimpleHtmlSaxParser {
      *    @param SimpleSaxListener $listener    SAX event handler.
      *    @access public
      */
-    function __construct($listener) {
+    function __construct($listener)
+    {
         $this->listener = $listener;
         $this->lexer = $this->createLexer($this);
         $this->tag = '';
@@ -567,7 +602,8 @@ class SimpleHtmlSaxParser {
      *    @return boolean         False if parse error.
      *    @access public
      */
-    function parse($raw) {
+    function parse($raw)
+    {
         return $this->lexer->parse($raw);
     }
     
@@ -577,7 +613,8 @@ class SimpleHtmlSaxParser {
      *    @return SimpleLexer               Lexer suitable for this parser.
      *    @access public
      */
-    static function createLexer(&$parser) {
+    static function createLexer(&$parser)
+    {
         return new SimpleHtmlLexer($parser);
     }
     
@@ -592,15 +629,17 @@ class SimpleHtmlSaxParser {
      *    @return boolean          False if parse error.
      *    @access public
      */
-    function acceptStartToken($token, $event) {
+    function acceptStartToken($token, $event)
+    {
         if ($event == LEXER_ENTER) {
             $this->tag = strtolower(substr($token, 1));
             return true;
         }
         if ($event == LEXER_EXIT) {
             $success = $this->listener->startElement(
-                    $this->tag,
-                    $this->attributes);
+                $this->tag,
+                $this->attributes
+            );
             $this->tag = '';
             $this->attributes = array();
             return $success;
@@ -620,7 +659,8 @@ class SimpleHtmlSaxParser {
      *    @return boolean          False if parse error.
      *    @access public
      */
-    function acceptEndToken($token, $event) {
+    function acceptEndToken($token, $event)
+    {
         if (! preg_match('/<\/(.*)>/', $token, $matches)) {
             return false;
         }
@@ -634,7 +674,8 @@ class SimpleHtmlSaxParser {
      *    @return boolean          False if parse error.
      *    @access public
      */
-    function acceptAttributeToken($token, $event) {
+    function acceptAttributeToken($token, $event)
+    {
         if ($this->current_attribute) {
             if ($event == LEXER_UNMATCHED) {
                 $this->attributes[$this->current_attribute] .=
@@ -642,7 +683,7 @@ class SimpleHtmlSaxParser {
             }
             if ($event == LEXER_SPECIAL) {
                 $this->attributes[$this->current_attribute] .=
-                        preg_replace('/^=\s*/' , '', SimpleHtmlSaxParser::decodeHtml($token));
+                        preg_replace('/^=\s*/', '', SimpleHtmlSaxParser::decodeHtml($token));
             }
         }
         return true;
@@ -655,7 +696,8 @@ class SimpleHtmlSaxParser {
      *    @return boolean         False if parse error.
      *    @access public
      */
-    function acceptEntityToken($token, $event) {
+    function acceptEntityToken($token, $event)
+    {
     }
     
     /**
@@ -666,7 +708,8 @@ class SimpleHtmlSaxParser {
      *    @return boolean          False if parse error.
      *    @access public
      */
-    function acceptTextToken($token, $event) {
+    function acceptTextToken($token, $event)
+    {
         return $this->listener->addContent($token);
     }
     
@@ -677,7 +720,8 @@ class SimpleHtmlSaxParser {
      *    @return boolean          False if parse error.
      *    @access public
      */
-    function ignore($token, $event) {
+    function ignore($token, $event)
+    {
         return true;
     }
     
@@ -687,7 +731,8 @@ class SimpleHtmlSaxParser {
      *    @return string         Outgoing plain text.
      *    @access public
      */
-    static function decodeHtml($html) {
+    static function decodeHtml($html)
+    {
         return html_entity_decode($html, ENT_QUOTES);
     }
     
@@ -699,7 +744,8 @@ class SimpleHtmlSaxParser {
      *    @return string             Plain text.
      *    @access public
      */
-    static function normalise($html) {
+    static function normalise($html)
+    {
         $text = preg_replace('|<!--.*?-->|', '', $html);
         $text = preg_replace('|<script[^>]*>.*?</script>|', '', $text);
         $text = preg_replace('|<img[^>]*alt\s*=\s*"([^"]*)"[^>]*>|', ' \1 ', $text);
@@ -718,13 +764,15 @@ class SimpleHtmlSaxParser {
  *    @subpackage WebTester
  *    @abstract
  */
-class SimpleSaxListener {
+class SimpleSaxListener
+{
     
     /**
      *    Sets the document to write to.
      *    @access public
      */
-    function __construct() {
+    function __construct()
+    {
     }
     
     /**
@@ -736,7 +784,8 @@ class SimpleSaxListener {
      *    @return boolean            False on parse error.
      *    @access public
      */
-    function startElement($name, $attributes) {
+    function startElement($name, $attributes)
+    {
     }
     
     /**
@@ -745,7 +794,8 @@ class SimpleSaxListener {
      *    @return boolean            False on parse error.
      *    @access public
      */
-    function endElement($name) {
+    function endElement($name)
+    {
     }
     
     /**
@@ -754,7 +804,7 @@ class SimpleSaxListener {
      *    @return boolean            False on parse error.
      *    @access public
      */
-    function addContent($text) {
+    function addContent($text)
+    {
     }
 }
-?>

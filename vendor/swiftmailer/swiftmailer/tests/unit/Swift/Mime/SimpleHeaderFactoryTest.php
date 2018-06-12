@@ -29,9 +29,10 @@ class Swift_Mime_SimpleHeaderFactoryTest extends Swift_Tests_SwiftUnitTestCase
 
     public function testMailboxHeaderHasCorrectModel()
     {
-        $header = $this->_factory->createMailboxHeader('X-Foo',
+        $header = $this->_factory->createMailboxHeader(
+            'X-Foo',
             array('foo@bar'=>'FooBar')
-            );
+        );
         $this->assertEqual(array('foo@bar'=>'FooBar'), $header->getFieldBodyModel());
     }
 
@@ -91,9 +92,11 @@ class Swift_Mime_SimpleHeaderFactoryTest extends Swift_Tests_SwiftUnitTestCase
 
     public function testParameterizedHeaderHasCorrectParams()
     {
-        $header = $this->_factory->createParameterizedHeader('X-Foo', 'bar',
+        $header = $this->_factory->createParameterizedHeader(
+            'X-Foo',
+            'bar',
             array('zip' => 'button')
-            );
+        );
         $this->assertEqual(array('zip'=>'button'), $header->getParameters());
     }
 
@@ -144,8 +147,7 @@ class Swift_Mime_SimpleHeaderFactoryTest extends Swift_Tests_SwiftUnitTestCase
             -> one($encoder)->charsetChanged('utf-8')
             -> one($paramEncoder)->charsetChanged('utf-8')
             -> ignoring($encoder)
-            -> ignoring($paramEncoder)
-            );
+            -> ignoring($paramEncoder));
 
         $factory->charsetChanged('utf-8');
     }
@@ -160,7 +162,7 @@ class Swift_Mime_SimpleHeaderFactoryTest extends Swift_Tests_SwiftUnitTestCase
             $paramEncoder
                 ? $paramEncoder : $this->_createParamEncoder(),
             new Swift_Mime_Grammar()
-            );
+        );
     }
 
     private function _createHeaderEncoder($stub = true)

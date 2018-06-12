@@ -5,8 +5,7 @@ require_once 'Swift/Transport/StreamBuffer.php';
 require_once 'Swift/ReplacementFilterFactory.php';
 require_once 'Swift/InputByteStream.php';
 
-abstract class Swift_Transport_StreamBuffer_AbstractStreamBufferAcceptanceTest
-    extends Swift_Tests_SwiftUnitTestCase
+abstract class Swift_Transport_StreamBuffer_AbstractStreamBufferAcceptanceTest extends Swift_Tests_SwiftUnitTestCase
 {
     protected $_buffer;
 
@@ -14,17 +13,18 @@ abstract class Swift_Transport_StreamBuffer_AbstractStreamBufferAcceptanceTest
 
     public function skip()
     {
-        $this->skipUnless(false == getenv('TRAVIS'),
+        $this->skipUnless(
+            false == getenv('TRAVIS'),
             'Will fail on travis-ci if not skipped due to travis blocking ' .
             'socket mailing tcp connections.'
-            );
+        );
     }
 
     public function setUp()
     {
         $this->_buffer = new Swift_Transport_StreamBuffer(
             $this->_stub('Swift_ReplacementFilterFactory')
-            );
+        );
     }
 
     public function testReadLine()
@@ -70,8 +70,7 @@ abstract class Swift_Transport_StreamBuffer_AbstractStreamBufferAcceptanceTest
             -> one($is1)->write('x')
             -> one($is2)->write('x')
             -> one($is1)->write('y')
-            -> one($is2)->write('y')
-        );
+            -> one($is2)->write('y'));
 
         $this->_buffer->bind($is1);
         $this->_buffer->bind($is2);
@@ -89,8 +88,7 @@ abstract class Swift_Transport_StreamBuffer_AbstractStreamBufferAcceptanceTest
 
         $this->_checking(Expectations::create()
             -> one($is1)->flushBuffers()
-            -> one($is2)->flushBuffers()
-        );
+            -> one($is2)->flushBuffers());
 
         $this->_buffer->bind($is1);
         $this->_buffer->bind($is2);
@@ -108,8 +106,7 @@ abstract class Swift_Transport_StreamBuffer_AbstractStreamBufferAcceptanceTest
         $this->_checking(Expectations::create()
             -> one($is1)->write('x')
             -> one($is2)->write('x')
-            -> one($is1)->write('y')
-        );
+            -> one($is1)->write('y'));
 
         $this->_buffer->bind($is1);
         $this->_buffer->bind($is2);

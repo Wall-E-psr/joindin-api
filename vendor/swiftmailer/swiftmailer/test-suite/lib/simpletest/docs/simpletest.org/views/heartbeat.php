@@ -6,15 +6,18 @@ $log_directory = dirname(__FILE__)."/../logs";
 $heartbeat = new SimpleHeartBeat($log_directory);
 echo $heartbeat->view($_SERVER['QUERY_STRING']);
 
-class SimpleHeartBeat {
+class SimpleHeartBeat
+{
     public $log_directory;
     public $tests_directory;
     
-    function __construct($log_directory) {
+    function __construct($log_directory)
+    {
         $this->log_directory = $log_directory;
     }
     
-    function view($querystring) {
+    function view($querystring)
+    {
         switch ($querystring) {
             case "last-commits":
                 return $this->displayLastCommits();
@@ -26,8 +29,9 @@ class SimpleHeartBeat {
         }
     }
 
-    function displayTestsResults() {
-        foreach(new DirectoryIterator($this->log_directory) as $node) {
+    function displayTestsResults()
+    {
+        foreach (new DirectoryIterator($this->log_directory) as $node) {
             if (preg_match("/simpletest\..*\.log/", $node->getFilename())) {
                 $log = new SimpleHeartBeatLog($node);
                 if (!isset($html)) {
@@ -46,7 +50,8 @@ class SimpleHeartBeat {
         return $html;
     }
     
-    function displayLastCommits($number=5) {
+    function displayLastCommits($number = 5)
+    {
         $entries = array();
         $xml = simplexml_load_file($this->log_directory."/svn.xml");
         foreach ($xml->logentry as $logentry) {
@@ -58,18 +63,18 @@ class SimpleHeartBeat {
         if (count($entries) > 0) {
             $html = "<dl>";
             krsort($entries);
-	        $i = 0;
-	        foreach($entries as $entry) {
-	            if ($i < $number) {
-	                $i++;
-	                $html .= "<dt>".$entry['dt']."</dt>";
-	                $html .= "<dd>".$entry['dd']."</dd>";
-	            } else {
-	                break;
-	            }
-	        }
-	
-	        $html .= "</dl>";
+            $i = 0;
+            foreach ($entries as $entry) {
+                if ($i < $number) {
+                    $i++;
+                    $html .= "<dt>".$entry['dt']."</dt>";
+                    $html .= "<dd>".$entry['dd']."</dd>";
+                } else {
+                    break;
+                }
+            }
+    
+            $html .= "</dl>";
         } else {
             $html = $this->dataUnavailable();
         }
@@ -77,17 +82,18 @@ class SimpleHeartBeat {
         return $html;
     }
     
-    function displaySparkline($name="commits last week") {
+    function displaySparkline($name = "commits last week")
+    {
         $method = $this->findMethod($name);
         $data = $this->$method();
 
         if (is_array($data)) {
-	        $html = "<div>";
-	        $html .= "<span class=\"sparkline\">";
-	        $html .= join(",", $data);
-	        $html .= "</span>";
-	        $html .= " ".array_pop($data)." ".$name;
-	        $html .= "</div>";
+            $html = "<div>";
+            $html .= "<span class=\"sparkline\">";
+            $html .= join(",", $data);
+            $html .= "</span>";
+            $html .= " ".array_pop($data)." ".$name;
+            $html .= "</div>";
         } else {
             $html = $this->dataUnavailable();
         }
@@ -95,17 +101,20 @@ class SimpleHeartBeat {
         return $html;
     }
     
-    function dataUnavailable() {
+    function dataUnavailable()
+    {
         return "<div><em>data unavailable</em></div>";
     }
-    function findMethod($name) {
+    function findMethod($name)
+    {
         switch ($name) {
             default:
                 return "commitsPerWeek";
         }
     }
     
-    function commitsPerWeek() {
+    function commitsPerWeek()
+    {
         $data = array();
         $xml = simplexml_load_file($this->log_directory."/svn.xml");
         foreach ($xml->logentry as $logentry) {
@@ -122,7 +131,8 @@ class SimpleHeartBeat {
         return $data;
     }
     
-    function normalizeData($data, $period="week") {
+    function normalizeData($data, $period = "week")
+    {
         $min = min(array_keys($data));
         $max = max(array_keys($data));
         
@@ -141,28 +151,33 @@ class SimpleHeartBeat {
     }
 }
 
-class SimpleHeartBeatLog {
+class SimpleHeartBeatLog
+{
     public $node;
     public $content = "";
     
-    function __construct($node) {
+    function __construct($node)
+    {
         $this->node = $node;
         $this->content = file_get_contents($this->node->getPathname());
     }
 
-    function result() {
+    function result()
+    {
         if (preg_match("/OK/", $this->content)) {
-            return "pass"; 
+            return "pass";
         } else {
             return "fail";
         }
     }
 
-    function info() {
+    function info()
+    {
         return nl2br($this->content);
     }
     
-    function details() {
+    function details()
+    {
         $details = substr($this->node->getFilename(), 11);
         $details = $this->result(). " with ".substr($details, 0, -4);
         $details .= " - ".date("c", $this->node->getCTime());
@@ -170,5 +185,3 @@ class SimpleHeartBeatLog {
         return "<div class=\"".$this->result()."\">".$details."</div>";
     }
 }
-
-?>

@@ -97,7 +97,7 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
                 throw new Swift_SwiftException(
                     'Invalid mode [' . $mode . '] used to set nsKey='.
                     $nsKey . ', itemKey=' . $itemKey
-                    );
+                );
                 break;
         }
         fwrite($fp, $string);
@@ -130,7 +130,7 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
                 throw new Swift_SwiftException(
                     'Invalid mode [' . $mode . '] used to set nsKey='.
                     $nsKey . ', itemKey=' . $itemKey
-                    );
+                );
                 break;
         }
         while (false !== $bytes = $os->read(8192)) {
@@ -253,7 +253,7 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
     public function clearAll($nsKey)
     {
         if (array_key_exists($nsKey, $this->_keys)) {
-            foreach ($this->_keys[$nsKey] as $itemKey=>$null) {
+            foreach ($this->_keys[$nsKey] as $itemKey => $null) {
                 $this->clearKey($nsKey, $itemKey);
             }
             if (is_dir($this->_path . '/' . $nsKey)) {
@@ -321,7 +321,7 @@ class Swift_KeyCache_DiskKeyCache implements Swift_KeyCache
      */
     public function __destruct()
     {
-        foreach ($this->_keys as $nsKey=>$null) {
+        foreach ($this->_keys as $nsKey => $null) {
             $this->clearAll($nsKey);
         }
     }

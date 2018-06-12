@@ -45,9 +45,9 @@ EOD;
 /*---------------------------------------------------------------------------*/
 // Modify the maintainers are required
 $maintainers = array (
-	array ('handle'=>'lastcraft','role'=>'lead','name'=>'Marcus Baker', 'email'=>'marcus@lastcraft.com'),
-	array ('handle'=>'jsweat','role'=>'helper','name'=>'Jason Sweat', 'email'=>'jsweat_php@yahoo.com'),
-	array ('handle'=>'hfuecks','role'=>'helper','name'=>'Harry Fuecks', 'email'=>'hfuecks@phppatterns.com'),
+    array ('handle'=>'lastcraft','role'=>'lead','name'=>'Marcus Baker', 'email'=>'marcus@lastcraft.com'),
+    array ('handle'=>'jsweat','role'=>'helper','name'=>'Jason Sweat', 'email'=>'jsweat_php@yahoo.com'),
+    array ('handle'=>'hfuecks','role'=>'helper','name'=>'Harry Fuecks', 'email'=>'hfuecks@phppatterns.com'),
 );
 /*---------------------------------------------------------------------------*/
 
@@ -62,7 +62,8 @@ if (version_compare(phpversion(), '4.3.0', '<') ||
     define('STDOUT', fopen('php://stdout', 'w'));
     define('STDERR', fopen('php://stderr', 'w'));
     register_shutdown_function(
-        create_function('', 'fclose(STDOUT); fclose(STDERR); return true;'));
+        create_function('', 'fclose(STDOUT); fclose(STDERR); return true;')
+    );
 }
 
 /**
@@ -70,65 +71,66 @@ if (version_compare(phpversion(), '4.3.0', '<') ||
 * http://pear.php.net/manual/en/developers.packagedef.php
 */
 $options = array(
-	'baseinstalldir' => 'simpletest',
-	'version' => $version,
-	'packagedirectory' => $packagedir,
-	'outputdirectory' => $packagedir,
-	'pathtopackagefile' => $packagedir, 
-	'state' => $state,
-	'summary' => $shortDesc,
-	'description' => $longDesc,
-	'filelistgenerator' => 'file',
-	'notes' => $releaseNotes,
-	'package' => 'SimpleTest',
-	'license' => 'The Open Group Test Suite License',
+    'baseinstalldir' => 'simpletest',
+    'version' => $version,
+    'packagedirectory' => $packagedir,
+    'outputdirectory' => $packagedir,
+    'pathtopackagefile' => $packagedir,
+    'state' => $state,
+    'summary' => $shortDesc,
+    'description' => $longDesc,
+    'filelistgenerator' => 'file',
+    'notes' => $releaseNotes,
+    'package' => 'SimpleTest',
+    'license' => 'The Open Group Test Suite License',
 
-	'dir_roles' => array(
-		'docs' => 'doc',
-		'test' => 'test',
-		'extensions' => 'php',
-		//'tutorials' => 'doc',
-		//'tutorials/SimpleTest' => 'doc',
-		//'ui' => 'php',
-		//'ui/css' => 'data',
-		//'ui/img' => 'data',
-		//'ui/js' => 'data',
-		//'ui/js/tests' => 'test',
-		),
-	'exceptions' =>
-		array(
-			'HELP_MY_TESTS_DONT_WORK_ANYMORE' => 'doc',
-			'LICENSE' => 'doc',
-			'README' => 'doc',
-			'TODO' => 'doc',
-			'VERSION' => 'doc',
-		),
-	'ignore' => 
-		array(
-			"$packagedir/packages",
-			"$packagedir/ui",
-			),
-	);
+    'dir_roles' => array(
+        'docs' => 'doc',
+        'test' => 'test',
+        'extensions' => 'php',
+        //'tutorials' => 'doc',
+        //'tutorials/SimpleTest' => 'doc',
+        //'ui' => 'php',
+        //'ui/css' => 'data',
+        //'ui/img' => 'data',
+        //'ui/js' => 'data',
+        //'ui/js/tests' => 'test',
+        ),
+    'exceptions' =>
+        array(
+            'HELP_MY_TESTS_DONT_WORK_ANYMORE' => 'doc',
+            'LICENSE' => 'doc',
+            'README' => 'doc',
+            'TODO' => 'doc',
+            'VERSION' => 'doc',
+        ),
+    'ignore' =>
+        array(
+            "$packagedir/packages",
+            "$packagedir/ui",
+            ),
+    );
 
 $status = $PPFM->setOptions($options);
 
 if (PEAR::isError($status)) {
-    fwrite (STDERR,$status->getMessage());
+    fwrite(STDERR, $status->getMessage());
     exit;
 }
 
-foreach ( $maintainers as $maintainer ) {
-	$PPFM->addMaintainer(
-		$maintainer['handle'],
-		$maintainer['role'],
-		$maintainer['name'],
-		$maintainer['email'] );
+foreach ($maintainers as $maintainer) {
+    $PPFM->addMaintainer(
+        $maintainer['handle'],
+        $maintainer['role'],
+        $maintainer['name'],
+        $maintainer['email']
+    );
 }
 
 // Adds a dependency of PHP 4.2.3+
 $status = $PPFM->addDependency('php', '4.2.3', 'ge', 'php');
 if (PEAR::isError($status)) {
-    fwrite (STDERR,$status->getMessage());
+    fwrite(STDERR, $status->getMessage());
     exit;
 }
 
@@ -153,18 +155,18 @@ $output = ob_get_contents();
 ob_end_clean();
 
 // Hacks to handle PPFM output
-$start = strpos ($output,"<?xml");
-if ( $start != 0 ) {
-	$errors = substr($output,0,($start-1));
-	$output = substr($output,$start);
-	$errors = explode("\n",$errors);
-	foreach ( $errors as $error ) {
-		fwrite (STDERR,$error."\n");
-	}
+$start = strpos($output, "<?xml");
+if ($start != 0) {
+    $errors = substr($output, 0, ($start-1));
+    $output = substr($output, $start);
+    $errors = explode("\n", $errors);
+    foreach ($errors as $error) {
+        fwrite(STDERR, $error."\n");
+    }
 }
-fwrite(STDOUT,$output);
+fwrite(STDOUT, $output);
 
 if (PEAR::isError($status)) {
-	fwrite (STDERR,$status->getMessage());
+    fwrite(STDERR, $status->getMessage());
 }
 ?>

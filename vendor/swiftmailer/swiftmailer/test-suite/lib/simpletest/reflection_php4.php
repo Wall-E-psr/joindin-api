@@ -12,7 +12,8 @@
  *  @subpackage UnitTester
  *  @ignore duplicate with reflection_php5.php
  */
-class SimpleReflection {
+class SimpleReflection
+{
     var $_interface;
 
     /**
@@ -20,7 +21,8 @@ class SimpleReflection {
      *    @param string $interface    Class or interface
      *                                to inspect.
      */
-    function SimpleReflection($interface) {
+    function SimpleReflection($interface)
+    {
         $this->_interface = $interface;
     }
 
@@ -29,7 +31,8 @@ class SimpleReflection {
      *    @return boolean        True if defined.
      *    @access public
      */
-    function classExists() {
+    function classExists()
+    {
         return class_exists($this->_interface);
     }
 
@@ -39,7 +42,8 @@ class SimpleReflection {
      *    @return boolean        True if defined.
      *    @access public
      */
-    function classExistsSansAutoload() {
+    function classExistsSansAutoload()
+    {
         return class_exists($this->_interface);
     }
 
@@ -49,7 +53,8 @@ class SimpleReflection {
      *    @return boolean        True if defined.
      *    @access public
      */
-    function classOrInterfaceExists() {
+    function classOrInterfaceExists()
+    {
         return class_exists($this->_interface);
     }
 
@@ -59,7 +64,8 @@ class SimpleReflection {
      *    @return boolean        True if defined.
      *    @access public
      */
-    function classOrInterfaceExistsSansAutoload() {
+    function classOrInterfaceExistsSansAutoload()
+    {
         return class_exists($this->_interface);
     }
 
@@ -69,7 +75,8 @@ class SimpleReflection {
      *    @returns array          List of method names.
      *    @access public
      */
-    function getMethods() {
+    function getMethods()
+    {
         return get_class_methods($this->_interface);
     }
 
@@ -80,7 +87,8 @@ class SimpleReflection {
      *    @returns array          List of interfaces.
      *    @access public
      */
-    function getInterfaces() {
+    function getInterfaces()
+    {
         return array();
     }
 
@@ -89,7 +97,8 @@ class SimpleReflection {
      *    @returns string      Parent class name.
      *    @access public
      */
-    function getParent() {
+    function getParent()
+    {
         return strtolower(get_parent_class($this->_interface));
     }
 
@@ -99,7 +108,8 @@ class SimpleReflection {
      *    @returns boolean      True if abstract.
      *    @access public
      */
-    function isAbstract() {
+    function isAbstract()
+    {
         return false;
     }
 
@@ -109,7 +119,8 @@ class SimpleReflection {
      *    @returns boolean      True if interface.
      *    @access public
      */
-    function isInterface() {
+    function isInterface()
+    {
         return false;
     }
         
@@ -119,7 +130,8 @@ class SimpleReflection {
      *    @returns boolean   True if the class has a final method.
      *    @access public
      */
-    function hasFinal() {
+    function hasFinal()
+    {
         return false;
     }
 
@@ -129,8 +141,8 @@ class SimpleReflection {
      *    @param string $method       Method name.
      *    @access public
      */
-    function getSignature($method) {
+    function getSignature($method)
+    {
         return "function &$method()";
     }
 }
-?>

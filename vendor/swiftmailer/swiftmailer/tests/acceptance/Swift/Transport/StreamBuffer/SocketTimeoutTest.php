@@ -6,8 +6,7 @@ require_once 'Swift/ReplacementFilterFactory.php';
 require_once 'Swift/InputByteStream.php';
 require_once 'Swift/IoException.php';
 
-class Swift_Transport_StreamBuffer_SocketTimeoutTest
-    extends Swift_Tests_SwiftUnitTestCase
+class Swift_Transport_StreamBuffer_SocketTimeoutTest extends Swift_Tests_SwiftUnitTestCase
 {
     protected $_buffer;
 
@@ -17,23 +16,24 @@ class Swift_Transport_StreamBuffer_SocketTimeoutTest
     {
         $this->_buffer = new Swift_Transport_StreamBuffer(
             $this->_stub('Swift_ReplacementFilterFactory')
-            );
+        );
     }
 
     public function skip()
     {
         $serverStarted=false;
         for ($i=0; $i<5; ++$i) {
-            $this->_randomHighPort=rand(50000,65000);
+            $this->_randomHighPort=rand(50000, 65000);
             $this->_server = stream_socket_server('tcp://127.0.0.1:' . $this->_randomHighPort);
             if ($this->_server) {
                 $serverStarted=true;
             }
         }
-        $this->skipUnless(SWIFT_SMTP_HOST,
+        $this->skipUnless(
+            SWIFT_SMTP_HOST,
             'Cannot run test without an SMTP host to connect to (define ' .
             'SWIFT_SMTP_HOST in tests/acceptance.conf.php if you wish to run this test)'
-            );
+        );
         parent::skip();
     }
 

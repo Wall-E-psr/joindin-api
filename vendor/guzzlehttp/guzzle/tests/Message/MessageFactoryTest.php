@@ -128,7 +128,9 @@ class MessageFactoryTest extends \PHPUnit_Framework_TestCase
     public function testOptionsAddsRequestOptions()
     {
         $request = (new MessageFactory())->createRequest(
-            'GET', 'http://test.com', ['config' => ['baz' => 'bar']]
+            'GET',
+            'http://test.com',
+            ['config' => ['baz' => 'bar']]
         );
         $this->assertEquals('bar', $request->getConfig()->get('baz'));
     }
@@ -283,7 +285,9 @@ class MessageFactoryTest extends \PHPUnit_Framework_TestCase
         $client->getEmitter()->attach(new Mock([new Response(200)]));
         $client->get('http://test.com', [
             'events' => [
-                'before' => function () use (&$foo) { $foo = true; }
+                'before' => function () use (&$foo) {
+                    $foo = true;
+                }
             ]
         ]);
         $this->assertTrue($foo);
@@ -297,7 +301,9 @@ class MessageFactoryTest extends \PHPUnit_Framework_TestCase
         $request = $client->createRequest('GET', 'http://test.com', [
             'events' => [
                 'before' => [
-                    'fn' => function () use (&$foo) { $foo = true; },
+                    'fn' => function () use (&$foo) {
+                        $foo = true;
+                    },
                     'priority' => 123
                 ]
             ]
@@ -316,7 +322,9 @@ class MessageFactoryTest extends \PHPUnit_Framework_TestCase
             new Response(200),
             new Response(200),
         ]));
-        $fn = function () use (&$foo) { ++$foo; };
+        $fn = function () use (&$foo) {
+            ++$foo;
+        };
         $request = $client->createRequest('GET', 'http://test.com', [
             'events' => ['before' => ['fn' => $fn, 'once' => true]]
         ]);
@@ -427,7 +435,9 @@ class MessageFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function inputValidation()
     {
-        return array_map(function ($option) { return array($option); }, array(
+        return array_map(function ($option) {
+            return array($option);
+        }, array(
             'headers', 'events', 'subscribers', 'params'
         ));
     }
@@ -593,5 +603,7 @@ class MessageFactoryTest extends \PHPUnit_Framework_TestCase
 
 class ExtendedFactory extends MessageFactory
 {
-    protected function add_foo() {}
+    protected function add_foo()
+    {
+    }
 }

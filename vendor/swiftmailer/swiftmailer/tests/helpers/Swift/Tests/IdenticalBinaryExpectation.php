@@ -73,7 +73,7 @@ class Swift_Tests_IdenticalBinaryExpectation extends SimpleExpectation
                 $this->_dumper->describeDifference(
                     $this->asHexString($this->_left),
                     $this->asHexString($right)
-                    );
+                );
         }
     }
 }

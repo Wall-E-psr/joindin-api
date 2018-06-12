@@ -130,7 +130,7 @@ class Swift_Transport_MailTransport implements Swift_Transport
         if (!$toHeader) {
             throw new Swift_TransportException(
                 'Cannot send message without a recipient'
-                );
+            );
         }
         $to = $toHeader->getFieldBody();
         $subject = $subjectHeader ? $subjectHeader->getFieldBody() : '';
@@ -167,9 +167,13 @@ class Swift_Transport_MailTransport implements Swift_Transport
             $body = str_replace("\r\n.", "\r\n..", $body);
         }
 
-        if ($this->_invoker->mail($to, $subject, $body, $headers,
-            sprintf($this->_extraParams, $reversePath)))
-        {
+        if ($this->_invoker->mail(
+            $to,
+            $subject,
+            $body,
+            $headers,
+            sprintf($this->_extraParams, $reversePath)
+        )) {
             if ($evt) {
                 $evt->setResult(Swift_Events_SendEvent::RESULT_SUCCESS);
                 $evt->setFailedRecipients($failedRecipients);
@@ -181,7 +185,7 @@ class Swift_Transport_MailTransport implements Swift_Transport
                 array_keys((array) $message->getTo()),
                 array_keys((array) $message->getCc()),
                 array_keys((array) $message->getBcc())
-                );
+            );
 
             if ($evt) {
                 $evt->setResult(Swift_Events_SendEvent::RESULT_FAILED);

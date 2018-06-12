@@ -20,8 +20,7 @@ class Swift_MailerTest extends Swift_Tests_SwiftUnitTestCase
             -> allowing($transport)->isStarted() -> returns(false) -> when($con->is('on'))
             -> one($transport)->start() -> when($con->is('off')) -> then($con->is('on'))
             -> ignoring($transport)
-            -> ignoring($message)
-            );
+            -> ignoring($message));
 
         $mailer = $this->_createMailer($transport);
         $mailer->send($message);
@@ -37,8 +36,7 @@ class Swift_MailerTest extends Swift_Tests_SwiftUnitTestCase
             -> allowing($transport)->isStarted() -> returns(false) -> when($con->is('on'))
             -> one($transport)->start() -> when($con->is('off')) -> then($con->is('on'))
             -> ignoring($transport)
-            -> ignoring($message)
-            );
+            -> ignoring($message));
         $mailer = $this->_createMailer($transport);
         for ($i = 0; $i < 10; ++$i) {
             $mailer->send($message);
@@ -52,8 +50,7 @@ class Swift_MailerTest extends Swift_Tests_SwiftUnitTestCase
         $this->_checking(Expectations::create()
             -> one($transport)->send($message, optional())
             -> ignoring($transport)
-            -> ignoring($message)
-            );
+            -> ignoring($message));
 
         $mailer = $this->_createMailer($transport);
         $mailer->send($message);
@@ -66,8 +63,7 @@ class Swift_MailerTest extends Swift_Tests_SwiftUnitTestCase
         $this->_checking(Expectations::create()
             -> one($transport)->send($message, optional()) -> returns(57)
             -> ignoring($transport)
-            -> ignoring($message)
-            );
+            -> ignoring($message));
 
         $mailer = $this->_createMailer($transport);
         $this->assertEqual(57, $mailer->send($message));
@@ -82,8 +78,7 @@ class Swift_MailerTest extends Swift_Tests_SwiftUnitTestCase
         $this->_checking(Expectations::create()
             -> one($transport)->send($message, reference($failures))
             -> ignoring($transport)
-            -> ignoring($message)
-            );
+            -> ignoring($message));
 
         $mailer = $this->_createMailer($transport);
         $mailer->send($message, $failures);
@@ -100,8 +95,7 @@ class Swift_MailerTest extends Swift_Tests_SwiftUnitTestCase
             -> allowing($message)->getTo() -> returns(array('foo&invalid' => 'Foo', 'bar@valid.tld' => 'Bar'))
             -> one($transport)->send($message, reference($failures)) -> throws($rfcException)
             -> ignoring($transport)
-            -> ignoring($message)
-            );
+            -> ignoring($message));
 
         $mailer = $this->_createMailer($transport);
         $this->assertEqual(0, $mailer->send($message, $failures), '%s: Should return 0');
@@ -115,8 +109,7 @@ class Swift_MailerTest extends Swift_Tests_SwiftUnitTestCase
         $mailer = $this->_createMailer($transport);
 
         $this->_checking(Expectations::create()
-            -> one($transport)->registerPlugin($plugin)
-            );
+            -> one($transport)->registerPlugin($plugin));
         $mailer->registerPlugin($plugin);
     }
 

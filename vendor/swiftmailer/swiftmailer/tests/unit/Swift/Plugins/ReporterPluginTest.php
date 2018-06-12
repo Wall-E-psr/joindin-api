@@ -20,8 +20,7 @@ class Swift_Plugins_ReporterPluginTest extends Swift_Tests_SwiftUnitTestCase
             -> allowing($evt)->getFailedRecipients() -> returns(array())
             -> one($reporter)->notify($message, 'foo@bar.tld', Swift_Plugins_Reporter::RESULT_PASS)
             -> ignoring($message)
-            -> ignoring($evt)
-            );
+            -> ignoring($evt));
 
         $plugin = new Swift_Plugins_ReporterPlugin($reporter);
         $plugin->sendPerformed($evt);
@@ -42,8 +41,7 @@ class Swift_Plugins_ReporterPluginTest extends Swift_Tests_SwiftUnitTestCase
             -> one($reporter)->notify($message, 'foo@bar.tld', Swift_Plugins_Reporter::RESULT_PASS)
             -> one($reporter)->notify($message, 'zip@button', Swift_Plugins_Reporter::RESULT_FAIL)
             -> ignoring($message)
-            -> ignoring($evt)
-            );
+            -> ignoring($evt));
 
         $plugin = new Swift_Plugins_ReporterPlugin($reporter);
         $plugin->sendPerformed($evt);
@@ -68,8 +66,7 @@ class Swift_Plugins_ReporterPluginTest extends Swift_Tests_SwiftUnitTestCase
             -> one($reporter)->notify($message, 'zip@button', Swift_Plugins_Reporter::RESULT_FAIL)
             -> one($reporter)->notify($message, 'test@test.com', Swift_Plugins_Reporter::RESULT_PASS)
             -> ignoring($message)
-            -> ignoring($evt)
-            );
+            -> ignoring($evt));
 
         $plugin = new Swift_Plugins_ReporterPlugin($reporter);
         $plugin->sendPerformed($evt);
@@ -94,8 +91,7 @@ class Swift_Plugins_ReporterPluginTest extends Swift_Tests_SwiftUnitTestCase
             -> one($reporter)->notify($message, 'zip@button', Swift_Plugins_Reporter::RESULT_FAIL)
             -> one($reporter)->notify($message, 'test@test.com', Swift_Plugins_Reporter::RESULT_PASS)
             -> ignoring($message)
-            -> ignoring($evt)
-            );
+            -> ignoring($evt));
 
         $plugin = new Swift_Plugins_ReporterPlugin($reporter);
         $plugin->sendPerformed($evt);

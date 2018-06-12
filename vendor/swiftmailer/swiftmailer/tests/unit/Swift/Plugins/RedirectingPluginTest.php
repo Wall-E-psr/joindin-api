@@ -105,8 +105,7 @@ class Swift_Plugins_RedirectingPluginTest extends Swift_Tests_SwiftUnitTestCase
         $evt = $this->_mock('Swift_Events_SendEvent');
         $this->_checking(Expectations::create()
             -> ignoring($evt)->getMessage() -> returns($message)
-            -> ignoring($evt)
-            );
+            -> ignoring($evt));
 
         return $evt;
     }

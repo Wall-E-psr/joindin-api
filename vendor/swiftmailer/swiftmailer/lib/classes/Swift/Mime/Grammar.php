@@ -134,7 +134,7 @@ class Swift_Mime_Grammar
         } else {
             throw new Swift_RfcComplianceException(
                 "No such grammar '" . $name . "' defined."
-                );
+            );
         }
     }
 

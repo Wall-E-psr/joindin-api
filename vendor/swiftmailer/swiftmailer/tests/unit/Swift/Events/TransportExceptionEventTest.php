@@ -13,9 +13,11 @@ class Swift_Events_TransportExceptionEventTest extends Swift_Tests_SwiftUnitTest
         $transport = $this->_createTransport();
         $evt = $this->_createEvent($transport, $ex);
         $ref = $evt->getException();
-        $this->assertReference($ex, $ref,
+        $this->assertReference(
+            $ex,
+            $ref,
             '%s: Exception should be available via getException()'
-            );
+        );
     }
 
     public function testSourceIsTransport()
@@ -24,16 +26,19 @@ class Swift_Events_TransportExceptionEventTest extends Swift_Tests_SwiftUnitTest
         $transport = $this->_createTransport();
         $evt = $this->_createEvent($transport, $ex);
         $ref = $evt->getSource();
-        $this->assertReference($transport, $ref,
+        $this->assertReference(
+            $transport,
+            $ref,
             '%s: Transport should be available via getSource()'
-            );
+        );
     }
 
     // -- Creation Methods
 
-    private function _createEvent(Swift_Transport $transport,
-        Swift_TransportException $ex)
-    {
+    private function _createEvent(
+        Swift_Transport $transport,
+        Swift_TransportException $ex
+    ) {
         return new Swift_Events_TransportExceptionEvent($transport, $ex);
     }
 

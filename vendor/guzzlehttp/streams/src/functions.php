@@ -9,7 +9,6 @@
 namespace GuzzleHttp\Stream;
 
 if (!defined('GUZZLE_STREAMS_FUNCTIONS')) {
-
     define('GUZZLE_STREAMS_FUNCTIONS', true);
 
     /**

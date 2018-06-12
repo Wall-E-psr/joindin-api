@@ -12,15 +12,14 @@ class Swift_Plugins_DecoratorPluginTest extends Swift_Tests_SwiftUnitTestCase
             array('chris.corbyn@swiftmailer.org' => 'Chris'),
             'Subject',
             'Hello {name}, you are customer #{id}'
-            );
+        );
         $this->_checking(Expectations::create()
             -> one($message)->setBody('Hello Zip, you are customer #456')
-            -> ignoring($message)
-            );
+            -> ignoring($message));
 
         $plugin = $this->_createPlugin(
             array('zip@button.tld' => array('{name}' => 'Zip', '{id}' => '456'))
-            );
+        );
 
         $evt = $this->_createSendEvent($message);
 
@@ -36,20 +35,19 @@ class Swift_Plugins_DecoratorPluginTest extends Swift_Tests_SwiftUnitTestCase
             array('chris.corbyn@swiftmailer.org' => 'Chris'),
             'Subject',
             'Hello {name}, you are customer #{id}'
-            );
+        );
         $this->_checking(Expectations::create()
             -> one($message)->setBody('Hello Zip, you are customer #456')
             -> one($message)->setBody('Hello {name}, you are customer #{id}')
             -> one($message)->setBody('Hello Foo, you are customer #123')
-            -> ignoring($message)
-            );
+            -> ignoring($message));
 
         $plugin = $this->_createPlugin(
             array(
                 'foo@bar.tld' => array('{name}' => 'Foo', '{id}' => '123'),
                 'zip@button.tld' => array('{name}' => 'Zip', '{id}' => '456')
                 )
-            );
+        );
 
         $evt = $this->_createSendEvent($message);
 
@@ -72,19 +70,18 @@ class Swift_Plugins_DecoratorPluginTest extends Swift_Tests_SwiftUnitTestCase
             array('chris.corbyn@swiftmailer.org' => 'Chris'),
             'A message for {name}!',
             'Hello {name}, you are customer #{id}'
-            );
+        );
         $this->_checking(Expectations::create()
             -> one($message)->setBody('Hello Zip, you are customer #456')
             -> one($toHeader)->setFieldBodyModel('A message for Zip!')
             -> one($returnPathHeader)->setFieldBodyModel('foo-456@swiftmailer.org')
             -> ignoring($message)
             -> ignoring($toHeader)
-            -> ignoring($returnPathHeader)
-            );
+            -> ignoring($returnPathHeader));
 
         $plugin = $this->_createPlugin(
             array('zip@button.tld' => array('{name}' => 'Zip', '{id}' => '456'))
-            );
+        );
 
         $evt = $this->_createSendEvent($message);
 
@@ -102,19 +99,18 @@ class Swift_Plugins_DecoratorPluginTest extends Swift_Tests_SwiftUnitTestCase
             array('chris.corbyn@swiftmailer.org' => 'Chris'),
             'A message for {name}!',
             'Subject'
-            );
+        );
         $this->_checking(Expectations::create()
             -> ignoring($message)->getChildren() -> returns(array($part1, $part2))
             -> one($part1)->setBody('Your name is Zip?')
             -> one($part2)->setBody('Your <em>name</em> is Zip?')
             -> ignoring($part1)
             -> ignoring($part2)
-            -> ignoring($message)
-            );
+            -> ignoring($message));
 
         $plugin = $this->_createPlugin(
             array('zip@button.tld' => array('{name}' => 'Zip', '{id}' => '456'))
-            );
+        );
 
         $evt = $this->_createSendEvent($message);
 
@@ -130,7 +126,7 @@ class Swift_Plugins_DecoratorPluginTest extends Swift_Tests_SwiftUnitTestCase
             array('chris.corbyn@swiftmailer.org' => 'Chris'),
             'Subject',
             'Something {a}'
-            );
+        );
 
         $replacements = $this->_createReplacements();
 
@@ -139,8 +135,7 @@ class Swift_Plugins_DecoratorPluginTest extends Swift_Tests_SwiftUnitTestCase
             -> one($message)->setBody('Something c')
             -> one($replacements)->getReplacementsFor('foo@bar') -> returns(array('{a}'=>'b'))
             -> one($replacements)->getReplacementsFor('zip@zap') -> returns(array('{a}'=>'c'))
-            -> ignoring($message)
-            );
+            -> ignoring($message));
 
         $plugin = $this->_createPlugin($replacements);
 
@@ -154,21 +149,23 @@ class Swift_Plugins_DecoratorPluginTest extends Swift_Tests_SwiftUnitTestCase
 
     // -- Creation methods
 
-    private function _createMessage($headers, $to = array(), $from = null, $subject = null,
-        $body = null)
-    {
+    private function _createMessage(
+        $headers,
+        $to = array(),
+        $from = null,
+        $subject = null,
+        $body = null
+    ) {
         $message = $this->_mock('Swift_Mime_Message');
         foreach ($to as $addr => $name) {
             $this->_checking(Expectations::create()
-                -> one($message)->getTo() -> returns(array($addr => $name))
-                );
+                -> one($message)->getTo() -> returns(array($addr => $name)));
         }
         $this->_checking(Expectations::create()
             -> allowing($message)->getHeaders() -> returns($headers)
             -> ignoring($message)->getFrom() -> returns($from)
             -> ignoring($message)->getSubject() -> returns($subject)
-            -> ignoring($message)->getBody() -> returns($body)
-            );
+            -> ignoring($message)->getBody() -> returns($body));
 
         return $message;
     }
@@ -188,8 +185,7 @@ class Swift_Plugins_DecoratorPluginTest extends Swift_Tests_SwiftUnitTestCase
         $evt = $this->_mock('Swift_Events_SendEvent');
         $this->_checking(Expectations::create()
             -> ignoring($evt)->getMessage() -> returns($message)
-            -> ignoring($evt)
-            );
+            -> ignoring($evt));
 
         return $evt;
     }
@@ -200,8 +196,7 @@ class Swift_Plugins_DecoratorPluginTest extends Swift_Tests_SwiftUnitTestCase
         $this->_checking(Expectations::create()
             -> ignoring($part)->getContentType() -> returns($type)
             -> ignoring($part)->getBody() -> returns($body)
-            -> ignoring($part)->getId() -> returns($id)
-            );
+            -> ignoring($part)->getId() -> returns($id));
 
         return $part;
     }
@@ -212,8 +207,7 @@ class Swift_Plugins_DecoratorPluginTest extends Swift_Tests_SwiftUnitTestCase
 
         $this->_checking(Expectations::create()
             -> allowing($set)->getAll() -> returns($headers)
-            -> ignoring($set)
-            );
+            -> ignoring($set));
 
         foreach ($headers as $header) {
             $set->set($header);
@@ -227,8 +221,7 @@ class Swift_Plugins_DecoratorPluginTest extends Swift_Tests_SwiftUnitTestCase
         $header = $this->_mock('Swift_Mime_Header');
         $this->_checking(Expectations::create()
             -> ignoring($header)->getFieldName() -> returns($name)
-            -> ignoring($header)->getFieldBodyModel() -> returns($body)
-            );
+            -> ignoring($header)->getFieldBodyModel() -> returns($body));
 
         return $header;
     }

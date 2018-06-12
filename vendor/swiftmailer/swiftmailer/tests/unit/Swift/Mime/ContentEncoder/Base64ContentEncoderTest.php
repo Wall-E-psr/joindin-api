@@ -8,7 +8,8 @@ require_once 'Swift/InputByteStream.php';
 class Swift_StreamCollector implements Yay_Action
 {
     public $content = '';
-    public function &invoke(Yay_Invocation $inv) {
+    public function &invoke(Yay_Invocation $inv)
+    {
         $args = $inv->getArguments();
         $this->content .= current($args);
     }
@@ -18,8 +19,7 @@ class Swift_StreamCollector implements Yay_Action
     }
 }
 
-class Swift_Mime_ContentEncoder_Base64ContentEncoderTest
-    extends Swift_Tests_SwiftUnitTestCase
+class Swift_Mime_ContentEncoder_Base64ContentEncoderTest extends Swift_Tests_SwiftUnitTestCase
 {
     private $_encoder;
 
@@ -62,8 +62,7 @@ class Swift_Mime_ContentEncoder_Base64ContentEncoderTest
             -> one($os)->read(optional()) -> returns('123')
             -> allowing($os)->read(optional()) -> returns(false)
 
-            -> ignoring($os)
-            );
+            -> ignoring($os));
 
         $this->_encoder->encodeByteStream($os, $is);
         $this->assertEqual('MTIz', $collection->content);
@@ -102,13 +101,14 @@ class Swift_Mime_ContentEncoder_Base64ContentEncoderTest
 
                 -> one($os)->read(optional()) -> returns(pack('C', rand(0, 255)))
                 -> allowing($os)->read(optional()) -> returns(false)
-                -> ignoring($os)
-                );
+                -> ignoring($os));
 
             $this->_encoder->encodeByteStream($os, $is);
-            $this->assertPattern('~^[a-zA-Z0-9/\+]{2}==$~', $collection->content,
+            $this->assertPattern(
+                '~^[a-zA-Z0-9/\+]{2}==$~',
+                $collection->content,
                 '%s: A single byte should have 2 bytes of padding'
-                );
+            );
         }
 
         for ($i = 0; $i < 30; ++$i) {
@@ -122,13 +122,14 @@ class Swift_Mime_ContentEncoder_Base64ContentEncoderTest
 
                 -> one($os)->read(optional()) -> returns(pack('C*', rand(0, 255), rand(0, 255)))
                 -> allowing($os)->read(optional()) -> returns(false)
-                -> ignoring($os)
-                );
+                -> ignoring($os));
 
             $this->_encoder->encodeByteStream($os, $is);
-            $this->assertPattern('~^[a-zA-Z0-9/\+]{3}=$~', $collection->content,
+            $this->assertPattern(
+                '~^[a-zA-Z0-9/\+]{3}=$~',
+                $collection->content,
                 '%s: Two bytes should have 1 byte of padding'
-                );
+            );
         }
 
         for ($i = 0; $i < 30; ++$i) {
@@ -142,13 +143,14 @@ class Swift_Mime_ContentEncoder_Base64ContentEncoderTest
 
                 -> one($os)->read(optional()) -> returns(pack('C*', rand(0, 255), rand(0, 255), rand(0, 255)))
                 -> allowing($os)->read(optional()) -> returns(false)
-                -> ignoring($os)
-                );
+                -> ignoring($os));
 
             $this->_encoder->encodeByteStream($os, $is);
-            $this->assertPattern('~^[a-zA-Z0-9/\+]{4}$~', $collection->content,
+            $this->assertPattern(
+                '~^[a-zA-Z0-9/\+]{4}$~',
+                $collection->content,
                 '%s: Three bytes should have no padding'
-                );
+            );
         }
     }
 
@@ -176,15 +178,14 @@ class Swift_Mime_ContentEncoder_Base64ContentEncoderTest
             -> one($os)->read(optional()) -> returns('VWXYZ1234567') //72
             -> one($os)->read(optional()) -> returns('abcdefghijkl') //84
             -> allowing($os)->read(optional()) -> returns(false)
-            -> ignoring($os)
-            );
+            -> ignoring($os));
 
         $this->_encoder->encodeByteStream($os, $is);
         $this->assertEqual(
             "YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXphYmMxMjM0NTY3ODkwQUJDREVGR0hJSktMTU5PUFFS\r\n" .
             "U1RVVldYWVoxMjM0NTY3YWJjZGVmZ2hpamts",
             $collection->content
-            );
+        );
     }
 
     public function testMaximumLineLengthCanBeDifferent()
@@ -205,8 +206,7 @@ class Swift_Mime_ContentEncoder_Base64ContentEncoderTest
             -> one($os)->read(optional()) -> returns('VWXYZ1234567') //72
             -> one($os)->read(optional()) -> returns('abcdefghijkl') //84
             -> allowing($os)->read(optional()) -> returns(false)
-            -> ignoring($os)
-            );
+            -> ignoring($os));
 
         $this->_encoder->encodeByteStream($os, $is, 0, 50);
         $this->assertEqual(
@@ -214,7 +214,7 @@ class Swift_Mime_ContentEncoder_Base64ContentEncoderTest
             "kwQUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVoxMjM0NTY3YWJj\r\n" .
             "ZGVmZ2hpamts",
             $collection->content
-            );
+        );
     }
 
     public function testMaximumLineLengthIsNeverMoreThan76Chars()
@@ -235,15 +235,14 @@ class Swift_Mime_ContentEncoder_Base64ContentEncoderTest
             -> one($os)->read(optional()) -> returns('VWXYZ1234567') //72
             -> one($os)->read(optional()) -> returns('abcdefghijkl') //84
             -> allowing($os)->read(optional()) -> returns(false)
-            -> ignoring($os)
-            );
+            -> ignoring($os));
 
         $this->_encoder->encodeByteStream($os, $is, 0, 100);
         $this->assertEqual(
             "YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXphYmMxMjM0NTY3ODkwQUJDREVGR0hJSktMTU5PUFFS\r\n" .
             "U1RVVldYWVoxMjM0NTY3YWJjZGVmZ2hpamts",
             $collection->content
-            );
+        );
     }
 
     public function testFirstLineLengthCanBeDifferent()
@@ -264,15 +263,14 @@ class Swift_Mime_ContentEncoder_Base64ContentEncoderTest
             -> one($os)->read(optional()) -> returns('VWXYZ1234567') //72
             -> one($os)->read(optional()) -> returns('abcdefghijkl') //84
             -> allowing($os)->read(optional()) -> returns(false)
-            -> ignoring($os)
-            );
+            -> ignoring($os));
 
         $this->_encoder->encodeByteStream($os, $is, 19);
         $this->assertEqual(
             "YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXphYmMxMjM0NTY3ODkwQUJDR\r\n" .
             "EVGR0hJSktMTU5PUFFSU1RVVldYWVoxMjM0NTY3YWJjZGVmZ2hpamts",
             $collection->content
-            );
+        );
     }
 
     // -- Private Methods

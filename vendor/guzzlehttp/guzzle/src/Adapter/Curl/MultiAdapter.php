@@ -153,7 +153,6 @@ class MultiAdapter implements AdapterInterface, ParallelAdapterInterface
                 // See: https://bugs.php.net/bug.php?id=61141
                 usleep(250);
             }
-
         } while ($context->isActive() || $active);
 
         $this->releaseMultiHandle($multi, $this->maxHandles);

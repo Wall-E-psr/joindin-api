@@ -7,8 +7,7 @@ require_once 'Swift/Transport.php';
 require_once 'Swift/Mime/Message.php';
 require_once 'Swift/TransportException.php';
 
-class Swift_Events_SimpleEventDispatcherTest
-    extends Swift_Tests_SwiftUnitTestCase
+class Swift_Events_SimpleEventDispatcherTest extends Swift_Tests_SwiftUnitTestCase
 {
     private $_dispatcher;
 
@@ -79,8 +78,7 @@ class Swift_Events_SimpleEventDispatcherTest
 
         $this->_checking(Expectations::create()
             -> one($listenerA)->transportStarted($evt)
-            -> one($listenerB)->transportStarted($evt)
-            );
+            -> one($listenerB)->transportStarted($evt));
 
         $this->_dispatcher->dispatchEvent($evt, 'transportStarted');
     }
@@ -100,8 +98,7 @@ class Swift_Events_SimpleEventDispatcherTest
 
         $this->_checking(Expectations::create()
             -> one($targetListener)->sendPerformed($evt)
-            -> never($otherListener)
-            );
+            -> never($otherListener));
 
         $this->_dispatcher->dispatchEvent($evt, 'sendPerformed');
     }
@@ -121,8 +118,7 @@ class Swift_Events_SimpleEventDispatcherTest
 
         $this->_checking(Expectations::create()
             -> one($listenerA)->sendPerformed($evt) -> calls(array($this, '_cancelBubble'))
-            -> never($listenerB)
-            );
+            -> never($listenerB));
 
         $this->_dispatcher->dispatchEvent($evt, 'sendPerformed');
 
@@ -142,8 +138,7 @@ class Swift_Events_SimpleEventDispatcherTest
 
         $this->_checking(Expectations::create()
             -> one($listener)->transportStarted($evt)
-            -> never($listener)->transportStarted($evt)
-            );
+            -> never($listener)->transportStarted($evt));
 
         $this->_dispatcher->dispatchEvent($evt, 'transportStarted');
     }

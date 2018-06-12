@@ -147,7 +147,9 @@ class MultiAdapterTest extends AbstractCurl
             "HTTP/1.1 200 OK\r\nContent-Length: 0\r\n\r\n",
         ]);
 
-        $ef = function (ErrorEvent $e) { throw $e->getException(); };
+        $ef = function (ErrorEvent $e) {
+            throw $e->getException();
+        };
 
         $request1 = $c->createRequest('GET', '/');
         $request1->getEmitter()->on('headers', function () use ($a, $c, $ef) {
@@ -163,7 +165,7 @@ class MultiAdapterTest extends AbstractCurl
                         $a->send(new Transaction($c, $r));
                         // Now, reuse an existing handle
                         $a->send(new Transaction($c, $r));
-                        },
+                    },
                     'error' => ['fn' => $ef, 'priority' => 9999]
                 ]
             ])));

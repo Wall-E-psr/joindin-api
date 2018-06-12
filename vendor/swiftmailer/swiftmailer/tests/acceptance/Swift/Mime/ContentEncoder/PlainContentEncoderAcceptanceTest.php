@@ -3,8 +3,7 @@
 require_once 'Swift/Mime/ContentEncoder/PlainContentEncoder.php';
 require_once 'Swift/ByteStream/ArrayByteStream.php';
 
-class Swift_Mime_ContentEncoder_PlainContentEncoderAcceptanceTest
-    extends UnitTestCase
+class Swift_Mime_ContentEncoder_PlainContentEncoderAcceptanceTest extends UnitTestCase
 {
     private $_samplesDir;
     private $_encoder;
@@ -26,7 +25,6 @@ class Swift_Mime_ContentEncoder_PlainContentEncoderAcceptanceTest
             $sampleDir = $this->_samplesDir . '/' . $encodingDir;
 
             if (is_dir($sampleDir)) {
-
                 $fileFp = opendir($sampleDir);
                 while (false !== $sampleFile = readdir($fileFp)) {
                     if (substr($sampleFile, 0, 1) == '.') {
@@ -37,14 +35,14 @@ class Swift_Mime_ContentEncoder_PlainContentEncoderAcceptanceTest
                     $encodedText = $this->_encoder->encodeString($text);
 
                     $this->assertEqual(
-                        $encodedText, $text,
+                        $encodedText,
+                        $text,
                         '%s: Encoded string should be identical to original string for sample ' .
                         $sampleDir . '/' . $sampleFile
-                        );
+                    );
                 }
                 closedir($fileFp);
             }
-
         }
         closedir($sampleFp);
     }
@@ -60,7 +58,6 @@ class Swift_Mime_ContentEncoder_PlainContentEncoderAcceptanceTest
             $sampleDir = $this->_samplesDir . '/' . $encodingDir;
 
             if (is_dir($sampleDir)) {
-
                 $fileFp = opendir($sampleDir);
                 while (false !== $sampleFile = readdir($fileFp)) {
                     if (substr($sampleFile, 0, 1) == '.') {
@@ -82,14 +79,14 @@ class Swift_Mime_ContentEncoder_PlainContentEncoderAcceptanceTest
                     }
 
                     $this->assertEqual(
-                        $encoded, $text,
+                        $encoded,
+                        $text,
                         '%s: Encoded string should be identical to original string for sample ' .
                         $sampleDir . '/' . $sampleFile
-                        );
+                    );
                 }
                 closedir($fileFp);
             }
-
         }
         closedir($sampleFp);
     }

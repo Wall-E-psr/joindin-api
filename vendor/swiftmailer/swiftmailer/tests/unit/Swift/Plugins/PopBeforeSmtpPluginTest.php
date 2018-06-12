@@ -5,8 +5,7 @@ require_once 'Swift/Plugins/AntiFloodPlugin.php';
 require_once 'Swift/Events/TransportChangeEvent.php';
 require_once 'Swift/Transport.php';
 
-class Swift_Plugins_PopBeforeSmtpPluginTest
-    extends Swift_Tests_SwiftUnitTestCase
+class Swift_Plugins_PopBeforeSmtpPluginTest extends Swift_Tests_SwiftUnitTestCase
 {
     public function testPluginConnectsToPop3HostBeforeTransportStarts()
     {
@@ -20,8 +19,7 @@ class Swift_Plugins_PopBeforeSmtpPluginTest
 
         $this->_checking(Expectations::create()
             -> one($connection)->connect()
-            -> ignoring($connection)
-        );
+            -> ignoring($connection));
 
         $plugin->beforeTransportStarted($evt);
     }
@@ -38,8 +36,7 @@ class Swift_Plugins_PopBeforeSmtpPluginTest
 
         $this->_checking(Expectations::create()
             -> one($connection)->disconnect()
-            -> ignoring($connection)
-        );
+            -> ignoring($connection));
 
         $plugin->beforeTransportStarted($evt);
     }
@@ -58,8 +55,7 @@ class Swift_Plugins_PopBeforeSmtpPluginTest
         $evt = $this->_createTransportChangeEvent($transport);
 
         $this->_checking(Expectations::create()
-            -> never($connection)
-        );
+            -> never($connection));
 
         $plugin->beforeTransportStarted($evt);
     }
@@ -78,8 +74,7 @@ class Swift_Plugins_PopBeforeSmtpPluginTest
 
         $this->_checking(Expectations::create()
             -> one($connection)->connect()
-            -> ignoring($connection)
-        );
+            -> ignoring($connection));
 
         $plugin->beforeTransportStarted($evt);
     }
@@ -96,8 +91,7 @@ class Swift_Plugins_PopBeforeSmtpPluginTest
         $evt = $this->_mock('Swift_Events_TransportChangeEvent');
         $this->_checking(Expectations::create()
             -> ignoring($evt)->getSource() -> returns($transport)
-            -> ignoring($evt)->getTransport() -> returns($transport)
-            );
+            -> ignoring($evt)->getTransport() -> returns($transport));
 
         return $evt;
     }

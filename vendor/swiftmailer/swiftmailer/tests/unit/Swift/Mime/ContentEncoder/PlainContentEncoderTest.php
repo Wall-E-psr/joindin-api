@@ -8,7 +8,8 @@ require_once 'Swift/OutputByteStream.php';
 class Swift_StreamCollector implements Yay_Action
 {
     public $content = '';
-    public function &invoke(Yay_Invocation $inv) {
+    public function &invoke(Yay_Invocation $inv)
+    {
         $args = $inv->getArguments();
         $this->content .= current($args);
     }
@@ -18,8 +19,7 @@ class Swift_StreamCollector implements Yay_Action
     }
 }
 
-class Swift_Mime_ContentEncoder_PlainContentEncoderTest
-    extends Swift_Tests_SwiftUnitTestCase
+class Swift_Mime_ContentEncoder_PlainContentEncoderTest extends Swift_Tests_SwiftUnitTestCase
 {
     public function testNameCanBeSpecifiedInConstructor()
     {
@@ -56,8 +56,7 @@ class Swift_Mime_ContentEncoder_PlainContentEncoderTest
                 -> one($os)->read(optional()) -> returns($byte)
                 -> allowing($os)->read(optional()) -> returns(false)
 
-                -> ignoring($os)
-                );
+                -> ignoring($os));
 
             $encoder->encodeByteStream($os, $is);
             $this->assertIdenticalBinary($byte, $collection->content);
@@ -79,7 +78,7 @@ class Swift_Mime_ContentEncoder_PlainContentEncoderTest
             'a a a a a a a a a a a a a a a a a a a a a a a a a',            //99
             $encoder->encodeString($input, 0, 50),
             '%s: Lines should be wrapped at 50 chars'
-            );
+        );
     }
 
     public function testLineLengthCanBeSpecifiedInByteStream()
@@ -92,44 +91,51 @@ class Swift_Mime_ContentEncoder_PlainContentEncoderTest
 
         $this->_checking(Expectations::create()
             -> allowing($is)->write(any(), optional()) -> will($collection)
-            -> ignoring($is)
-            );
+            -> ignoring($is));
 
         for ($i = 0; $i < 50; $i++) {
             $this->_checking(Expectations::create()
-                -> one($os)->read(optional()) -> returns('a ')
-                );
+                -> one($os)->read(optional()) -> returns('a '));
         }
 
         $this->_checking(Expectations::create()
-            -> allowing($os)->read(optional()) -> returns(false)
-            );
+            -> allowing($os)->read(optional()) -> returns(false));
 
         $encoder->encodeByteStream($os, $is, 0, 50);
         $this->assertEqual(
             str_repeat('a ', 25) . "\r\n" . str_repeat('a ', 25),
             $collection->content
-            );
+        );
     }
 
     public function testencodeStringGeneratesCorrectCrlf()
     {
         $encoder = $this->_getEncoder('7bit', true);
-        $this->assertEqual("a\r\nb", $encoder->encodeString("a\rb"),
+        $this->assertEqual(
+            "a\r\nb",
+            $encoder->encodeString("a\rb"),
             '%s: Line endings should be standardized'
-            );
-        $this->assertEqual("a\r\nb", $encoder->encodeString("a\nb"),
+        );
+        $this->assertEqual(
+            "a\r\nb",
+            $encoder->encodeString("a\nb"),
             '%s: Line endings should be standardized'
-            );
-        $this->assertEqual("a\r\n\r\nb", $encoder->encodeString("a\n\rb"),
+        );
+        $this->assertEqual(
+            "a\r\n\r\nb",
+            $encoder->encodeString("a\n\rb"),
             '%s: Line endings should be standardized'
-            );
-        $this->assertEqual("a\r\n\r\nb", $encoder->encodeString("a\r\rb"),
+        );
+        $this->assertEqual(
+            "a\r\n\r\nb",
+            $encoder->encodeString("a\r\rb"),
             '%s: Line endings should be standardized'
-            );
-        $this->assertEqual("a\r\n\r\nb", $encoder->encodeString("a\n\nb"),
+        );
+        $this->assertEqual(
+            "a\r\n\r\nb",
+            $encoder->encodeString("a\n\nb"),
             '%s: Line endings should be standardized'
-            );
+        );
     }
 
     public function testCanonicEncodeByteStreamGeneratesCorrectCrlf_1()
@@ -149,8 +155,7 @@ class Swift_Mime_ContentEncoder_PlainContentEncoderTest
             -> one($os)->read(optional()) -> returns('b')
             -> allowing($os)->read(optional()) -> returns(false)
 
-            -> ignoring($os)
-            );
+            -> ignoring($os));
 
         $encoder->encodeByteStream($os, $is);
         $this->assertEqual("a\r\nb", $collection->content);
@@ -173,8 +178,7 @@ class Swift_Mime_ContentEncoder_PlainContentEncoderTest
             -> one($os)->read(optional()) -> returns('b')
             -> allowing($os)->read(optional()) -> returns(false)
 
-            -> ignoring($os)
-            );
+            -> ignoring($os));
 
         $encoder->encodeByteStream($os, $is);
         $this->assertEqual("a\r\nb", $collection->content);
@@ -197,8 +201,7 @@ class Swift_Mime_ContentEncoder_PlainContentEncoderTest
             -> one($os)->read(optional()) -> returns('b')
             -> allowing($os)->read(optional()) -> returns(false)
 
-            -> ignoring($os)
-            );
+            -> ignoring($os));
 
         $encoder->encodeByteStream($os, $is);
         $this->assertEqual("a\r\n\r\nb", $collection->content);
@@ -221,8 +224,7 @@ class Swift_Mime_ContentEncoder_PlainContentEncoderTest
             -> one($os)->read(optional()) -> returns('b')
             -> allowing($os)->read(optional()) -> returns(false)
 
-            -> ignoring($os)
-            );
+            -> ignoring($os));
 
         $encoder->encodeByteStream($os, $is);
         $this->assertEqual("a\r\n\r\nb", $collection->content);
@@ -245,8 +247,7 @@ class Swift_Mime_ContentEncoder_PlainContentEncoderTest
             -> one($os)->read(optional()) -> returns('b')
             -> allowing($os)->read(optional()) -> returns(false)
 
-            -> ignoring($os)
-            );
+            -> ignoring($os));
 
         $encoder->encodeByteStream($os, $is);
         $this->assertEqual("a\r\n\r\nb", $collection->content);

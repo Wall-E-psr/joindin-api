@@ -137,8 +137,7 @@ class Swift_Mime_ContentEncoder_PlainContentEncoder implements Swift_Mime_Conten
 
             foreach ($chunks as $chunk) {
                 if (0 != strlen($currentLine)
-                    && strlen($currentLine . $chunk) > $length)
-                {
+                    && strlen($currentLine . $chunk) > $length) {
                     $lines[] = '';
                     $currentLine =& $lines[$lineCount++];
                 }
@@ -162,6 +161,6 @@ class Swift_Mime_ContentEncoder_PlainContentEncoder implements Swift_Mime_Conten
             array("\r\n", "\r", "\n"),
             array("\n", "\n", "\r\n"),
             $string
-            );
+        );
     }
 }

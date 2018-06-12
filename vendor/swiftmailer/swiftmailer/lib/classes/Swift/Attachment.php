@@ -32,7 +32,7 @@ class Swift_Attachment extends Swift_Mime_Attachment
             array($this, 'Swift_Mime_Attachment::__construct'),
             Swift_DependencyContainer::getInstance()
                 ->createDependenciesFor('mime.attachment')
-            );
+        );
 
         $this->setBody($data);
         $this->setFilename($filename);
@@ -68,6 +68,6 @@ class Swift_Attachment extends Swift_Mime_Attachment
         return self::newInstance()->setFile(
             new Swift_ByteStream_FileByteStream($path),
             $contentType
-            );
+        );
     }
 }

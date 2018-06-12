@@ -5,7 +5,7 @@
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
- 
+
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -13,7 +13,7 @@
 
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- 
+
  */
  
 //require 'Yay/MockGenerator.php';
@@ -40,29 +40,29 @@ class Yay_Mockery implements Yay_InvocationHandler
    * @var array
    * @access private
    */
-  private $_expectations = array();
+    private $_expectations = array();
   
   /**
    * Invocations which are not expected by any Expectations get caught here.
    * @var array
    * @access private
    */
-  private $_unexpectedInvocations = array();
+    private $_unexpectedInvocations = array();
   
   /**
    * A mock class generator.
    * @var Yay_MockGenerator
    * @access private
    */
-  private $_generator;
+    private $_generator;
   
   /**
    * Create a new Mockery.
    */
-  public function __construct()
-  {
-    $this->_generator = Yay_MockGenerator::getInstance();
-  }
+    public function __construct()
+    {
+        $this->_generator = Yay_MockGenerator::getInstance();
+    }
   
   /**
    * Create a MockObject matching $typeHint.
@@ -75,70 +75,65 @@ class Yay_Mockery implements Yay_InvocationHandler
    * @param string $typeHint
    * @return Yay_MockObject
    */
-  public function mock($typeHint)
-  {
-    $className = $this->_generator->generateMock($typeHint);
-    $reflector = new ReflectionClass($className);
-    return $reflector->newInstance($this);
-  }
+    public function mock($typeHint)
+    {
+        $className = $this->_generator->generateMock($typeHint);
+        $reflector = new ReflectionClass($className);
+        return $reflector->newInstance($this);
+    }
   
   /**
    * Specify an Expectation (or Expectations) to check.
    * @param Yay_ExpectationProvider $provider
    */
-  public function checking(Yay_ExpectationProvider $provider)
-  {
-    foreach ($provider->getExpectations() as $expectation)
+    public function checking(Yay_ExpectationProvider $provider)
     {
-      $this->_expectations[] = $expectation;
+        foreach ($provider->getExpectations() as $expectation) {
+            $this->_expectations[] = $expectation;
+        }
     }
-  }
   
   /**
    * Get a state machine named $name.
    * @param string $name
    * @return Yay_States
    */
-  public function states($name)
-  {
-    return new Yay_StateMachine($name);
-  }
+    public function states($name)
+    {
+        return new Yay_StateMachine($name);
+    }
   
   /**
    * Create a new Sequence named $name.
    * @param string $name
    * @return Yay_Sequence
    */
-  public function sequence($name)
-  {
-    return new Yay_SimpleSequence($name);
-  }
+    public function sequence($name)
+    {
+        return new Yay_SimpleSequence($name);
+    }
   
   /**
    * Used by YayMock internally (ignore this method!).
    */
-  public function &handleInvocation(Yay_Invocation $invocation)
-  {
-    $ret = null;
-    $expected = false;
-    foreach ($this->_expectations as $expectation)
+    public function &handleInvocation(Yay_Invocation $invocation)
     {
-      if ($expectation->isExpected($invocation))
-      {
-        $expected = true;
-        if ($action = $expectation->getAction($invocation))
-        {
-          $ret =& $action->invoke($invocation);
+        $ret = null;
+        $expected = false;
+        foreach ($this->_expectations as $expectation) {
+            if ($expectation->isExpected($invocation)) {
+                $expected = true;
+                if ($action = $expectation->getAction($invocation)) {
+                    $ret =& $action->invoke($invocation);
+                }
+                break;
+            }
         }
-        break;
-      }
+        if (!$expected) {
+            $this->_unexpectedInvocations[] = $invocation;
+        }
+        return $ret;
     }
-    if (!$expected)
-    {
-      $this->_unexpectedInvocations[] = $invocation;
-    }
-    return $ret;
-  }
   
   /**
    * Assert that all Expectations are satisfied.
@@ -146,38 +141,32 @@ class Yay_Mockery implements Yay_InvocationHandler
    * are not satisfied.
    * @throws Yay_NotSatisfiedException
    */
-  public function assertIsSatisfied()
-  {
-    $description = new Yay_SimpleDescription();
-    $satisfied = true;
-    foreach ($this->_unexpectedInvocations as $invocation)
+    public function assertIsSatisfied()
     {
-      $description->appendText('Unexpected invocation');
-      $invocation->describeTo($description);
-      $description->appendText(PHP_EOL);
-      $satisfied = false;
+        $description = new Yay_SimpleDescription();
+        $satisfied = true;
+        foreach ($this->_unexpectedInvocations as $invocation) {
+            $description->appendText('Unexpected invocation');
+            $invocation->describeTo($description);
+            $description->appendText(PHP_EOL);
+            $satisfied = false;
+        }
+        if (!$satisfied) {
+            $description->appendText(PHP_EOL);
+        }
+        foreach ($this->_expectations as $expectation) {
+            if (!$expectation->isSatisfied()) {
+                $description->appendText('* ');
+                $satisfied = false;
+            }
+            $expectation->describeTo($description);
+            $description->appendText(PHP_EOL);
+        }
+        if (!$satisfied) {
+            throw new Yay_NotSatisfiedException(
+                'Not all expectations were satisfied or a method was invoked unexpectedly.' .
+                PHP_EOL . PHP_EOL . $description->toString() . PHP_EOL
+            );
+        }
     }
-    if (!$satisfied)
-    {
-      $description->appendText(PHP_EOL);
-    }
-    foreach ($this->_expectations as $expectation)
-    {
-      if (!$expectation->isSatisfied())
-      {
-        $description->appendText('* ');
-        $satisfied = false;
-      }
-      $expectation->describeTo($description);
-      $description->appendText(PHP_EOL);
-    }
-    if (!$satisfied)
-    {
-      throw new Yay_NotSatisfiedException(
-        'Not all expectations were satisfied or a method was invoked unexpectedly.' .
-        PHP_EOL . PHP_EOL . $description->toString() . PHP_EOL
-        );
-    }
-  }
-  
 }

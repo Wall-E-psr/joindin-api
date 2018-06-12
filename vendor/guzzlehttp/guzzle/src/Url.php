@@ -45,9 +45,16 @@ class Url
             $parts['query'] = Query::fromString($parts['query']);
         }
 
-        return new static($parts['scheme'], $parts['host'], $parts['user'],
-            $parts['pass'], $parts['port'], $parts['path'], $parts['query'],
-            $parts['fragment']);
+        return new static(
+            $parts['scheme'],
+            $parts['host'],
+            $parts['user'],
+            $parts['pass'],
+            $parts['port'],
+            $parts['path'],
+            $parts['query'],
+            $parts['fragment']
+        );
     }
 
     /**

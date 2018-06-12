@@ -4,8 +4,7 @@ require_once 'Swift/Transport/AbstractSmtpEventSupportTest.php';
 require_once 'Swift/Transport/EsmtpTransport.php';
 require_once 'Swift/Events/EventDispatcher.php';
 
-class Swift_Transport_EsmtpTransportTest
-    extends Swift_Transport_AbstractSmtpEventSupportTest
+class Swift_Transport_EsmtpTransportTest extends Swift_Transport_AbstractSmtpEventSupportTest
 {
     protected function _getTransport($buf, $dispatcher = null)
     {
@@ -51,7 +50,8 @@ class Swift_Transport_EsmtpTransportTest
     }
 
     public function testStartSendsHeloToInitiate()
-    {//Overridden for EHLO instead
+    {
+//Overridden for EHLO instead
     }
 
     public function testStartSendsEhloToInitiate()
@@ -97,8 +97,7 @@ class Swift_Transport_EsmtpTransportTest
             -> one($buf)->initialize() -> inSequence($s)
             -> one($buf)->readLine(0) -> inSequence($s) -> returns("220 some.server.tld bleh\r\n")
             -> one($buf)->write(pattern('~^EHLO .+?\r\n$~D')) -> inSequence($s) -> returns(1)
-            -> one($buf)->readLine(1) -> inSequence($s) -> returns('250 ServerName' . "\r\n")
-            );
+            -> one($buf)->readLine(1) -> inSequence($s) -> returns('250 ServerName' . "\r\n"));
         $this->_finishBuffer($buf);
         try {
             $smtp->start();
@@ -126,20 +125,20 @@ class Swift_Transport_EsmtpTransportTest
             -> one($buf)->write(pattern('~^EHLO .+?\r\n$~D')) -> inSequence($s) -> returns(1)
             -> one($buf)->readLine(1) -> inSequence($s) -> returns('501 WTF' . "\r\n")
             -> one($buf)->write(pattern('~^HELO .+?\r\n$~D')) -> inSequence($s) -> returns(2)
-            -> one($buf)->readLine(2) -> inSequence($s) -> returns('250 HELO' . "\r\n")
-            );
+            -> one($buf)->readLine(2) -> inSequence($s) -> returns('250 HELO' . "\r\n"));
         $this->_finishBuffer($buf);
         try {
             $smtp->start();
         } catch (Exception $e) {
             $this->fail(
                 'Starting Esmtp should fallback to HELO if needed and accept 250 response'
-                );
+            );
         }
     }
 
     public function testInvalidHeloResponseCausesException()
-    {//Overridden to first try EHLO
+    {
+//Overridden to first try EHLO
         $buf = $this->_getBuffer();
         $smtp = $this->_getTransport($buf);
         $s = $this->_sequence('SMTP-convo');
@@ -149,8 +148,7 @@ class Swift_Transport_EsmtpTransportTest
             -> one($buf)->write(pattern('~^EHLO .*?\r\n$~D')) -> inSequence($s) -> returns(1)
             -> one($buf)->readLine(1) -> inSequence($s) -> returns('501 WTF' . "\r\n")
             -> one($buf)->write(pattern('~^HELO .*?\r\n$~D')) -> inSequence($s) -> returns(2)
-            -> one($buf)->readLine(2) -> inSequence($s) -> returns('504 WTF' . "\r\n")
-            );
+            -> one($buf)->readLine(2) -> inSequence($s) -> returns('504 WTF' . "\r\n"));
         $this->_finishBuffer($buf);
         try {
             $this->assertFalse($smtp->isStarted(), '%s: SMTP should begin non-started');
@@ -181,15 +179,15 @@ class Swift_Transport_EsmtpTransportTest
             -> one($buf)->initialize() -> inSequence($s)
             -> one($buf)->readLine(0) -> inSequence($s) -> returns("220 some.server.tld bleh\r\n")
             -> one($buf)->write("EHLO mydomain.com\r\n") -> inSequence($s) -> returns(1)
-            -> one($buf)->readLine(1) -> inSequence($s) -> returns('250 ServerName' . "\r\n")
-            );
+            -> one($buf)->readLine(1) -> inSequence($s) -> returns('250 ServerName' . "\r\n"));
         $this->_finishBuffer($buf);
         $smtp->setLocalDomain('mydomain.com');
         $smtp->start();
     }
 
     public function testDomainNameIsPlacedInHelo()
-    { //Overridden to include ESMTP
+    {
+ //Overridden to include ESMTP
         /* -- RFC 2821, 4.1.4.
 
        The SMTP client MUST, if possible, ensure that the domain parameter
@@ -210,8 +208,7 @@ class Swift_Transport_EsmtpTransportTest
             -> one($buf)->write(pattern('~^EHLO .+?\r\n$~D')) -> inSequence($s) -> returns(1)
             -> one($buf)->readLine(1) -> inSequence($s) -> returns('501 WTF' . "\r\n")
             -> one($buf)->write("HELO mydomain.com\r\n") -> inSequence($s) -> returns(2)
-            -> one($buf)->readLine(2) -> inSequence($s) -> returns('250 ServerName' . "\r\n")
-            );
+            -> one($buf)->readLine(2) -> inSequence($s) -> returns('250 ServerName' . "\r\n"));
         $this->_finishBuffer($buf);
         $smtp->setLocalDomain('mydomain.com');
         $smtp->start();

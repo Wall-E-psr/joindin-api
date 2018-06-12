@@ -234,7 +234,8 @@ class EmitterTest extends \PHPUnit_Framework_TestCase
     {
         $dispatcher = new Emitter();
         $dispatcher->on('bug.62976', new CallableClass());
-        $dispatcher->removeListener('bug.62976', function () {});
+        $dispatcher->removeListener('bug.62976', function () {
+        });
         $this->assertNotEmpty($dispatcher->listeners('bug.62976'));
     }
 
@@ -256,12 +257,24 @@ class EmitterTest extends \PHPUnit_Framework_TestCase
     public function testCanAddFirstAndLastListeners()
     {
         $b = '';
-        $this->emitter->on('foo', function () use (&$b) { $b .= 'a'; }, 'first'); // 1
-        $this->emitter->on('foo', function () use (&$b) { $b .= 'b'; }, 'last');  // 0
-        $this->emitter->on('foo', function () use (&$b) { $b .= 'c'; }, 'first'); // 2
-        $this->emitter->on('foo', function () use (&$b) { $b .= 'd'; }, 'first'); // 3
-        $this->emitter->on('foo', function () use (&$b) { $b .= 'e'; }, 'first'); // 4
-        $this->emitter->on('foo', function () use (&$b) { $b .= 'f'; });          // 0
+        $this->emitter->on('foo', function () use (&$b) {
+            $b .= 'a';
+        }, 'first'); // 1
+        $this->emitter->on('foo', function () use (&$b) {
+            $b .= 'b';
+        }, 'last');  // 0
+        $this->emitter->on('foo', function () use (&$b) {
+            $b .= 'c';
+        }, 'first'); // 2
+        $this->emitter->on('foo', function () use (&$b) {
+            $b .= 'd';
+        }, 'first'); // 3
+        $this->emitter->on('foo', function () use (&$b) {
+            $b .= 'e';
+        }, 'first'); // 4
+        $this->emitter->on('foo', function () use (&$b) {
+            $b .= 'f';
+        });          // 0
         $this->emitter->emit('foo', $this->getEvent());
         $this->assertEquals('edcabf', $b);
     }
@@ -308,7 +321,8 @@ class TestEventListener
     public function testHasDeprecatedAddListener()
     {
         $emitter = new Emitter();
-        $emitter->addListener('foo', function () {});
+        $emitter->addListener('foo', function () {
+        });
     }
 
     /**

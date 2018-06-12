@@ -37,7 +37,6 @@ class MockAdapter implements AdapterInterface
     {
         RequestEvents::emitBefore($transaction);
         if (!$transaction->getResponse()) {
-
             $response = is_callable($this->response)
                 ? call_user_func($this->response, $transaction)
                 : $this->response;

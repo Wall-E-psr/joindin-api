@@ -21,7 +21,9 @@ class UtilsTest extends \PHPUnit_Framework_TestCase
     public function testCopiesToStringStopsWhenReadFails()
     {
         $s1 = Stream::factory('foobaz');
-        $s1 = FnStream::decorate($s1, ['read' => function () { return ''; }]);
+        $s1 = FnStream::decorate($s1, ['read' => function () {
+            return '';
+        }]);
         $result = Utils::copyToString($s1);
         $this->assertEquals('', $result);
     }
@@ -29,7 +31,9 @@ class UtilsTest extends \PHPUnit_Framework_TestCase
     public function testCopiesToStringStopsWhenReadFailsWithMaxLen()
     {
         $s1 = Stream::factory('foobaz');
-        $s1 = FnStream::decorate($s1, ['read' => function () { return ''; }]);
+        $s1 = FnStream::decorate($s1, ['read' => function () {
+            return '';
+        }]);
         $result = Utils::copyToString($s1, 10);
         $this->assertEquals('', $result);
     }
@@ -52,7 +56,9 @@ class UtilsTest extends \PHPUnit_Framework_TestCase
     {
         $s1 = Stream::factory('foobaz');
         $s2 = Stream::factory('');
-        $s2 = FnStream::decorate($s2, ['write' => function () { return 0; }]);
+        $s2 = FnStream::decorate($s2, ['write' => function () {
+            return 0;
+        }]);
         Utils::copyToStream($s1, $s2);
         $this->assertEquals('', (string) $s2);
     }
@@ -61,7 +67,9 @@ class UtilsTest extends \PHPUnit_Framework_TestCase
     {
         $s1 = Stream::factory('foobaz');
         $s2 = Stream::factory('');
-        $s2 = FnStream::decorate($s2, ['write' => function () { return 0; }]);
+        $s2 = FnStream::decorate($s2, ['write' => function () {
+            return 0;
+        }]);
         Utils::copyToStream($s1, $s2, 10);
         $this->assertEquals('', (string) $s2);
     }
@@ -69,7 +77,9 @@ class UtilsTest extends \PHPUnit_Framework_TestCase
     public function testStopsCopyToSteamWhenReadFailsWithMaxLen()
     {
         $s1 = Stream::factory('foobaz');
-        $s1 = FnStream::decorate($s1, ['read' => function () { return ''; }]);
+        $s1 = FnStream::decorate($s1, ['read' => function () {
+            return '';
+        }]);
         $s2 = Stream::factory('');
         Utils::copyToStream($s1, $s2, 10);
         $this->assertEquals('', (string) $s2);

@@ -1,12 +1,15 @@
 <?php
 
-class SimpleTestXMLElement extends SimpleXMLElement {
-    function title() {
+class SimpleTestXMLElement extends SimpleXMLElement
+{
+    function title()
+    {
         $titles = $this->xpath('//page');
         return $titles[0]->attributes()->title;
     }
     
-    function transform_code($code) {
+    function transform_code($code)
+    {
         $code = str_replace('<![CDATA[', '', $code);
         $code = str_replace(']]>', '', $code);
         $code = str_replace('&lt;strong&gt;', '<strong>', $code);
@@ -16,7 +19,8 @@ class SimpleTestXMLElement extends SimpleXMLElement {
         return $code;
     }
 
-    function content() {
+    function content()
+    {
         $content = $this->introduction();
         $sections = $this->xpath('//section');
         if (count($sections) > 0) {
@@ -29,7 +33,8 @@ class SimpleTestXMLElement extends SimpleXMLElement {
         return $content;
     }
     
-    function introduction() {
+    function introduction()
+    {
         $content = "";
 
         $introductions = $this->xpath('//introduction');
@@ -42,7 +47,8 @@ class SimpleTestXMLElement extends SimpleXMLElement {
         return $content;
     }
     
-    function content_without_sections() {
+    function content_without_sections()
+    {
         $content_without_sections = "";
         $contents = $this->xpath('//content');
         foreach ($contents as $content) {
@@ -52,7 +58,8 @@ class SimpleTestXMLElement extends SimpleXMLElement {
         return $content_without_sections;
     }
     
-    function deal_with_php_code($content) {
+    function deal_with_php_code($content)
+    {
         $elements_divided = preg_split('/<php>|<\/php>/', $content);
         $content_element = '';
 
@@ -70,15 +77,18 @@ class SimpleTestXMLElement extends SimpleXMLElement {
         return $content_element;
     }
 
-    function as_title($name) {
+    function as_title($name)
+    {
         return ucfirst(str_replace("-", " ", $name));
     }
     
-    function as_tracker_link($number) {
+    function as_tracker_link($number)
+    {
         return "<a href=\"http://sourceforge.net/tracker/index.php?func=detail&group_id=76550&atid=547455&aid=".$number."\">".$number."</a>";
     }
     
-    function content_with_sections() {
+    function content_with_sections()
+    {
         $content = "";
         $sections = $this->xpath('//section');
         $anchors = array();
@@ -98,7 +108,8 @@ class SimpleTestXMLElement extends SimpleXMLElement {
         return $content;
     }
 
-    function deal_with_changelogs($section) {
+    function deal_with_changelogs($section)
+    {
         $content = "";
             
         foreach ($section->changelog as $changelog) {
@@ -132,44 +143,46 @@ class SimpleTestXMLElement extends SimpleXMLElement {
         return $content;
     }
     
-    function deal_with_milestones($section) {
+    function deal_with_milestones($section)
+    {
         $content = "";
             
         foreach ($section->milestone as $milestone) {
             $content .= "<h3>".(string)$milestone->attributes()->version."</h3>";
             foreach ($milestone->concern as $concern) {
-	            if (!isset($anchors[(string)$concern->attributes()->name])) {
-	                $content .= "<a name=\"".(string)$concern->attributes()->name."\"></a>";
-	                $anchors[(string)$concern->attributes()->name] = true;
-	            }
-	            $content .= "<h4>".$this->as_title($concern->attributes()->name)."</h4>";
-	            if (sizeof($concern) > 0) {
-	                $content .= "<dl>";
-	                foreach ($concern as $type => $element) {
-	                    $status = "";
-	                    if (isset($element->attributes()->status)) {
-	                        $status = " class=\"".$element->attributes()->status."\"";
-	                    }
-	                    $content .= "<dt".$status.">[".$type."] ".trim($element)."</dt>";
-	                    foreach ($element->attributes() as $name => $value) {
-	                        if ($name == "tracker" and $type == "bug") {
-	                            $value = $this->as_tracker_link($value);
-	                        }
-	                        $content .= "<dd>".$name." : ".$value."</dd>"; 
-	                    }
-	                    foreach ($element->note as $note) {
-	                        $content .= "<dd>".trim((string)$note)."</dd>"; 
-	                    }
-	                }
-	                $content .= "</dl>";
-	            }    
+                if (!isset($anchors[(string)$concern->attributes()->name])) {
+                    $content .= "<a name=\"".(string)$concern->attributes()->name."\"></a>";
+                    $anchors[(string)$concern->attributes()->name] = true;
+                }
+                $content .= "<h4>".$this->as_title($concern->attributes()->name)."</h4>";
+                if (sizeof($concern) > 0) {
+                    $content .= "<dl>";
+                    foreach ($concern as $type => $element) {
+                        $status = "";
+                        if (isset($element->attributes()->status)) {
+                            $status = " class=\"".$element->attributes()->status."\"";
+                        }
+                        $content .= "<dt".$status.">[".$type."] ".trim($element)."</dt>";
+                        foreach ($element->attributes() as $name => $value) {
+                            if ($name == "tracker" and $type == "bug") {
+                                $value = $this->as_tracker_link($value);
+                            }
+                            $content .= "<dd>".$name." : ".$value."</dd>";
+                        }
+                        foreach ($element->note as $note) {
+                            $content .= "<dd>".trim((string)$note)."</dd>";
+                        }
+                    }
+                    $content .= "</dl>";
+                }
             }
         }
 
         return $content;
     }
     
-    function internal() {
+    function internal()
+    {
         $internal = "";
         
         if (isset($this->internal->link)) {
@@ -181,7 +194,8 @@ class SimpleTestXMLElement extends SimpleXMLElement {
         return $internal;
     }
     
-    function external() {
+    function external()
+    {
         $external = "";
 
         if (isset($this->external->link)) {
@@ -193,22 +207,26 @@ class SimpleTestXMLElement extends SimpleXMLElement {
         return $external;
     }
 
-    function keywords() {
+    function keywords()
+    {
         return trim(preg_replace('/(\s+)/', ' ', $this->meta->keywords));
     }
 
-    function here() {
+    function here()
+    {
         $here = $this->xpath('@here');
         return (string)$here[0];
     }
 
-    function parent($map) {
+    function parent($map)
+    {
         $here = $this->here();
         $pages = $map->xpath('//page[normalize-space(@here)="'.$here.'"]/parent::*');
         return $pages[0]->attributes()->here;
     }
 
-    function destination($path_to_map) {
+    function destination($path_to_map)
+    {
         $destination = '';
         $here = $this->here();
 
@@ -225,13 +243,15 @@ class SimpleTestXMLElement extends SimpleXMLElement {
         return $destination;
     }
 
-    function url($file) {
+    function url($file)
+    {
         $segments = explode("/", $file);
         
         return array_pop($segments);
     }
 
-    function links_from_xpath($xpath, $map) {
+    function links_from_xpath($xpath, $map)
+    {
         $link = "";
 
         $here = $this->here();
@@ -244,38 +264,44 @@ class SimpleTestXMLElement extends SimpleXMLElement {
         return $link;
     }
     
-    function links_parent_siblings_after($map) {
+    function links_parent_siblings_after($map)
+    {
         $here = $this->parent($map);
         $query = '//page[normalize-space(@here)="'.$here.'"]/following-sibling::*';
 
         return $this->links_from_xpath($query, $map);
     }
     
-    function links_parent($map) {
+    function links_parent($map)
+    {
         $here = $this->parent($map);
         $query = '//page[normalize-space(@here)="'.$here.'"]';
 
         return $this->links_from_xpath($query, $map);
     }
 
-    function links_parent_siblings_before($map) {
+    function links_parent_siblings_before($map)
+    {
         $here = $this->parent($map);
         $query = '//page[normalize-space(@here)="'.$here.'"]/preceding-sibling::*';
 
         return $this->links_from_xpath($query, $map);
     }
     
-    function links_parent_ancestors($map) {
+    function links_parent_ancestors($map)
+    {
         $here = $this->parent($map);
         return $this->links_ancestors_from($here, $map);
     }
 
-    function links_self_ancestors($map) {
+    function links_self_ancestors($map)
+    {
         $here = $this->here();
         return $this->links_ancestors_from($here, $map);
     }
     
-    function links_ancestors_from($here, $map) {
+    function links_ancestors_from($here, $map)
+    {
         $link = "";
 
         $pages = $map->xpath('//page[normalize-space(@here)="'.$here.'"]/ancestor::*');
@@ -289,35 +315,40 @@ class SimpleTestXMLElement extends SimpleXMLElement {
         
         return $link;
     }
-    function links_siblings_before($map) {
+    function links_siblings_before($map)
+    {
         $here = $this->here();
         $query = '//page[normalize-space(@here)="'.$here.'"]/preceding-sibling::*';
 
         return $this->links_from_xpath($query, $map);
     }
 
-    function links_self($map) {
+    function links_self($map)
+    {
         $here = $this->here();
         $query = '//page[normalize-space(@here)="'.$here.'"]';
 
         return $this->links_from_xpath($query, $map);
     }
 
-    function links_siblings_after($map) {
+    function links_siblings_after($map)
+    {
         $here = $this->here();
         $query = '//page[normalize-space(@here)="'.$here.'"]/following-sibling::*';
 
         return $this->links_from_xpath($query, $map);
     }
 
-    function links_children($map) {
+    function links_children($map)
+    {
         $here = $this->here();
         $query = '//page[normalize-space(@here)="'.$here.'"]/child::*';
 
         return $this->links_from_xpath($query, $map);
     }
 
-    function links($path_to_map) {
+    function links($path_to_map)
+    {
         $links['download'] = "";
         $links['start_testing'] = "";
         $links['support'] = "";
@@ -333,7 +364,7 @@ class SimpleTestXMLElement extends SimpleXMLElement {
             $link .= $this->links_children($map);
         }
         if ($level == 3) {
-            $link .= $this->links_self_ancestors($map);        
+            $link .= $this->links_self_ancestors($map);
             $link .= $this->links_siblings_before($map);
             $link .= $this->links_self($map);
             $chilren = $this->links_children($map);
@@ -372,19 +403,22 @@ class SimpleTestXMLElement extends SimpleXMLElement {
         return $links;
     }
 
-    function level_from_root($here, $map) {
+    function level_from_root($here, $map)
+    {
         $ancestors = $map->xpath('//page[normalize-space(@here)="'.$here.'"]/ancestor::*');
 
         return count($ancestors);
     }
 }
 
-class PackagingSynchronisation {
+class PackagingSynchronisation
+{
     public $file;
     public $lang;
     public $content;
     
-    function __construct($file, $lang="fr") {
+    function __construct($file, $lang = "fr")
+    {
         $this->file = $file;
         $this->lang = $lang;
         $this->content = "";
@@ -393,11 +427,13 @@ class PackagingSynchronisation {
         }
     }
 
-    function isSynchronisable() {
+    function isSynchronisable()
+    {
         return (bool)strpos($this->content, "<synchronisation");
     }
 
-    function result() {
+    function result()
+    {
         if (!$this->isSynchronisable()) {
             return "source";
         } elseif (!$this->sourceRevision()) {
@@ -409,19 +445,22 @@ class PackagingSynchronisation {
         }
     }
     
-    function revision() {
+    function revision()
+    {
         $matches = array();
         preg_match("/Id: [a-z_-]*\.[a-z]* ([0-9]*)/", $this->content, $matches);
-        return $matches[1];    
+        return $matches[1];
     }
     
-    function sourceLang() {
+    function sourceLang()
+    {
         $matches = array();
         preg_match("/synchronisation.*lang=\"([a-z]*)\"/", $this->content, $matches);
-        return $matches[1];    
+        return $matches[1];
     }
 
-    function sourceRevision() {
+    function sourceRevision()
+    {
         $source_lang = $this->sourceLang();
         $source_file = str_replace("/".$this->lang."/", "/".$source_lang."/", $this->file);
         if (file_exists($source_file)) {
@@ -431,10 +470,10 @@ class PackagingSynchronisation {
         return false;
     }
     
-    function lastSynchroRevision() {
+    function lastSynchroRevision()
+    {
         $matches = array();
         preg_match("/synchronisation.*version=\"([0-9]*)\"/", $this->content, $matches);
-        return $matches[1];    
+        return $matches[1];
     }
 }
-?>

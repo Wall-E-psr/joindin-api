@@ -58,7 +58,8 @@ class BatchContextTest extends \PHPUnit_Framework_TestCase
         try {
             $this->assertEquals([], $b->findTransaction($h));
             $this->fail('Did not throw');
-        } catch (\RuntimeException $e) {}
+        } catch (\RuntimeException $e) {
+        }
         curl_multi_close($m);
     }
 

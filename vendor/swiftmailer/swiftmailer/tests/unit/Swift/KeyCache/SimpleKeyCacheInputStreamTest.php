@@ -4,8 +4,7 @@ require_once 'Swift/Tests/SwiftUnitTestCase.php';
 require_once 'Swift/KeyCache/SimpleKeyCacheInputStream.php';
 require_once 'Swift/KeyCache.php';
 
-class Swift_KeyCache_SimpleKeyCacheInputStreamTest
-    extends Swift_Tests_SwiftUnitTestCase
+class Swift_KeyCache_SimpleKeyCacheInputStreamTest extends Swift_Tests_SwiftUnitTestCase
 {
     private $_nsKey = 'ns1';
 
@@ -15,8 +14,7 @@ class Swift_KeyCache_SimpleKeyCacheInputStreamTest
         $this->_checking(Expectations::create()
             -> one($cache)->setString($this->_nsKey, 'foo', 'a', Swift_KeyCache::MODE_APPEND)
             -> one($cache)->setString($this->_nsKey, 'foo', 'b', Swift_KeyCache::MODE_APPEND)
-            -> one($cache)->setString($this->_nsKey, 'foo', 'c', Swift_KeyCache::MODE_APPEND)
-            );
+            -> one($cache)->setString($this->_nsKey, 'foo', 'c', Swift_KeyCache::MODE_APPEND));
 
         $stream = new Swift_KeyCache_SimpleKeyCacheInputStream();
         $stream->setKeyCache($cache);
@@ -32,8 +30,7 @@ class Swift_KeyCache_SimpleKeyCacheInputStreamTest
     {
         $cache = $this->_createKeyCache();
         $this->_checking(Expectations::create()
-            -> one($cache)->clearKey($this->_nsKey, 'foo')
-            );
+            -> one($cache)->clearKey($this->_nsKey, 'foo'));
 
         $stream = new Swift_KeyCache_SimpleKeyCacheInputStream();
         $stream->setKeyCache($cache);
@@ -49,8 +46,7 @@ class Swift_KeyCache_SimpleKeyCacheInputStreamTest
         $this->_checking(Expectations::create()
             -> one($cache)->setString($this->_nsKey, 'foo', 'a', Swift_KeyCache::MODE_APPEND)
             -> one($cache)->setString($this->_nsKey, 'foo', 'b', Swift_KeyCache::MODE_APPEND)
-            -> one($cache)->setString('test', 'bar', 'x', Swift_KeyCache::MODE_APPEND)
-            );
+            -> one($cache)->setString('test', 'bar', 'x', Swift_KeyCache::MODE_APPEND));
 
         $stream = new Swift_KeyCache_SimpleKeyCacheInputStream();
         $stream->setKeyCache($cache);

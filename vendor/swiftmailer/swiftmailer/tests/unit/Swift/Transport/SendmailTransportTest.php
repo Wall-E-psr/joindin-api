@@ -5,8 +5,7 @@ require_once 'Swift/Transport/SendmailTransport.php';
 require_once 'Swift/Mime/Message.php';
 require_once 'Swift/Events/EventDispatcher.php';
 
-class Swift_Transport_SendmailTransportTest
-    extends Swift_Transport_AbstractSmtpEventSupportTest
+class Swift_Transport_SendmailTransportTest extends Swift_Transport_AbstractSmtpEventSupportTest
 {
     protected function _getTransport($buf, $dispatcher = null, $command = '/usr/sbin/sendmail -bs')
     {
@@ -54,8 +53,7 @@ class Swift_Transport_SendmailTransportTest
             -> one($buf)->terminate()
             -> one($buf)->setWriteTranslations(array("\r\n"=>"\n", "\n." => "\n.."))
             -> one($buf)->setWriteTranslations(array())
-            -> ignoring($buf)
-            );
+            -> ignoring($buf));
 
         $sendmail->setCommand('/usr/sbin/sendmail -t');
         $this->assertEqual(2, $sendmail->send($message));
@@ -75,8 +73,7 @@ class Swift_Transport_SendmailTransportTest
             -> one($buf)->terminate()
             -> one($buf)->setWriteTranslations(array("\r\n"=>"\n"))
             -> one($buf)->setWriteTranslations(array())
-            -> ignoring($buf)
-            );
+            -> ignoring($buf));
 
         $sendmail->setCommand('/usr/sbin/sendmail -i -t');
         $this->assertEqual(2, $sendmail->send($message));
@@ -96,8 +93,7 @@ class Swift_Transport_SendmailTransportTest
             -> one($buf)->terminate()
             -> one($buf)->setWriteTranslations(array("\r\n"=>"\n"))
             -> one($buf)->setWriteTranslations(array())
-            -> ignoring($buf)
-            );
+            -> ignoring($buf));
 
         $sendmail->setCommand('/usr/sbin/sendmail -oi -t');
         $this->assertEqual(2, $sendmail->send($message));
@@ -117,8 +113,7 @@ class Swift_Transport_SendmailTransportTest
             -> one($buf)->terminate()
             -> one($buf)->setWriteTranslations(array("\r\n"=>"\n", "\n." => "\n.."))
             -> one($buf)->setWriteTranslations(array())
-            -> ignoring($buf)
-            );
+            -> ignoring($buf));
 
         $sendmail->setCommand('/usr/sbin/sendmail -t');
         $this->assertEqual(2, $sendmail->send($message));

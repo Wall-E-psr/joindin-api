@@ -13,13 +13,12 @@ interface Sweety_TestLocator
    * @param string[] $dirs
    * @return string[]
    */
-  public function getTests($dirs = array());
+    public function getTests($dirs = array());
   
   /**
    * Loads the test case of the given name.
    * @param string $testCase
    * @return boolean
    */
-  public function includeTest($testCase);
-  
+    public function includeTest($testCase);
 }

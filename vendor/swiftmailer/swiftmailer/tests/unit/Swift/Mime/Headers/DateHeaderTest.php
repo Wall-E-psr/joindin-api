@@ -4,8 +4,7 @@ require_once 'Swift/Tests/SwiftUnitTestCase.php';
 require_once 'Swift/Mime/Headers/DateHeader.php';
 require_once 'Swift/Mime/Grammar.php';
 
-class Swift_Mime_Headers_DateHeaderTest
-    extends Swift_Tests_SwiftUnitTestCase
+class Swift_Mime_Headers_DateHeaderTest extends Swift_Tests_SwiftUnitTestCase
 {
     /* --
     The following tests refer to RFC 2822, section 3.6.1 and 3.3.
@@ -62,9 +61,10 @@ class Swift_Mime_Headers_DateHeaderTest
         $timestamp = time();
         $header = $this->_getHeader('Date');
         $header->setTimestamp($timestamp);
-        $this->assertEqual('Date: ' . date('r', $timestamp) . "\r\n",
+        $this->assertEqual(
+            'Date: ' . date('r', $timestamp) . "\r\n",
             $header->toString()
-            );
+        );
     }
 
     // -- Private methods

@@ -5,7 +5,7 @@
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
- 
+
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -13,7 +13,7 @@
 
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- 
+
  */
  
 /**
@@ -28,18 +28,17 @@ interface Yay_Description
    * Append an existing Description to this Description.
    * @param Yay_Description
    */
-  public function appendDescription(Yay_Description $description);
+    public function appendDescription(Yay_Description $description);
   
   /**
    * Append text content to this Description.
    * @param string $text
    */
-  public function appendText($text);
+    public function appendText($text);
   
   /**
    * Get this description back as a formatted string.
    * @return string
    */
-  public function toString();
-  
+    public function toString();
 }

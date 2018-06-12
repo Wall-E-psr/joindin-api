@@ -23,7 +23,6 @@ class UsersControllerTest extends \PHPUnit_Framework_TestCase
         $db = $this->getMockBuilder('\JoindinTest\Inc\mockPDO')->getMock();
 
         $usersController->deleteUser($request, $db);
-
     }
 
     /**
@@ -56,7 +55,6 @@ class UsersControllerTest extends \PHPUnit_Framework_TestCase
 
         $usersController->setUserMapper($userMapper);
         $usersController->deleteUser($request, $db);
-
     }
 
     /**
@@ -94,7 +92,6 @@ class UsersControllerTest extends \PHPUnit_Framework_TestCase
 
         $usersController->setUserMapper($userMapper);
         $usersController->deleteUser($request, $db);
-
     }
 
 
@@ -129,7 +126,6 @@ class UsersControllerTest extends \PHPUnit_Framework_TestCase
 
         $usersController->setUserMapper($userMapper);
         $this->assertNull($usersController->deleteUser($request, $db));
-
     }
 
     public function testThatUserDataIsNotDoubleEscapedOnUserCreation()
@@ -278,7 +274,6 @@ class UsersControllerTest extends \PHPUnit_Framework_TestCase
 
         $usersController->setUserMapper($userMapper);
         $usersController->setTrusted($request, $db);
-
     }
 
 
@@ -316,7 +311,6 @@ class UsersControllerTest extends \PHPUnit_Framework_TestCase
 
         $usersController->setUserMapper($userMapper);
         $usersController->setTrusted($request, $db);
-
     }
 
     /**
@@ -357,7 +351,6 @@ class UsersControllerTest extends \PHPUnit_Framework_TestCase
 
         $usersController->setUserMapper($userMapper);
         $usersController->setTrusted($request, $db);
-
     }
 
 
@@ -408,6 +401,5 @@ class UsersControllerTest extends \PHPUnit_Framework_TestCase
 
         $usersController->setUserMapper($userMapper);
         $this->assertNull($usersController->setTrusted($request, $db));
-
     }
 }

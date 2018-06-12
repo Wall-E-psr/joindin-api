@@ -141,7 +141,9 @@ class Oauth1 implements SubscriberInterface
 
         // Implements double-dispatch to sign requests
         $meth = [$this, 'sign_' . str_replace(
-            '-', '_', $this->config['signature_method']
+            '-',
+            '_',
+            $this->config['signature_method']
         )];
 
         if (!is_callable($meth)) {

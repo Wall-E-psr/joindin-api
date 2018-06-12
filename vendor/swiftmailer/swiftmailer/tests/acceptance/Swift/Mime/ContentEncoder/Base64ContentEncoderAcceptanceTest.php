@@ -3,8 +3,7 @@
 require_once 'Swift/Mime/ContentEncoder/Base64ContentEncoder.php';
 require_once 'Swift/ByteStream/ArrayByteStream.php';
 
-class Swift_Mime_ContentEncoder_Base64ContentEncoderAcceptanceTest
-    extends UnitTestCase
+class Swift_Mime_ContentEncoder_Base64ContentEncoderAcceptanceTest extends UnitTestCase
 {
     private $_samplesDir;
     private $_encoder;
@@ -26,7 +25,6 @@ class Swift_Mime_ContentEncoder_Base64ContentEncoderAcceptanceTest
             $sampleDir = $this->_samplesDir . '/' . $encodingDir;
 
             if (is_dir($sampleDir)) {
-
                 $fileFp = opendir($sampleDir);
                 while (false !== $sampleFile = readdir($fileFp)) {
                     if (substr($sampleFile, 0, 1) == '.') {
@@ -48,14 +46,14 @@ class Swift_Mime_ContentEncoder_Base64ContentEncoderAcceptanceTest
                     }
 
                     $this->assertEqual(
-                        base64_decode($encoded), $text,
+                        base64_decode($encoded),
+                        $text,
                         '%s: Encoded string should decode back to original string for sample ' .
                         $sampleDir . '/' . $sampleFile
-                        );
+                    );
                 }
                 closedir($fileFp);
             }
-
         }
         closedir($sampleFp);
     }

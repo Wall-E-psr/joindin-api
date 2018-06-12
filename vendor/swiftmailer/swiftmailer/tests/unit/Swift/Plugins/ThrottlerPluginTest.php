@@ -16,9 +16,11 @@ class Swift_Plugins_ThrottlerPluginTest extends Swift_Tests_SwiftUnitTestCase
 
         //10MB/min
         $plugin = new Swift_Plugins_ThrottlerPlugin(
-            10000000, Swift_Plugins_ThrottlerPlugin::BYTES_PER_MINUTE,
-            $sleeper, $timer
-            );
+            10000000,
+            Swift_Plugins_ThrottlerPlugin::BYTES_PER_MINUTE,
+            $sleeper,
+            $timer
+        );
 
         $this->_checking(Expectations::create()
             -> one($timer)->getTimestamp() -> returns(0)
@@ -28,8 +30,7 @@ class Swift_Plugins_ThrottlerPluginTest extends Swift_Tests_SwiftUnitTestCase
             -> one($timer)->getTimestamp() -> returns(2) //expected 2.4 (sleep 1)
             -> ignoring($timer)
 
-            -> exactly(2)->of($sleeper)->sleep(1)
-            );
+            -> exactly(2)->of($sleeper)->sleep(1));
 
         //10,000,000 bytes per minute
         //100,000 bytes per email
@@ -53,9 +54,11 @@ class Swift_Plugins_ThrottlerPluginTest extends Swift_Tests_SwiftUnitTestCase
 
         //60/min
         $plugin = new Swift_Plugins_ThrottlerPlugin(
-            60, Swift_Plugins_ThrottlerPlugin::MESSAGES_PER_MINUTE,
-            $sleeper, $timer
-            );
+            60,
+            Swift_Plugins_ThrottlerPlugin::MESSAGES_PER_MINUTE,
+            $sleeper,
+            $timer
+        );
 
         $this->_checking(Expectations::create()
             -> one($timer)->getTimestamp() -> returns(0)
@@ -65,8 +68,7 @@ class Swift_Plugins_ThrottlerPluginTest extends Swift_Tests_SwiftUnitTestCase
             -> one($timer)->getTimestamp() -> returns(4) //expected 4
             -> ignoring($timer)
 
-            -> exactly(2)->of($sleeper)->sleep(1)
-            );
+            -> exactly(2)->of($sleeper)->sleep(1));
 
         //60 messages per minute
         //1 message per second
@@ -98,8 +100,7 @@ class Swift_Plugins_ThrottlerPluginTest extends Swift_Tests_SwiftUnitTestCase
         $this->_bytes = $bytes;
         $msg = $this->_mock('Swift_Mime_Message');
         $this->_checking(Expectations::create()
-            -> ignoring($msg)->toByteStream(any()) -> calls(array($this, '_write'))
-        );
+            -> ignoring($msg)->toByteStream(any()) -> calls(array($this, '_write')));
 
         return $msg;
     }
@@ -108,8 +109,7 @@ class Swift_Plugins_ThrottlerPluginTest extends Swift_Tests_SwiftUnitTestCase
     {
         $evt = $this->_mock('Swift_Events_SendEvent');
         $this->_checking(Expectations::create()
-            -> ignoring($evt)->getMessage() -> returns($message)
-            );
+            -> ignoring($evt)->getMessage() -> returns($message));
 
         return $evt;
     }

@@ -20,7 +20,8 @@ require_once(dirname(__FILE__) . '/expectation.php');
  *    @package SimpleTest
  *    @subpackage WebTester
  */
-class FieldExpectation extends SimpleExpectation {
+class FieldExpectation extends SimpleExpectation
+{
     private $value;
     
     /**
@@ -31,7 +32,8 @@ class FieldExpectation extends SimpleExpectation {
      *                            a placeholder for the original message.
      *    @access public
      */
-    function __construct($value, $message = '%s') {
+    function __construct($value, $message = '%s')
+    {
         parent::__construct($message);
         if (is_array($value)) {
             sort($value);
@@ -47,7 +49,8 @@ class FieldExpectation extends SimpleExpectation {
      *    @return boolean              True if correct.
      *    @access public
      */
-    function test($compare) {
+    function test($compare)
+    {
         if ($this->value === false) {
             return ($compare === false);
         }
@@ -66,7 +69,8 @@ class FieldExpectation extends SimpleExpectation {
      *    @return boolean           True if integer, string or float.
      *    @access private
      */
-    protected function isSingle($value) {
+    protected function isSingle($value)
+    {
         return is_string($value) || is_integer($value) || is_float($value);
     }
     
@@ -76,7 +80,8 @@ class FieldExpectation extends SimpleExpectation {
      *    @returns boolean         True if matching.
      *    @access private
      */
-    protected function testSingle($compare) {
+    protected function testSingle($compare)
+    {
         if (is_array($compare) && count($compare) == 1) {
             $compare = $compare[0];
         }
@@ -92,7 +97,8 @@ class FieldExpectation extends SimpleExpectation {
      *    @returns boolean         True if matching.
      *    @access private
      */
-    protected function testMultiple($compare) {
+    protected function testMultiple($compare)
+    {
         if (is_string($compare)) {
             $compare = array($compare);
         }
@@ -110,7 +116,8 @@ class FieldExpectation extends SimpleExpectation {
      *                               or failure.
      *    @access public
      */
-    function testMessage($compare) {
+    function testMessage($compare)
+    {
         $dumper = $this->getDumper();
         if (is_array($compare)) {
             sort($compare);
@@ -131,7 +138,8 @@ class FieldExpectation extends SimpleExpectation {
  *    @package SimpleTest
  *    @subpackage WebTester
  */
-class HttpHeaderExpectation extends SimpleExpectation {
+class HttpHeaderExpectation extends SimpleExpectation
+{
     private $expected_header;
     private $expected_value;
     
@@ -145,7 +153,8 @@ class HttpHeaderExpectation extends SimpleExpectation {
      *    @param string $message  Optiona message override. Can use %s as
      *                            a placeholder for the original message.
      */
-    function __construct($header, $value = false, $message = '%s') {
+    function __construct($header, $value = false, $message = '%s')
+    {
         parent::__construct($message);
         $this->expected_header = $this->normaliseHeader($header);
         $this->expected_value = $value;
@@ -156,7 +165,8 @@ class HttpHeaderExpectation extends SimpleExpectation {
      *    @return mixed        Expectation set in constructor.
      *    @access protected
      */
-    protected function getExpectation() {
+    protected function getExpectation()
+    {
         return $this->expected_value;
     }
     
@@ -167,7 +177,8 @@ class HttpHeaderExpectation extends SimpleExpectation {
      *                             name.
      *    @access private
      */
-    protected function normaliseHeader($header) {
+    protected function normaliseHeader($header)
+    {
         return strtolower(trim($header));
     }
     
@@ -178,7 +189,8 @@ class HttpHeaderExpectation extends SimpleExpectation {
      *    @return boolean         True if header present.
      *    @access public
      */
-    function test($compare) {
+    function test($compare)
+    {
         return is_string($this->findHeader($compare));
     }
     
@@ -189,7 +201,8 @@ class HttpHeaderExpectation extends SimpleExpectation {
      *    @return string          Matching header line.
      *    @access protected
      */
-    protected function findHeader($compare) {
+    protected function findHeader($compare)
+    {
         $lines = split("\r\n", $compare);
         foreach ($lines as $line) {
             if ($this->testHeaderLine($line)) {
@@ -205,7 +218,8 @@ class HttpHeaderExpectation extends SimpleExpectation {
      *    @return boolean          True if matched.
      *    @access private
      */
-    protected function testHeaderLine($line) {
+    protected function testHeaderLine($line)
+    {
         if (count($parsed = split(':', $line, 2)) < 2) {
             return false;
         }
@@ -223,7 +237,8 @@ class HttpHeaderExpectation extends SimpleExpectation {
      *    @return boolean             True if matched.
      *    @access protected
      */
-    protected function testHeaderValue($value, $expected) {
+    protected function testHeaderValue($value, $expected)
+    {
         if ($expected === false) {
             return true;
         }
@@ -240,7 +255,8 @@ class HttpHeaderExpectation extends SimpleExpectation {
      *                               or failure.
      *    @access public
      */
-    function testMessage($compare) {
+    function testMessage($compare)
+    {
         if (SimpleExpectation::isExpectation($this->expected_value)) {
             $message = $this->expected_value->overlayMessage($compare, $this->getDumper());
         } else {
@@ -261,7 +277,8 @@ class HttpHeaderExpectation extends SimpleExpectation {
  *    @package SimpleTest
  *    @subpackage WebTester
  */
-class NoHttpHeaderExpectation extends HttpHeaderExpectation {
+class NoHttpHeaderExpectation extends HttpHeaderExpectation
+{
     private $expected_header;
     private $expected_value;
     
@@ -271,7 +288,8 @@ class NoHttpHeaderExpectation extends HttpHeaderExpectation {
      *    @param string $message    Optiona message override. Can use %s as
      *                              a placeholder for the original message.
      */
-    function __construct($unwanted, $message = '%s') {
+    function __construct($unwanted, $message = '%s')
+    {
         parent::__construct($unwanted, false, $message);
     }
     
@@ -281,7 +299,8 @@ class NoHttpHeaderExpectation extends HttpHeaderExpectation {
      *    @return boolean         True if header present.
      *    @access public
      */
-    function test($compare) {
+    function test($compare)
+    {
         return ($this->findHeader($compare) === false);
     }
     
@@ -292,7 +311,8 @@ class NoHttpHeaderExpectation extends HttpHeaderExpectation {
      *                               or failure.
      *    @access public
      */
-    function testMessage($compare) {
+    function testMessage($compare)
+    {
         $expectation = $this->getExpectation();
         if (is_string($line = $this->findHeader($compare))) {
             return "Found unwanted header [$expectation] with [$line]";
@@ -307,7 +327,8 @@ class NoHttpHeaderExpectation extends HttpHeaderExpectation {
  *    @package SimpleTest
  *    @subpackage UnitTester
  */
-class TextExpectation extends SimpleExpectation {
+class TextExpectation extends SimpleExpectation
+{
     private $substring;
     
     /**
@@ -316,7 +337,8 @@ class TextExpectation extends SimpleExpectation {
      *    @param string $message    Customised message on failure.
      *    @access public
      */
-    function __construct($substring, $message = '%s') {
+    function __construct($substring, $message = '%s')
+    {
         parent::__construct($message);
         $this->substring = $substring;
     }
@@ -326,7 +348,8 @@ class TextExpectation extends SimpleExpectation {
      *    @return string       Text to match.
      *    @access protected
      */
-    protected function getSubstring() {
+    protected function getSubstring()
+    {
         return $this->substring;
     }
     
@@ -337,7 +360,8 @@ class TextExpectation extends SimpleExpectation {
      *    @return boolean               True if correct.
      *    @access public
      */
-    function test($compare) {
+    function test($compare)
+    {
         return (strpos($compare, $this->substring) !== false);
     }
     
@@ -348,7 +372,8 @@ class TextExpectation extends SimpleExpectation {
      *                               or failure.
      *    @access public
      */
-    function testMessage($compare) {
+    function testMessage($compare)
+    {
         if ($this->test($compare)) {
             return $this->describeTextMatch($this->getSubstring(), $compare);
         } else {
@@ -366,7 +391,8 @@ class TextExpectation extends SimpleExpectation {
      *    @param string $subject        Subject to search.
      *    @access protected
      */
-    protected function describeTextMatch($substring, $subject) {
+    protected function describeTextMatch($substring, $subject)
+    {
         $position = strpos($subject, $substring);
         $dumper = $this->getDumper();
         return "Text [$substring] detected at character [$position] in [" .
@@ -381,7 +407,8 @@ class TextExpectation extends SimpleExpectation {
  *    @package SimpleTest
  *    @subpackage UnitTester
  */
-class NoTextExpectation extends TextExpectation {
+class NoTextExpectation extends TextExpectation
+{
     
     /**
      *    Sets the reject pattern
@@ -389,7 +416,8 @@ class NoTextExpectation extends TextExpectation {
      *    @param string $message    Customised message on failure.
      *    @access public
      */
-    function __construct($substring, $message = '%s') {
+    function __construct($substring, $message = '%s')
+    {
         parent::__construct($substring, $message);
     }
     
@@ -400,7 +428,8 @@ class NoTextExpectation extends TextExpectation {
      *    @return boolean               True if correct.
      *    @access public
      */
-    function test($compare) {
+    function test($compare)
+    {
         return ! parent::test($compare);
     }
     
@@ -411,7 +440,8 @@ class NoTextExpectation extends TextExpectation {
      *                                or failure.
      *    @access public
      */
-    function testMessage($compare) {
+    function testMessage($compare)
+    {
         if ($this->test($compare)) {
             $dumper = $this->getDumper();
             return "Text [" . $this->getSubstring() .
@@ -430,7 +460,8 @@ class NoTextExpectation extends TextExpectation {
  *    @package SimpleTest
  *    @subpackage WebTester
  */
-class WebTestCase extends SimpleTestCase {
+class WebTestCase extends SimpleTestCase
+{
     private $browser;
     private $ignore_errors = false;
     
@@ -441,7 +472,8 @@ class WebTestCase extends SimpleTestCase {
      *                             the class name if none specified.
      *    @access public
      */
-    function __construct($label = false) {
+    function __construct($label = false)
+    {
         parent::__construct($label);
     }
     
@@ -450,7 +482,8 @@ class WebTestCase extends SimpleTestCase {
      *    @param string $method    Test method just started.
      *    @access public
      */
-    function before($method) {
+    function before($method)
+    {
         parent::before($method);
         $this->setBrowser($this->createBrowser());
     }
@@ -460,7 +493,8 @@ class WebTestCase extends SimpleTestCase {
      *    @param string $method    Test method just finished.
      *    @access public
      */
-    function after($method) {
+    function after($method)
+    {
         $this->unsetBrowser();
         parent::after($method);
     }
@@ -472,7 +506,8 @@ class WebTestCase extends SimpleTestCase {
      *    @return SimpleBrowser     Current test browser object.
      *    @access public
      */
-    function getBrowser() {
+    function getBrowser()
+    {
         return $this->browser;
     }
     
@@ -483,7 +518,8 @@ class WebTestCase extends SimpleTestCase {
      *    @param SimpleBrowser $browser    New test browser object.
      *    @access public
      */
-    function setBrowser($browser) {
+    function setBrowser($browser)
+    {
         return $this->browser = $browser;
     }
         
@@ -492,7 +528,8 @@ class WebTestCase extends SimpleTestCase {
      *    PHP garbage collector.
      *    @access public
      */
-    function unsetBrowser() {
+    function unsetBrowser()
+    {
         unset($this->browser);
     }
     
@@ -502,7 +539,8 @@ class WebTestCase extends SimpleTestCase {
      *    @return TestBrowser           New browser.
      *    @access public
      */
-    function createBrowser() {
+    function createBrowser()
+    {
         return new SimpleBrowser();
     }
     
@@ -511,7 +549,8 @@ class WebTestCase extends SimpleTestCase {
      *    @return string    Last low level HTTP error.
      *    @access public
      */
-    function getTransportError() {
+    function getTransportError()
+    {
         return $this->browser->getTransportError();
     }
         
@@ -521,7 +560,8 @@ class WebTestCase extends SimpleTestCase {
      *                          no page yet fetched.
      *    @access public
      */
-    function getUrl() {
+    function getUrl()
+    {
         return $this->browser->getUrl();
     }
     
@@ -529,7 +569,8 @@ class WebTestCase extends SimpleTestCase {
      *    Dumps the current request for debugging.
      *    @access public
      */
-    function showRequest() {
+    function showRequest()
+    {
         $this->dump($this->browser->getRequest());
     }
     
@@ -537,7 +578,8 @@ class WebTestCase extends SimpleTestCase {
      *    Dumps the current HTTP headers for debugging.
      *    @access public
      */
-    function showHeaders() {
+    function showHeaders()
+    {
         $this->dump($this->browser->getHeaders());
     }
     
@@ -545,7 +587,8 @@ class WebTestCase extends SimpleTestCase {
      *    Dumps the current HTML source for debugging.
      *    @access public
      */
-    function showSource() {
+    function showSource()
+    {
         $this->dump($this->browser->getContent());
     }
     
@@ -553,7 +596,8 @@ class WebTestCase extends SimpleTestCase {
      *    Dumps the visible text only for debugging.
      *    @access public
      */
-    function showText() {
+    function showText()
+    {
         $this->dump(wordwrap($this->browser->getContentAsText(), 80));
     }
     
@@ -568,7 +612,8 @@ class WebTestCase extends SimpleTestCase {
      *                                Cookie format string or timestamp.
      *    @access public
      */
-    function restart($date = false) {
+    function restart($date = false)
+    {
         if ($date === false) {
             $date = time();
         }
@@ -581,7 +626,8 @@ class WebTestCase extends SimpleTestCase {
      *    @param integer $interval    Amount to age in seconds.
      *    @access public
      */
-    function ageCookies($interval) {
+    function ageCookies($interval)
+    {
         $this->browser->ageCookies($interval);
     }
     
@@ -590,7 +636,8 @@ class WebTestCase extends SimpleTestCase {
      *    and the frameset page will be used instead.
      *    @access public
      */
-    function ignoreFrames() {
+    function ignoreFrames()
+    {
         $this->browser->ignoreFrames();
     }
     
@@ -598,7 +645,8 @@ class WebTestCase extends SimpleTestCase {
      *    Switches off cookie sending and recieving.
      *    @access public
      */
-    function ignoreCookies() {
+    function ignoreCookies()
+    {
         $this->browser->ignoreCookies();
     }
     
@@ -608,7 +656,8 @@ class WebTestCase extends SimpleTestCase {
      *    example.
      *    @access public
      */
-    function ignoreErrors() {
+    function ignoreErrors()
+    {
         $this->ignore_errors = true;
     }
     
@@ -620,7 +669,8 @@ class WebTestCase extends SimpleTestCase {
      *    @return string/boolean $result  Passes through result.
      *    @access private
      */
-    protected function failOnError($result) {
+    protected function failOnError($result)
+    {
         if (! $this->ignore_errors) {
             if ($error = $this->browser->getTransportError()) {
                 $this->fail($error);
@@ -636,7 +686,8 @@ class WebTestCase extends SimpleTestCase {
      *                                request until cleared.
      *    @access public
      */
-    function addHeader($header) {
+    function addHeader($header)
+    {
         $this->browser->addHeader($header);
     }
     
@@ -646,10 +697,12 @@ class WebTestCase extends SimpleTestCase {
      *    @param integer $max        Maximum hops.
      *    @access public
      */
-    function setMaximumRedirects($max) {
+    function setMaximumRedirects($max)
+    {
         if (! $this->browser) {
             trigger_error(
-                    'Can only set maximum redirects in a test method, setUp() or tearDown()');
+                'Can only set maximum redirects in a test method, setUp() or tearDown()'
+            );
         }
         $this->browser->setMaximumRedirects($max);
     }
@@ -660,7 +713,8 @@ class WebTestCase extends SimpleTestCase {
      *    @param integer $timeout      Maximum time in seconds.
      *    @access public
      */
-    function setConnectionTimeout($timeout) {
+    function setConnectionTimeout($timeout)
+    {
         $this->browser->setConnectionTimeout($timeout);
     }
     
@@ -673,7 +727,8 @@ class WebTestCase extends SimpleTestCase {
      *    @param string $password     Proxy password for authentication.
      *    @access public
      */
-    function useProxy($proxy, $username = false, $password = false) {
+    function useProxy($proxy, $username = false, $password = false)
+    {
         $this->browser->useProxy($proxy, $username, $password);
     }
     
@@ -687,7 +742,8 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean/string      Raw page on success.
      *    @access public
      */
-    function get($url, $parameters = false) {
+    function get($url, $parameters = false)
+    {
         return $this->failOnError($this->browser->get($url, $parameters));
     }
     
@@ -701,7 +757,8 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean/string      Raw page on success.
      *    @access public
      */
-    function post($url, $parameters = false) {
+    function post($url, $parameters = false)
+    {
         return $this->failOnError($this->browser->post($url, $parameters));
     }
     
@@ -713,7 +770,8 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean             True on success.
      *    @access public
      */
-    function head($url, $parameters = false) {
+    function head($url, $parameters = false)
+    {
         return $this->failOnError($this->browser->head($url, $parameters));
     }
     
@@ -723,7 +781,8 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean     True if fetch succeeded.
      *    @access public
      */
-    function retry() {
+    function retry()
+    {
         return $this->failOnError($this->browser->retry());
     }
     
@@ -734,7 +793,8 @@ class WebTestCase extends SimpleTestCase {
      *                        fetch succeeded.
      *    @access public
      */
-    function back() {
+    function back()
+    {
         return $this->failOnError($this->browser->back());
     }
     
@@ -745,7 +805,8 @@ class WebTestCase extends SimpleTestCase {
      *                        fetch succeeded.
      *    @access public
      */
-    function forward() {
+    function forward()
+    {
         return $this->failOnError($this->browser->forward());
     }
     
@@ -759,9 +820,11 @@ class WebTestCase extends SimpleTestCase {
      *                               failed.
      *    @access public
      */
-    function authenticate($username, $password) {
+    function authenticate($username, $password)
+    {
         return $this->failOnError(
-                $this->browser->authenticate($username, $password));
+            $this->browser->authenticate($username, $password)
+        );
     }
     
     /**
@@ -770,7 +833,8 @@ class WebTestCase extends SimpleTestCase {
      *    @return string               Value of cookie or false if unset.
      *    @access public
      */
-    function getCookie($name) {
+    function getCookie($name)
+    {
         return $this->browser->getCurrentCookieValue($name);
     }
     
@@ -783,7 +847,8 @@ class WebTestCase extends SimpleTestCase {
      *    @param string $expiry        Expiry date.
      *    @access public
      */
-    function setCookie($name, $value, $host = false, $path = '/', $expiry = false) {
+    function setCookie($name, $value, $host = false, $path = '/', $expiry = false)
+    {
         $this->browser->setCookie($name, $value, $host, $path, $expiry);
     }
     
@@ -795,7 +860,8 @@ class WebTestCase extends SimpleTestCase {
      *                                      or false if none.
      *    @access public
      */
-    function getFrameFocus() {
+    function getFrameFocus()
+    {
         return $this->browser->getFrameFocus();
     }
     
@@ -805,7 +871,8 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean           True if frame exists.
      *    @access public
      */
-    function setFrameFocusByIndex($choice) {
+    function setFrameFocusByIndex($choice)
+    {
         return $this->browser->setFrameFocusByIndex($choice);
     }
     
@@ -815,7 +882,8 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean        True if frame exists.
      *    @access public
      */
-    function setFrameFocus($name) {
+    function setFrameFocus($name)
+    {
         return $this->browser->setFrameFocus($name);
     }
     
@@ -824,7 +892,8 @@ class WebTestCase extends SimpleTestCase {
      *    for content.
      *    @access public
      */
-    function clearFrameFocus() {
+    function clearFrameFocus()
+    {
         return $this->browser->clearFrameFocus();
     }
     
@@ -835,7 +904,8 @@ class WebTestCase extends SimpleTestCase {
      *    @return string/boolean      Raw page or false.
      *    @access public
      */
-    function click($label) {
+    function click($label)
+    {
         return $this->failOnError($this->browser->click($label));
     }
     
@@ -844,11 +914,13 @@ class WebTestCase extends SimpleTestCase {
      *    @param string $label        Visible text or alt text.
      *    @return boolean             True if click target.
      *    @access public
-     */    
-    function assertClickable($label, $message = '%s') {
+     */
+    function assertClickable($label, $message = '%s')
+    {
         return $this->assertTrue(
-                $this->browser->isClickable($label),
-                sprintf($message, "Click target [$label] should exist"));
+            $this->browser->isClickable($label),
+            sprintf($message, "Click target [$label] should exist")
+        );
     }
     
     /**
@@ -860,9 +932,11 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean/string  Page on success, else false.
      *    @access public
      */
-    function clickSubmit($label = 'Submit', $additional = false) {
+    function clickSubmit($label = 'Submit', $additional = false)
+    {
         return $this->failOnError(
-                $this->browser->clickSubmit($label, $additional));
+            $this->browser->clickSubmit($label, $additional)
+        );
     }
     
     /**
@@ -873,9 +947,11 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean/string  Page on success.
      *    @access public
      */
-    function clickSubmitByName($name, $additional = false) {
+    function clickSubmitByName($name, $additional = false)
+    {
         return $this->failOnError(
-                $this->browser->clickSubmitByName($name, $additional));
+            $this->browser->clickSubmitByName($name, $additional)
+        );
     }
     
     /**
@@ -886,9 +962,11 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean/string  Page on success.
      *    @access public
      */
-    function clickSubmitById($id, $additional = false) {
+    function clickSubmitById($id, $additional = false)
+    {
         return $this->failOnError(
-                $this->browser->clickSubmitById($id, $additional));
+            $this->browser->clickSubmitById($id, $additional)
+        );
     }
     
     /**
@@ -896,11 +974,13 @@ class WebTestCase extends SimpleTestCase {
      *    @param string $label        Visible text.
      *    @return boolean             True if click target.
      *    @access public
-     */    
-    function assertSubmit($label, $message = '%s') {
+     */
+    function assertSubmit($label, $message = '%s')
+    {
         return $this->assertTrue(
-                $this->browser->isSubmit($label),
-                sprintf($message, "Submit button [$label] should exist"));
+            $this->browser->isSubmit($label),
+            sprintf($message, "Submit button [$label] should exist")
+        );
     }
     
     /**
@@ -916,9 +996,11 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean/string  Page on success.
      *    @access public
      */
-    function clickImage($label, $x = 1, $y = 1, $additional = false) {
+    function clickImage($label, $x = 1, $y = 1, $additional = false)
+    {
         return $this->failOnError(
-                $this->browser->clickImage($label, $x, $y, $additional));
+            $this->browser->clickImage($label, $x, $y, $additional)
+        );
     }
     
     /**
@@ -934,9 +1016,11 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean/string  Page on success.
      *    @access public
      */
-    function clickImageByName($name, $x = 1, $y = 1, $additional = false) {
+    function clickImageByName($name, $x = 1, $y = 1, $additional = false)
+    {
         return $this->failOnError(
-                $this->browser->clickImageByName($name, $x, $y, $additional));
+            $this->browser->clickImageByName($name, $x, $y, $additional)
+        );
     }
     
     /**
@@ -951,9 +1035,11 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean/string      Page on success.
      *    @access public
      */
-    function clickImageById($id, $x = 1, $y = 1, $additional = false) {
+    function clickImageById($id, $x = 1, $y = 1, $additional = false)
+    {
         return $this->failOnError(
-                $this->browser->clickImageById($id, $x, $y, $additional));
+            $this->browser->clickImageById($id, $x, $y, $additional)
+        );
     }
     
     /**
@@ -961,11 +1047,13 @@ class WebTestCase extends SimpleTestCase {
      *    @param string $label        Visible text.
      *    @return boolean             True if click target.
      *    @access public
-     */    
-    function assertImage($label, $message = '%s') {
+     */
+    function assertImage($label, $message = '%s')
+    {
         return $this->assertTrue(
-                $this->browser->isImage($label),
-                sprintf($message, "Image with text [$label] should exist"));
+            $this->browser->isImage($label),
+            sprintf($message, "Image with text [$label] should exist")
+        );
     }
     
     /**
@@ -975,7 +1063,8 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean/string  Page on success.
      *    @access public
      */
-    function submitFormById($id) {
+    function submitFormById($id)
+    {
         return $this->failOnError($this->browser->submitFormById($id));
     }
     
@@ -989,7 +1078,8 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean/string   Page on success.
      *    @access public
      */
-    function clickLink($label, $index = 0) {
+    function clickLink($label, $index = 0)
+    {
         return $this->failOnError($this->browser->clickLink($label, $index));
     }
     
@@ -999,7 +1089,8 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean/string   Page on success.
      *    @access public
      */
-    function clickLinkById($id) {
+    function clickLinkById($id)
+    {
         return $this->failOnError($this->browser->clickLinkById($id));
     }
     
@@ -1013,7 +1104,8 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean          True if link present.
      *    @access public
      */
-    function assertLink($label, $expected = true, $message = '%s') {
+    function assertLink($label, $expected = true, $message = '%s')
+    {
         $url = $this->browser->getLink($label);
         if ($expected === true || ($expected !== true && $url === false)) {
             return $this->assertTrue($url !== false, sprintf($message, "Link [$label] should exist"));
@@ -1034,10 +1126,12 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean                 True if link missing.
      *    @access public
      */
-    function assertNoLink($label, $message = '%s') {
+    function assertNoLink($label, $message = '%s')
+    {
         return $this->assertTrue(
-                $this->browser->getLink($label) === false,
-                sprintf($message, "Link [$label] should not exist"));
+            $this->browser->getLink($label) === false,
+            sprintf($message, "Link [$label] should not exist")
+        );
     }
     
     /**
@@ -1049,7 +1143,8 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean          True if link present.
      *    @access public
      */
-    function assertLinkById($id, $expected = true, $message = '%s') {
+    function assertLinkById($id, $expected = true, $message = '%s')
+    {
         $url = $this->browser->getLinkById($id);
         if ($expected === true) {
             return $this->assertTrue($url !== false, sprintf($message, "Link ID [$id] should exist"));
@@ -1069,10 +1164,12 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean          True if link missing.
      *    @access public
      */
-    function assertNoLinkById($id, $message = '%s') {
+    function assertNoLinkById($id, $message = '%s')
+    {
         return $this->assertTrue(
-                $this->browser->getLinkById($id) === false,
-                sprintf($message, "Link ID [$id] should not exist"));
+            $this->browser->getLinkById($id) === false,
+            sprintf($message, "Link ID [$id] should not exist")
+        );
     }
     
     /**
@@ -1083,7 +1180,8 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean        True if field exists, otherwise false.
      *    @access public
      */
-    function setField($label, $value, $position=false) {
+    function setField($label, $value, $position = false)
+    {
         return $this->browser->setField($label, $value, $position);
     }
     
@@ -1094,7 +1192,8 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean        True if field exists, otherwise false.
      *    @access public
      */
-    function setFieldByName($name, $value, $position=false) {
+    function setFieldByName($name, $value, $position = false)
+    {
         return $this->browser->setFieldByName($name, $value, $position);
     }
         
@@ -1105,7 +1204,8 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean             True if field exists, otherwise false.
      *    @access public
      */
-    function setFieldById($id, $value) {
+    function setFieldById($id, $value)
+    {
         return $this->browser->setFieldById($id, $value);
     }
     
@@ -1122,7 +1222,8 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean           True if pass.
      *    @access public
      */
-    function assertField($label, $expected = true, $message = '%s') {
+    function assertField($label, $expected = true, $message = '%s')
+    {
         $value = $this->browser->getField($label);
         return $this->assertFieldValue($label, $value, $expected, $message);
     }
@@ -1140,7 +1241,8 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean           True if pass.
      *    @access public
      */
-    function assertFieldByName($name, $expected = true, $message = '%s') {
+    function assertFieldByName($name, $expected = true, $message = '%s')
+    {
         $value = $this->browser->getFieldByName($name);
         return $this->assertFieldValue($name, $value, $expected, $message);
     }
@@ -1158,7 +1260,8 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean            True if pass.
      *    @access public
      */
-    function assertFieldById($id, $expected = true, $message = '%s') {
+    function assertFieldById($id, $expected = true, $message = '%s')
+    {
         $value = $this->browser->getFieldById($id);
         return $this->assertFieldValue($id, $value, $expected, $message);
     }
@@ -1172,17 +1275,20 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean                True if pass
      *    @access protected
      */
-    protected function assertFieldValue($identifier, $value, $expected, $message) {
+    protected function assertFieldValue($identifier, $value, $expected, $message)
+    {
         if ($expected === true) {
             return $this->assertTrue(
-                    isset($value),
-                    sprintf($message, "Field [$identifier] should exist"));
+                isset($value),
+                sprintf($message, "Field [$identifier] should exist")
+            );
         }
         if (! SimpleExpectation::isExpectation($expected)) {
             $identifier = str_replace('%', '%%', $identifier);
             $expected = new FieldExpectation(
-                    $expected,
-                    "Field [$identifier] should match with [%s]");
+                $expected,
+                "Field [$identifier] should match with [%s]"
+            );
         }
         return $this->assert($expected, $value, $message);
     }
@@ -1196,7 +1302,8 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean            True if pass.
      *    @access public
      */
-    function assertResponse($responses, $message = '%s') {
+    function assertResponse($responses, $message = '%s')
+    {
         $responses = (is_array($responses) ? $responses : array($responses));
         $code = $this->browser->getResponseCode();
         $message = sprintf($message, "Expecting response in [" .
@@ -1212,7 +1319,8 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean          True if pass.
      *    @access public
      */
-    function assertMime($types, $message = '%s') {
+    function assertMime($types, $message = '%s')
+    {
         $types = (is_array($types) ? $types : array($types));
         $type = $this->browser->getMimeType();
         $message = sprintf($message, "Expecting mime type in [" .
@@ -1228,19 +1336,22 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean                 True if pass.
      *    @access public
      */
-    function assertAuthentication($authentication = false, $message = '%s') {
+    function assertAuthentication($authentication = false, $message = '%s')
+    {
         if (! $authentication) {
             $message = sprintf($message, "Expected any authentication type, got [" .
                     $this->browser->getAuthentication() . "]");
             return $this->assertTrue(
-                    $this->browser->getAuthentication(),
-                    $message);
+                $this->browser->getAuthentication(),
+                $message
+            );
         } else {
             $message = sprintf($message, "Expected authentication [$authentication] got [" .
                     $this->browser->getAuthentication() . "]");
             return $this->assertTrue(
-                    strtolower($this->browser->getAuthentication()) == strtolower($authentication),
-                    $message);
+                strtolower($this->browser->getAuthentication()) == strtolower($authentication),
+                $message
+            );
         }
     }
     
@@ -1251,7 +1362,8 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean            True if pass.
      *    @access public
      */
-    function assertNoAuthentication($message = '%s') {
+    function assertNoAuthentication($message = '%s')
+    {
         $message = sprintf($message, "Expected no authentication type, got [" .
                 $this->browser->getAuthentication() . "]");
         return $this->assertFalse($this->browser->getAuthentication(), $message);
@@ -1264,14 +1376,16 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean          True if pass.
      *    @access public
      */
-    function assertRealm($realm, $message = '%s') {
+    function assertRealm($realm, $message = '%s')
+    {
         if (! SimpleExpectation::isExpectation($realm)) {
             $realm = new EqualExpectation($realm);
         }
         return $this->assert(
-                $realm,
-                $this->browser->getRealm(),
-                "Expected realm -> $message");
+            $realm,
+            $this->browser->getRealm(),
+            "Expected realm -> $message"
+        );
     }
     
     /**
@@ -1284,11 +1398,13 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean          True if pass.
      *    @access public
      */
-    function assertHeader($header, $value = false, $message = '%s') {
+    function assertHeader($header, $value = false, $message = '%s')
+    {
         return $this->assert(
-                new HttpHeaderExpectation($header, $value),
-                $this->browser->getHeaders(),
-                $message);
+            new HttpHeaderExpectation($header, $value),
+            $this->browser->getHeaders(),
+            $message
+        );
     }
 
     /**
@@ -1300,11 +1416,13 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean          True if pass.
      *    @access public
      */
-    function assertNoHeader($header, $message = '%s') {
+    function assertNoHeader($header, $message = '%s')
+    {
         return $this->assert(
-                new NoHttpHeaderExpectation($header),
-                $this->browser->getHeaders(),
-                $message);
+            new NoHttpHeaderExpectation($header),
+            $this->browser->getHeaders(),
+            $message
+        );
     }
     
     /**
@@ -1314,7 +1432,8 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean                           True if pass.
      *    @access public
      */
-    function assertTitle($title = false, $message = '%s') {
+    function assertTitle($title = false, $message = '%s')
+    {
         if (! SimpleExpectation::isExpectation($title)) {
             $title = new EqualExpectation($title);
         }
@@ -1329,11 +1448,13 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean           True if pass.
      *    @access public
      */
-    function assertText($text, $message = '%s') {
+    function assertText($text, $message = '%s')
+    {
         return $this->assert(
-                new TextExpectation($text),
-                $this->browser->getContentAsText(),
-                $message);
+            new TextExpectation($text),
+            $this->browser->getContentAsText(),
+            $message
+        );
     }
     
     /**
@@ -1344,11 +1465,13 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean           True if pass.
      *    @access public
      */
-    function assertNoText($text, $message = '%s') {
+    function assertNoText($text, $message = '%s')
+    {
         return $this->assert(
-                new NoTextExpectation($text),
-                $this->browser->getContentAsText(),
-                $message);
+            new NoTextExpectation($text),
+            $this->browser->getContentAsText(),
+            $message
+        );
     }
     
     /**
@@ -1360,11 +1483,13 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean           True if pass.
      *    @access public
      */
-    function assertPattern($pattern, $message = '%s') {
+    function assertPattern($pattern, $message = '%s')
+    {
         return $this->assert(
-                new PatternExpectation($pattern),
-                $this->browser->getContent(),
-                $message);
+            new PatternExpectation($pattern),
+            $this->browser->getContent(),
+            $message
+        );
     }
     
     /**
@@ -1376,11 +1501,13 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean           True if pass.
      *    @access public
      */
-    function assertNoPattern($pattern, $message = '%s') {
+    function assertNoPattern($pattern, $message = '%s')
+    {
         return $this->assert(
-                new NoPatternExpectation($pattern),
-                $this->browser->getContent(),
-                $message);
+            new NoPatternExpectation($pattern),
+            $this->browser->getContent(),
+            $message
+        );
     }
     
     /**
@@ -1393,12 +1520,14 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean            True if pass.
      *    @access public
      */
-    function assertCookie($name, $expected = false, $message = '%s') {
+    function assertCookie($name, $expected = false, $message = '%s')
+    {
         $value = $this->getCookie($name);
         if (! $expected) {
             return $this->assertTrue(
-                    $value,
-                    sprintf($message, "Expecting cookie [$name]"));
+                $value,
+                sprintf($message, "Expecting cookie [$name]")
+            );
         }
         if (! SimpleExpectation::isExpectation($expected)) {
             $expected = new EqualExpectation($expected);
@@ -1414,10 +1543,12 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean            True if pass.
      *    @access public
      */
-    function assertNoCookie($name, $message = '%s') {
+    function assertNoCookie($name, $message = '%s')
+    {
         return $this->assertTrue(
-                $this->getCookie($name) === null or $this->getCookie($name) === false,
-                sprintf($message, "Not expecting cookie [$name]"));
+            $this->getCookie($name) === null or $this->getCookie($name) === false,
+            sprintf($message, "Not expecting cookie [$name]")
+        );
     }
 
     /**
@@ -1429,7 +1560,8 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean           True on pass
      *    @access public
      */
-    function assertTrue($result, $message = false) {
+    function assertTrue($result, $message = false)
+    {
         return $this->assert(new TrueExpectation(), $result, $message);
     }
 
@@ -1443,7 +1575,8 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean           True on pass
      *    @access public
      */
-    function assertFalse($result, $message = '%s') {
+    function assertFalse($result, $message = '%s')
+    {
         return $this->assert(new FalseExpectation(), $result, $message);
     }
     
@@ -1457,11 +1590,13 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean              True on pass
      *    @access public
      */
-    function assertEqual($first, $second, $message = '%s') {
+    function assertEqual($first, $second, $message = '%s')
+    {
         return $this->assert(
-                new EqualExpectation($first),
-                $second,
-                $message);
+            new EqualExpectation($first),
+            $second,
+            $message
+        );
     }
     
     /**
@@ -1474,11 +1609,13 @@ class WebTestCase extends SimpleTestCase {
      *    @return boolean               True on pass
      *    @access public
      */
-    function assertNotEqual($first, $second, $message = '%s') {
+    function assertNotEqual($first, $second, $message = '%s')
+    {
         return $this->assert(
-                new NotEqualExpectation($first),
-                $second,
-                $message);
+            new NotEqualExpectation($first),
+            $second,
+            $message
+        );
     }
 
     /**
@@ -1487,9 +1624,9 @@ class WebTestCase extends SimpleTestCase {
      *                             method embedded in format string.
      *    @access public
      */
-    function getAssertionLine() {
+    function getAssertionLine()
+    {
         $trace = new SimpleStackTrace(array('assert', 'click', 'pass', 'fail'));
         return $trace->traceMethod();
     }
 }
-?>

@@ -337,7 +337,6 @@ class TalkMapper extends ApiMapper
         }
 
         return false;
-
     }
 
     /**
@@ -883,7 +882,6 @@ class TalkMapper extends ApiMapper
         $speakers = $speaker_stmt->fetchAll(PDO::FETCH_ASSOC);
 
         return count($speakers) > 0 ? $speakers[0] : false;
-
     }
 
     /**

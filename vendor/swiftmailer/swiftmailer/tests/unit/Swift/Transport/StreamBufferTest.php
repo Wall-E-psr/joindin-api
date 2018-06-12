@@ -12,8 +12,7 @@ class Swift_Transport_StreamBufferTest extends Swift_Tests_SwiftUnitTestCase
         $factory = $this->_createFactory();
         $this->_checking(Expectations::create()
             -> one($factory)->createFilter('a', 'b') -> returns($this->_createFilter())
-            -> never($factory)
-            );
+            -> never($factory));
         $buffer = $this->_createBuffer($factory);
         $buffer->setWriteTranslations(array('a' => 'b'));
     }
@@ -24,8 +23,7 @@ class Swift_Transport_StreamBufferTest extends Swift_Tests_SwiftUnitTestCase
         $this->_checking(Expectations::create()
             -> one($factory)->createFilter('a', 'b') -> returns($this->_createFilter())
             -> one($factory)->createFilter('x', 'y') -> returns($this->_createFilter())
-            -> never($factory)
-            );
+            -> never($factory));
         $buffer = $this->_createBuffer($factory);
         $buffer->setWriteTranslations(array('a' => 'b'));
         $buffer->setWriteTranslations(array('x' => 'y', 'a' => 'b'));

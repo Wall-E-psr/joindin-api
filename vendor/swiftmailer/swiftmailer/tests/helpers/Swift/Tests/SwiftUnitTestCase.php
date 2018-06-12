@@ -82,8 +82,7 @@ class Swift_Tests_SwiftUnitTestCase extends UnitTestCase
     {
         $stub = $this->_mockery()->mock($class);
         $this->_mockery()->checking(Yay_Expectations::create()
-            -> ignoring($stub)
-            );
+            -> ignoring($stub));
 
         return $stub;
     }

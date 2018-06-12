@@ -39,7 +39,9 @@ class MessageParser
         ];
 
         $parsed['request_url'] = $this->getUrlPartsFromMessage(
-            (isset($parts['start_line'][1]) ? $parts['start_line'][1] : ''), $parsed);
+            (isset($parts['start_line'][1]) ? $parts['start_line'][1] : ''),
+            $parsed
+        );
 
         return $parsed;
     }
@@ -89,7 +91,6 @@ class MessageParser
         // Iterate over each line in the message, accounting for line endings
         $lines = preg_split('/(\\r?\\n)/', $message, -1, PREG_SPLIT_DELIM_CAPTURE);
         for ($i = 0, $totalLines = count($lines); $i < $totalLines; $i += 2) {
-
             $line = $lines[$i];
 
             // If two line breaks were encountered, then this is the end of body

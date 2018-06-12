@@ -9,7 +9,6 @@ use GuzzleHttp\Message\ResponseInterface;
 use GuzzleHttp\UriTemplate;
 
 if (!defined('GUZZLE_FUNCTIONS_VERSION')) {
-
     define('GUZZLE_FUNCTIONS_VERSION', ClientInterface::VERSION);
 
     /**
@@ -324,7 +323,8 @@ if (!defined('GUZZLE_FUNCTIONS_VERSION')) {
             throw new \BadMethodCallException('Unknown method, ' . $name);
         }
 
-        $message = sprintf('%s is deprecated and will be removed in a future '
+        $message = sprintf(
+            '%s is deprecated and will be removed in a future '
             . 'version. Update your code to use the equivalent %s method '
             . 'instead to avoid breaking changes when this shim is removed.',
             get_class($object) . '::' . $name . '()',

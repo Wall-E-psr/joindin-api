@@ -4,8 +4,7 @@ require_once 'Swift/Tests/SwiftUnitTestCase.php';
 require_once 'Swift/Mime/Headers/IdentificationHeader.php';
 require_once 'Swift/Mime/Grammar.php';
 
-class Swift_Mime_Headers_IdentificationHeaderTest
-    extends Swift_Tests_SwiftUnitTestCase
+class Swift_Mime_Headers_IdentificationHeaderTest extends Swift_Tests_SwiftUnitTestCase
 {
     public function testTypeIsIdHeader()
     {
@@ -109,7 +108,7 @@ class Swift_Mime_Headers_IdentificationHeaderTest
             $header->setId('a b c@d');
             $this->fail(
                 'Exception should be thrown since "a b c" is not valid id-left.'
-                );
+            );
         } catch (Exception $e) {
             $this->pass();
         }
@@ -146,7 +145,7 @@ class Swift_Mime_Headers_IdentificationHeaderTest
             $header->setId('a@b c d');
             $this->fail(
                 'Exception should be thrown since "b c d" is not valid id-right.'
-                );
+            );
         } catch (Exception $e) {
             $this->pass();
         }
@@ -163,7 +162,7 @@ class Swift_Mime_Headers_IdentificationHeaderTest
             $header->setId('abc');
             $this->fail(
                 'Exception should be thrown since "abc" is does not contain @.'
-                );
+            );
         } catch (Exception $e) {
             $this->pass();
         }

@@ -6,8 +6,7 @@ require_once 'Swift/CharacterStream/ArrayCharacterStream.php';
 require_once 'Swift/CharacterReaderFactory/SimpleCharacterReaderFactory.php';
 require_once 'Swift/ByteStream/ArrayByteStream.php';
 
-class Swift_Mime_ContentEncoder_NativeQpContentEncoderAcceptanceTest
-    extends Swift_Tests_SwiftUnitTestCase
+class Swift_Mime_ContentEncoder_NativeQpContentEncoderAcceptanceTest extends Swift_Tests_SwiftUnitTestCase
 {
     /**
      * @var Swift_Mime_ContentEncoder_NativeQpContentEncoder
@@ -31,7 +30,6 @@ class Swift_Mime_ContentEncoder_NativeQpContentEncoderAcceptanceTest
             $sampleDir = $this->_samplesDir . '/' . $encodingDir;
 
             if (is_dir($sampleDir)) {
-
                 $fileFp = opendir($sampleDir);
                 while (false !== $sampleFile = readdir($fileFp)) {
                     if (substr($sampleFile, 0, 1) == '.') {
@@ -62,7 +60,6 @@ class Swift_Mime_ContentEncoder_NativeQpContentEncoderAcceptanceTest
             }
         }
         closedir($sampleFp);
-
     }
 
     public function testEncodingAndDecodingSamplesFromDiConfiguredInstance()

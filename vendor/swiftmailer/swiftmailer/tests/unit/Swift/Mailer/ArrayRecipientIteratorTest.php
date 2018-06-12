@@ -3,8 +3,7 @@
 require_once 'Swift/Tests/SwiftUnitTestCase.php';
 require_once 'Swift/Mailer/ArrayRecipientIterator.php';
 
-class Swift_Mailer_ArrayRecipientIteratorTest
-    extends Swift_Tests_SwiftUnitTestCase
+class Swift_Mailer_ArrayRecipientIteratorTest extends Swift_Tests_SwiftUnitTestCase
 {
     public function testHasNextReturnsFalseForEmptyArray()
     {

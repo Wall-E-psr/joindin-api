@@ -12,7 +12,7 @@ $options = array(
     'clearcontents'     => true,
     'ignore'            => array('TODO.xml', 'VERSION', 'docs/', 'tutorials/', 'packages/', '.svn'),
     'dir_roles'         => array(
-     	'test'    => 'test'
+        'test'    => 'test'
     )
 );
 
@@ -50,5 +50,3 @@ if (isset($_GET['make']) || (isset($_SERVER['argv']) && @$_SERVER['argv'][1] == 
 } else {
     $packagexml->debugPackageFile();
 }
-
-?>

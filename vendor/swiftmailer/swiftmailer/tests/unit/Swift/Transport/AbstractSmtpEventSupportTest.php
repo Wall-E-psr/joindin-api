@@ -6,8 +6,7 @@ require_once 'Swift/Events/EventListener.php';
 require_once 'Swift/Events/EventObject.php';
 require_once 'Swift/Events/EventListener.php';
 
-abstract class Swift_Transport_AbstractSmtpEventSupportTest
-    extends Swift_Transport_AbstractSmtpTest
+abstract class Swift_Transport_AbstractSmtpEventSupportTest extends Swift_Transport_AbstractSmtpTest
 {
     public function testRegisterPluginLoadsPluginInEventDispatcher()
     {
@@ -16,8 +15,7 @@ abstract class Swift_Transport_AbstractSmtpEventSupportTest
         $listener = $this->_mock('Swift_Events_EventListener');
         $smtp = $this->_getTransport($buf, $dispatcher);
         $this->_checking(Expectations::create()
-            -> one($dispatcher)->bindEventListener($listener)
-            );
+            -> one($dispatcher)->bindEventListener($listener));
         $smtp->registerPlugin($listener);
     }
 
@@ -35,8 +33,7 @@ abstract class Swift_Transport_AbstractSmtpEventSupportTest
             -> one($dispatcher)->createSendEvent(optional()) -> returns($evt)
             -> one($dispatcher)->dispatchEvent($evt, 'beforeSendPerformed')
             -> ignoring($dispatcher)
-            -> ignoring($evt)
-            );
+            -> ignoring($evt));
         $this->_finishBuffer($buf);
         $smtp->start();
         $this->assertEqual(1, $smtp->send($message));
@@ -56,8 +53,7 @@ abstract class Swift_Transport_AbstractSmtpEventSupportTest
             -> one($dispatcher)->createSendEvent(optional()) -> returns($evt)
             -> one($dispatcher)->dispatchEvent($evt, 'sendPerformed')
             -> ignoring($dispatcher)
-            -> ignoring($evt)
-            );
+            -> ignoring($evt));
         $this->_finishBuffer($buf);
         $smtp->start();
         $this->assertEqual(1, $smtp->send($message));
@@ -81,8 +77,7 @@ abstract class Swift_Transport_AbstractSmtpEventSupportTest
             -> allowing($dispatcher)->createSendEvent($smtp, optional()) -> returns($evt)
             -> one($evt)->setFailedRecipients(array('mark@swiftmailer.org'))
             -> ignoring($dispatcher)
-            -> ignoring($evt)
-            );
+            -> ignoring($evt));
         $this->_finishBuffer($buf);
         $smtp->start();
         $this->assertEqual(0, $smtp->send($message));
@@ -106,8 +101,7 @@ abstract class Swift_Transport_AbstractSmtpEventSupportTest
             -> allowing($dispatcher)->createSendEvent($smtp, optional()) -> returns($evt)
             -> one($evt)->setResult(Swift_Events_SendEvent::RESULT_FAILED)
             -> ignoring($dispatcher)
-            -> ignoring($evt)
-            );
+            -> ignoring($evt));
         $this->_finishBuffer($buf);
         $smtp->start();
         $this->assertEqual(0, $smtp->send($message));
@@ -133,8 +127,7 @@ abstract class Swift_Transport_AbstractSmtpEventSupportTest
             -> allowing($dispatcher)->createSendEvent($smtp, optional()) -> returns($evt)
             -> one($evt)->setResult(Swift_Events_SendEvent::RESULT_TENTATIVE)
             -> ignoring($dispatcher)
-            -> ignoring($evt)
-            );
+            -> ignoring($evt));
         $this->_finishBuffer($buf);
         $smtp->start();
         $this->assertEqual(1, $smtp->send($message));
@@ -156,8 +149,7 @@ abstract class Swift_Transport_AbstractSmtpEventSupportTest
             -> allowing($dispatcher)->createSendEvent($smtp, optional()) -> returns($evt)
             -> one($evt)->setResult(Swift_Events_SendEvent::RESULT_SUCCESS)
             -> ignoring($dispatcher)
-            -> ignoring($evt)
-            );
+            -> ignoring($evt));
         $this->_finishBuffer($buf);
         $smtp->start();
         $this->assertEqual(2, $smtp->send($message));
@@ -178,8 +170,7 @@ abstract class Swift_Transport_AbstractSmtpEventSupportTest
             -> one($dispatcher)->dispatchEvent($evt, 'beforeSendPerformed')
             -> ignoring($dispatcher)
             -> atLeast(1)->of($evt)->bubbleCancelled() -> returns(true)
-            -> ignoring($evt)
-            );
+            -> ignoring($evt));
         $this->_finishBuffer($buf);
         $smtp->start();
         $this->assertEqual(0, $smtp->send($message));
@@ -195,8 +186,7 @@ abstract class Swift_Transport_AbstractSmtpEventSupportTest
             -> allowing($dispatcher)->createTransportChangeEvent($smtp, optional()) -> returns($evt)
             -> one($dispatcher)->dispatchEvent($evt, 'transportStarted')
             -> ignoring($dispatcher)
-            -> ignoring($evt)
-            );
+            -> ignoring($evt));
         $this->_finishBuffer($buf);
         $smtp->start();
     }
@@ -211,8 +201,7 @@ abstract class Swift_Transport_AbstractSmtpEventSupportTest
             -> allowing($dispatcher)->createTransportChangeEvent($smtp, optional()) -> returns($evt)
             -> one($dispatcher)->dispatchEvent($evt, 'beforeTransportStarted')
             -> ignoring($dispatcher)
-            -> ignoring($evt)
-            );
+            -> ignoring($evt));
         $this->_finishBuffer($buf);
         $smtp->start();
     }
@@ -228,12 +217,12 @@ abstract class Swift_Transport_AbstractSmtpEventSupportTest
             -> one($dispatcher)->dispatchEvent($evt, 'beforeTransportStarted')
             -> allowing($evt)->bubbleCancelled() -> returns(true)
             -> ignoring($dispatcher)
-            -> ignoring($evt)
-            );
+            -> ignoring($evt));
         $this->_finishBuffer($buf);
         $smtp->start();
 
-        $this->assertFalse($smtp->isStarted(),
+        $this->assertFalse(
+            $smtp->isStarted(),
             '%s: Transport should not be started since event bubble was cancelled'
         );
     }
@@ -248,8 +237,7 @@ abstract class Swift_Transport_AbstractSmtpEventSupportTest
             -> allowing($dispatcher)->createTransportChangeEvent($smtp, optional()) -> returns($evt)
             -> one($dispatcher)->dispatchEvent($evt, 'transportStopped')
             -> ignoring($dispatcher)
-            -> ignoring($evt)
-            );
+            -> ignoring($evt));
         $this->_finishBuffer($buf);
         $smtp->start();
         $smtp->stop();
@@ -265,8 +253,7 @@ abstract class Swift_Transport_AbstractSmtpEventSupportTest
             -> allowing($dispatcher)->createTransportChangeEvent($smtp, optional()) -> returns($evt)
             -> one($dispatcher)->dispatchEvent($evt, 'beforeTransportStopped')
             -> ignoring($dispatcher)
-            -> ignoring($evt)
-            );
+            -> ignoring($evt));
         $this->_finishBuffer($buf);
         $smtp->start();
         $smtp->stop();
@@ -284,13 +271,13 @@ abstract class Swift_Transport_AbstractSmtpEventSupportTest
             -> one($dispatcher)->dispatchEvent($evt, 'beforeTransportStopped') -> inSequence($seq)
             -> allowing($evt)->bubbleCancelled() -> inSequence($seq) -> returns(true)
             -> ignoring($dispatcher)
-            -> ignoring($evt)
-            );
+            -> ignoring($evt));
         $this->_finishBuffer($buf);
         $smtp->start();
         $smtp->stop();
 
-        $this->assertTrue($smtp->isStarted(),
+        $this->assertTrue(
+            $smtp->isStarted(),
             '%s: Transport should not be stopped since event bubble was cancelled'
         );
     }
@@ -305,8 +292,7 @@ abstract class Swift_Transport_AbstractSmtpEventSupportTest
             -> allowing($dispatcher)->createResponseEvent($smtp, optional()) -> returns($evt)
             -> one($dispatcher)->dispatchEvent($evt, 'responseReceived')
             -> ignoring($dispatcher)
-            -> ignoring($evt)
-            );
+            -> ignoring($evt));
         $this->_finishBuffer($buf);
         $smtp->start();
     }
@@ -321,8 +307,7 @@ abstract class Swift_Transport_AbstractSmtpEventSupportTest
             -> allowing($dispatcher)->createCommandEvent($smtp, optional()) -> returns($evt)
             -> one($dispatcher)->dispatchEvent($evt, 'commandSent')
             -> ignoring($dispatcher)
-            -> ignoring($evt)
-            );
+            -> ignoring($evt));
         $this->_finishBuffer($buf);
         $smtp->start();
     }
@@ -338,8 +323,7 @@ abstract class Swift_Transport_AbstractSmtpEventSupportTest
             -> allowing($dispatcher)->createTransportExceptionEvent($smtp, optional()) -> returns($evt)
             -> one($dispatcher)->dispatchEvent($evt, 'exceptionThrown')
             -> ignoring($dispatcher)
-            -> ignoring($evt)
-            );
+            -> ignoring($evt));
         $this->_finishBuffer($buf);
         try {
             $smtp->start();
@@ -360,8 +344,7 @@ abstract class Swift_Transport_AbstractSmtpEventSupportTest
             -> one($dispatcher)->dispatchEvent($evt, 'exceptionThrown')
             -> atLeast(1)->of($evt)->bubbleCancelled() -> returns(true)
             -> ignoring($dispatcher)
-            -> ignoring($evt)
-            );
+            -> ignoring($evt));
         $this->_finishBuffer($buf);
         $smtp->start();
     }

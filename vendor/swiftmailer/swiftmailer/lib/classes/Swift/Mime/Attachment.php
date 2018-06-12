@@ -72,8 +72,9 @@ class Swift_Mime_Attachment extends Swift_Mime_SimpleMimeEntity
     {
         if (!$this->_setHeaderFieldModel('Content-Disposition', $disposition)) {
             $this->getHeaders()->addParameterizedHeader(
-                'Content-Disposition', $disposition
-                );
+                'Content-Disposition',
+                $disposition
+            );
         }
 
         return $this;
@@ -142,8 +143,9 @@ class Swift_Mime_Attachment extends Swift_Mime_SimpleMimeEntity
         $this->setBody($file, $contentType);
         if (!isset($contentType)) {
             $extension = strtolower(substr(
-                $file->getPath(), strrpos($file->getPath(), '.') + 1
-                ));
+                $file->getPath(),
+                strrpos($file->getPath(), '.') + 1
+            ));
 
             if (array_key_exists($extension, $this->_mimeTypes)) {
                 $this->setContentType($this->_mimeTypes[$extension]);

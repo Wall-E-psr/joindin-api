@@ -24,7 +24,6 @@ class Swift_Encoder_Base64EncoderAcceptanceTest extends UnitTestCase
             $sampleDir = $this->_samplesDir . '/' . $encodingDir;
 
             if (is_dir($sampleDir)) {
-
                 $fileFp = opendir($sampleDir);
                 while (false !== $sampleFile = readdir($fileFp)) {
                     if (substr($sampleFile, 0, 1) == '.') {
@@ -35,14 +34,14 @@ class Swift_Encoder_Base64EncoderAcceptanceTest extends UnitTestCase
                     $encodedText = $this->_encoder->encodeString($text);
 
                     $this->assertEqual(
-                        base64_decode($encodedText), $text,
+                        base64_decode($encodedText),
+                        $text,
                         '%s: Encoded string should decode back to original string for sample ' .
                         $sampleDir . '/' . $sampleFile
-                        );
+                    );
                 }
                 closedir($fileFp);
             }
-
         }
         closedir($sampleFp);
     }

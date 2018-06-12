@@ -217,7 +217,8 @@ class StreamTest extends \PHPUnit_Framework_TestCase
 
 class HasToString
 {
-    public function __toString() {
+    public function __toString()
+    {
         return 'foo';
     }
 }

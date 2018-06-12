@@ -5,8 +5,7 @@ require_once 'Swift/Transport/Esmtp/AuthHandler.php';
 require_once 'Swift/Transport/Esmtp/Authenticator.php';
 require_once 'Swift/Transport/SmtpAgent.php';
 
-class Swift_Transport_Esmtp_AuthHandlerTest
-    extends Swift_Tests_SwiftUnitTestCase
+class Swift_Transport_Esmtp_AuthHandlerTest extends Swift_Tests_SwiftUnitTestCase
 {
     private $_agent;
 
@@ -46,24 +45,30 @@ class Swift_Transport_Esmtp_AuthHandlerTest
     {
         $auth = $this->_createHandler(array());
         $mixins = $auth->exposeMixinMethods();
-        $this->assertTrue(in_array('getUsername', $mixins),
+        $this->assertTrue(
+            in_array('getUsername', $mixins),
             '%s: getUsername() should be accessible via mixin'
-            );
-        $this->assertTrue(in_array('setUsername', $mixins),
+        );
+        $this->assertTrue(
+            in_array('setUsername', $mixins),
             '%s: setUsername() should be accessible via mixin'
-            );
-        $this->assertTrue(in_array('getPassword', $mixins),
+        );
+        $this->assertTrue(
+            in_array('getPassword', $mixins),
             '%s: getPassword() should be accessible via mixin'
-            );
-        $this->assertTrue(in_array('setPassword', $mixins),
+        );
+        $this->assertTrue(
+            in_array('setPassword', $mixins),
             '%s: setPassword() should be accessible via mixin'
-            );
-        $this->assertTrue(in_array('setAuthMode', $mixins),
+        );
+        $this->assertTrue(
+            in_array('setAuthMode', $mixins),
             '%s: setAuthMode() should be accessible via mixin'
-            );
-        $this->assertTrue(in_array('getAuthMode', $mixins),
+        );
+        $this->assertTrue(
+            in_array('getAuthMode', $mixins),
             '%s: getAuthMode() should be accessible via mixin'
-            );
+        );
     }
 
     public function testAuthenticatorsAreCalledAccordingToParamsAfterEhlo()
@@ -73,8 +78,7 @@ class Swift_Transport_Esmtp_AuthHandlerTest
 
         $this->_checking(Expectations::create()
             -> never($a1)->authenticate($this->_agent, 'jack', 'pass')
-            -> one($a2)->authenticate($this->_agent, 'jack', 'pass') -> returns(true)
-            );
+            -> one($a2)->authenticate($this->_agent, 'jack', 'pass') -> returns(true));
 
         $auth = $this->_createHandler(array($a1, $a2));
         $auth->setUsername('jack');
@@ -91,8 +95,7 @@ class Swift_Transport_Esmtp_AuthHandlerTest
 
         $this->_checking(Expectations::create()
             -> never($a1)->authenticate($this->_agent, 'jack', 'pass')
-            -> never($a2)->authenticate($this->_agent, 'jack', 'pass') -> returns(true)
-            );
+            -> never($a2)->authenticate($this->_agent, 'jack', 'pass') -> returns(true));
 
         $auth = $this->_createHandler(array($a1, $a2));
 
@@ -107,8 +110,7 @@ class Swift_Transport_Esmtp_AuthHandlerTest
 
         $this->_checking(Expectations::create()
             -> one($a1)->authenticate($this->_agent, 'jack', 'pass') -> returns(false)
-            -> one($a2)->authenticate($this->_agent, 'jack', 'pass') -> returns(true)
-            );
+            -> one($a2)->authenticate($this->_agent, 'jack', 'pass') -> returns(true));
 
         $auth = $this->_createHandler(array($a1, $a2));
         $auth->setUsername('jack');
@@ -127,8 +129,7 @@ class Swift_Transport_Esmtp_AuthHandlerTest
         $this->_checking(Expectations::create()
             -> one($a1)->authenticate($this->_agent, 'jack', 'pass') -> returns(false)
             -> one($a2)->authenticate($this->_agent, 'jack', 'pass') -> returns(true)
-            -> never($a3)->authenticate($this->_agent, 'jack', 'pass')
-            );
+            -> never($a3)->authenticate($this->_agent, 'jack', 'pass'));
 
         $auth = $this->_createHandler(array($a1, $a2));
         $auth->setUsername('jack');
@@ -149,8 +150,7 @@ class Swift_Transport_Esmtp_AuthHandlerTest
     {
         $authenticator = $this->_mock('Swift_Transport_Esmtp_Authenticator');
         $this->_checking(Expectations::create()
-            -> ignoring($authenticator)->getAuthKeyword() -> returns($type)
-            );
+            -> ignoring($authenticator)->getAuthKeyword() -> returns($type));
 
         return $authenticator;
     }

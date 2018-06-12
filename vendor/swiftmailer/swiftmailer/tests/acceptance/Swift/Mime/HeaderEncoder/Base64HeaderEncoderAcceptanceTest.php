@@ -27,7 +27,8 @@ class Swift_Mime_HeaderEncoder_Base64HeaderEncoderAcceptanceTest extends UnitTes
 
             $encoded = $this->_encoder->encodeString($subject, 0, 75 - $encodedWrapperLength, 'iso-2022-jp');
             $this->assertEqual(
-                $encoded, $newstring,
+                $encoded,
+                $newstring,
                 'Encoded string should decode back to original string for sample '
             );
         }

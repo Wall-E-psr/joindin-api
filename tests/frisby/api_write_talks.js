@@ -1,4 +1,4 @@
-// vim: tabstop=2:softtabstop=2:shiftwidth=2 
+// vim: tabstop=2:softtabstop=2:shiftwidth=2
 
 var frisby   = require('frisby');
 var datatest = require('./data');
@@ -6,36 +6,38 @@ var util     = require('util');
 var url      = require('url');
 
 module.exports = {
-  runTalkTests : runTalkTests
+    runTalkTests : runTalkTests
 }
 
-function runTalkTests(userAccessToken, talks_uri) {
-  testCreateTalkFailsIfNotLoggedIn(talks_uri);
-  testCreateTalkFailsWithIncorrectData(userAccessToken, talks_uri);
+function runTalkTests(userAccessToken, talks_uri)
+{
+    testCreateTalkFailsIfNotLoggedIn(talks_uri);
+    testCreateTalkFailsWithIncorrectData(userAccessToken, talks_uri);
 }
 
 function testCreateTalkFailsIfNotLoggedIn(talks_uri)
 {
-  frisby.create('Create talk fails if not logged in')
+    frisby.create('Create talk fails if not logged in')
     .post(
-      talks_uri,
-      {},
-      {json: true}
+        talks_uri,
+        {},
+        {json: true}
     )
-    .afterJSON(function(result) {
-      expect(result[0]).toContain("You must be logged in");
+    .afterJSON(function (result) {
+        expect(result[0]).toContain("You must be logged in");
     })
     .expectStatus(401) // fails as no user token
     .toss();
 }
 
-function testCreateTalkFailsWithIncorrectData(access_token, talks_uri) {
-  frisby.create('Create talk fails with missing name')
+function testCreateTalkFailsWithIncorrectData(access_token, talks_uri)
+{
+    frisby.create('Create talk fails with missing name')
       .post(
-      talks_uri,
-      {},
-      {json : true, headers : {'Authorization' : 'oauth ' + access_token}}
-  )
+          talks_uri,
+          {},
+          {json : true, headers : {'Authorization' : 'oauth ' + access_token}}
+      )
       .expectStatus(400)
       .afterJSON(function (result) {
         expect(result[0]).toContain("The talk title field is required");
@@ -44,10 +46,10 @@ function testCreateTalkFailsWithIncorrectData(access_token, talks_uri) {
 
     frisby.create('Create talk fails with missing description')
         .post(
-        talks_uri,
-        {'talk_title' : 'talk_title'},
-        {json : true, headers : {'Authorization' : 'oauth ' + access_token}}
-    )
+            talks_uri,
+            {'talk_title' : 'talk_title'},
+            {json : true, headers : {'Authorization' : 'oauth ' + access_token}}
+        )
         .expectStatus(400)
         .afterJSON(function (result) {
             expect(result[0]).toContain("The talk description field is required");
@@ -56,13 +58,13 @@ function testCreateTalkFailsWithIncorrectData(access_token, talks_uri) {
 
     frisby.create('Create talk fails with missing date and time')
         .post(
-        talks_uri,
-        {
-            'talk_title' : 'talk_title',
-            'talk_description' : 'talk-description',
-        },
-        {json : true, headers : {'Authorization' : 'oauth ' + access_token}}
-    )
+            talks_uri,
+            {
+                'talk_title' : 'talk_title',
+                'talk_description' : 'talk-description',
+            },
+            {json : true, headers : {'Authorization' : 'oauth ' + access_token}}
+        )
         .expectStatus(400)
         .afterJSON(function (result) {
             expect(result[0]).toContain("Please give the date and time of the talk");
@@ -95,8 +97,8 @@ function testCreateTalkFailsWithIncorrectData(access_token, talks_uri) {
         )
         .expectStatus(201) // Created as it is automatically approved
         .expectHeaderContains("Location", "/talks/")
-        .after(function(err, res, body) {
-            if(res.statusCode == 201) {
+        .after(function (err, res, body) {
+            if (res.statusCode == 201) {
                 // We have an event, we can test it!
                 var event_uri = res.headers.location;
                 frisby.create('Get Talkwith EscapedTitle')
@@ -111,3 +113,4 @@ function testCreateTalkFailsWithIncorrectData(access_token, talks_uri) {
         })
         .toss();
 }
+

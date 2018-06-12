@@ -2,6 +2,7 @@
 
 // Override curl_setopt_array() to get the last set curl options
 namespace GuzzleHttp\Adapter\Curl
+
 {
     function curl_setopt_array($handle, array $options)
     {

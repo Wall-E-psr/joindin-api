@@ -8,7 +8,8 @@ if (version_compare(PHP_VERSION, '5.1', '>=')) {
     include(dirname(__FILE__) . '/interfaces_test_php5_1.php');
 }
 
-interface DummyInterface {
+interface DummyInterface
+{
     function aMethod();
     function anotherMethod($a);
     function &referenceMethod(&$a);
@@ -17,9 +18,11 @@ interface DummyInterface {
 Mock::generate('DummyInterface');
 Mock::generatePartial('DummyInterface', 'PartialDummyInterface', array());
 
-class TestOfMockInterfaces extends UnitTestCase {
+class TestOfMockInterfaces extends UnitTestCase
+{
 
-    function testCanMockAnInterface() {
+    function testCanMockAnInterface()
+    {
         $mock = new MockDummyInterface();
         $this->assertIsA($mock, 'SimpleMock');
         $this->assertIsA($mock, 'MockDummyInterface');
@@ -28,28 +31,33 @@ class TestOfMockInterfaces extends UnitTestCase {
         $this->assertNull($mock->aMethod());
     }
 
-    function testMockedInterfaceExpectsParameters() {
+    function testMockedInterfaceExpectsParameters()
+    {
         $mock = new MockDummyInterface();
         $this->expectError();
         $mock->anotherMethod();
     }
 
-    function testCannotPartiallyMockAnInterface() {
+    function testCannotPartiallyMockAnInterface()
+    {
         $this->assertFalse(class_exists('PartialDummyInterface'));
     }
 }
 
-class TestOfSpl extends UnitTestCase {
+class TestOfSpl extends UnitTestCase
+{
     
-    function skip() {
+    function skip()
+    {
         $this->skipUnless(function_exists('spl_classes'), 'No SPL module loaded');
     }
 
-    function testCanMockAllSplClasses() {
+    function testCanMockAllSplClasses()
+    {
         if (! function_exists('spl_classes')) {
             return;
         }
-        foreach(spl_classes() as $class) {
+        foreach (spl_classes() as $class) {
             if ($class == 'SplHeap') {
                 continue;
             }
@@ -71,67 +79,92 @@ class TestOfSpl extends UnitTestCase {
         }
     }
 
-    function testExtensionOfCommonSplClasses() {
+    function testExtensionOfCommonSplClasses()
+    {
         Mock::generate('IteratorImplementation');
         $this->assertIsA(
-                new IteratorImplementation(),
-                'IteratorImplementation');
+            new IteratorImplementation(),
+            'IteratorImplementation'
+        );
         Mock::generate('IteratorAggregateImplementation');
         $this->assertIsA(
-                new IteratorAggregateImplementation(),
-                'IteratorAggregateImplementation');
-   }
+            new IteratorAggregateImplementation(),
+            'IteratorAggregateImplementation'
+        );
+    }
 }
 
-class WithHint {
-    function hinted(DummyInterface $object) { }
+class WithHint
+{
+    function hinted(DummyInterface $object)
+    {
+    }
 }
 
-class ImplementsDummy implements DummyInterface {
-    function aMethod() { }
-    function anotherMethod($a) { }
-    function &referenceMethod(&$a) { }
-    function extraMethod($a = false) { }
+class ImplementsDummy implements DummyInterface
+{
+    function aMethod()
+    {
+    }
+    function anotherMethod($a)
+    {
+    }
+    function &referenceMethod(&$a)
+    {
+    }
+    function extraMethod($a = false)
+    {
+    }
 }
 Mock::generate('ImplementsDummy');
 
-class TestOfImplementations extends UnitTestCase {
+class TestOfImplementations extends UnitTestCase
+{
 
-    function testMockedInterfaceCanPassThroughTypeHint() {
+    function testMockedInterfaceCanPassThroughTypeHint()
+    {
         $mock = new MockDummyInterface();
         $hinter = new WithHint();
         $hinter->hinted($mock);
     }
 
-    function testImplementedInterfacesAreCarried() {
+    function testImplementedInterfacesAreCarried()
+    {
         $mock = new MockImplementsDummy();
         $hinter = new WithHint();
         $hinter->hinted($mock);
     }
     
-    function testNoSpuriousWarningsWhenSkippingDefaultedParameter() {
+    function testNoSpuriousWarningsWhenSkippingDefaultedParameter()
+    {
         $mock = new MockImplementsDummy();
         $mock->extraMethod();
     }
 }
 
-interface SampleInterfaceWithConstruct {
+interface SampleInterfaceWithConstruct
+{
     function __construct($something);
 }
 
-class TestOfInterfaceMocksWithConstruct extends UnitTestCase {
-    function TODO_testBasicConstructOfAnInterface() {   // Fails in PHP 5.3dev
+class TestOfInterfaceMocksWithConstruct extends UnitTestCase
+{
+    function TODO_testBasicConstructOfAnInterface()
+    {
+   // Fails in PHP 5.3dev
         Mock::generate('SampleInterfaceWithConstruct');
     }
 }
 
-interface SampleInterfaceWithClone {
+interface SampleInterfaceWithClone
+{
     function __clone();
 }
 
-class TestOfSampleInterfaceWithClone extends UnitTestCase {
-    function testCanMockWithoutErrors() {
+class TestOfSampleInterfaceWithClone extends UnitTestCase
+{
+    function testCanMockWithoutErrors()
+    {
         Mock::generate('SampleInterfaceWithClone');
     }
 }
-?>

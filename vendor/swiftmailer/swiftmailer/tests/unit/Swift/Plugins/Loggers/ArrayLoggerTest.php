@@ -3,8 +3,7 @@
 require_once 'Swift/Tests/SwiftUnitTestCase.php';
 require_once 'Swift/Plugins/Loggers/ArrayLogger.php';
 
-class Swift_Plugins_Loggers_ArrayLoggerTest
-    extends Swift_Tests_SwiftUnitTestCase
+class Swift_Plugins_Loggers_ArrayLoggerTest extends Swift_Tests_SwiftUnitTestCase
 {
     public function testAddingSingleEntryDumpsSingleLine()
     {
@@ -27,7 +26,7 @@ class Swift_Plugins_Loggers_ArrayLoggerTest
             ">> RSET\r\n" . PHP_EOL .
             "<< 250 OK\r\n",
             $logger->dump()
-            );
+        );
     }
 
     public function testLogCanBeCleared()
@@ -44,7 +43,7 @@ class Swift_Plugins_Loggers_ArrayLoggerTest
             ">> RSET\r\n" . PHP_EOL .
             "<< 250 OK\r\n",
             $logger->dump()
-            );
+        );
 
         $logger->clear();
 
@@ -64,7 +63,6 @@ class Swift_Plugins_Loggers_ArrayLoggerTest
             "<< 250 OK\r\n",
             $logger->dump(),
             '%s: Log should be truncated to last 2 entries'
-            );
+        );
     }
-
 }

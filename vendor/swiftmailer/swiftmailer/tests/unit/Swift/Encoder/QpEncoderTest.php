@@ -41,8 +41,7 @@ class Swift_Encoder_QpEncoderTest extends Swift_Tests_SwiftUnitTestCase
                 -> one($charStream)->flushContents()
                 -> one($charStream)->importString($char)
                 -> one($charStream)->readBytes(optional()) -> returns(array($ordinal))
-                -> atLeast(1)->of($charStream)->readBytes(optional()) -> returns(false)
-                );
+                -> atLeast(1)->of($charStream)->readBytes(optional()) -> returns(false));
 
             $encoder = new Swift_Encoder_QpEncoder($charStream);
 
@@ -92,14 +91,13 @@ class Swift_Encoder_QpEncoderTest extends Swift_Tests_SwiftUnitTestCase
             -> one($charStream)->readBytes(optional()) -> inSequence($seq) -> returns(array(0x0D))
             -> one($charStream)->readBytes(optional()) -> inSequence($seq) -> returns(array(0x0A))
             -> one($charStream)->readBytes(optional()) -> inSequence($seq) -> returns(array(ord('b')))
-            -> one($charStream)->readBytes(optional()) -> inSequence($seq) -> returns(false)
-            );
+            -> one($charStream)->readBytes(optional()) -> inSequence($seq) -> returns(false));
 
         $encoder = new Swift_Encoder_QpEncoder($charStream);
         $this->assertEqual(
             'a' . $HT . '=09' . "\r\n" . 'b',
             $encoder->encodeString($string)
-            );
+        );
 
         //SPACE
         $string = 'a' . $SPACE . $SPACE . "\r\n" . 'b';
@@ -115,14 +113,13 @@ class Swift_Encoder_QpEncoderTest extends Swift_Tests_SwiftUnitTestCase
             -> one($charStream)->readBytes(optional()) -> inSequence($seq) -> returns(array(0x0D))
             -> one($charStream)->readBytes(optional()) -> inSequence($seq) -> returns(array(0x0A))
             -> one($charStream)->readBytes(optional()) -> inSequence($seq) -> returns(array(ord('b')))
-            -> one($charStream)->readBytes(optional()) -> inSequence($seq) -> returns(false)
-            );
+            -> one($charStream)->readBytes(optional()) -> inSequence($seq) -> returns(false));
 
         $encoder = new Swift_Encoder_QpEncoder($charStream);
         $this->assertEqual(
             'a' . $SPACE . '=20' . "\r\n" . 'b',
             $encoder->encodeString($string)
-            );
+        );
     }
 
     public function testCRLFIsLeftAlone()
@@ -170,8 +167,7 @@ class Swift_Encoder_QpEncoderTest extends Swift_Tests_SwiftUnitTestCase
             -> one($charStream)->readBytes(optional()) -> inSequence($seq) -> returns(array(ord('c')))
             -> one($charStream)->readBytes(optional()) -> inSequence($seq) -> returns(array(0x0D))
             -> one($charStream)->readBytes(optional()) -> inSequence($seq) -> returns(array(0x0A))
-            -> one($charStream)->readBytes(optional()) -> inSequence($seq) -> returns(false)
-            );
+            -> one($charStream)->readBytes(optional()) -> inSequence($seq) -> returns(false));
 
         $encoder = new Swift_Encoder_QpEncoder($charStream);
         $this->assertEqual($string, $encoder->encodeString($string));
@@ -197,8 +193,8 @@ class Swift_Encoder_QpEncoderTest extends Swift_Tests_SwiftUnitTestCase
         $exps = Expectations::create();
 
         $exps -> one($charStream)->flushContents()
-     -> one($charStream)->importString($input)
-     ;
+        -> one($charStream)->importString($input)
+        ;
 
         $output = '';
         for ($i = 0; $i < 140; ++$i) {
@@ -228,8 +224,8 @@ class Swift_Encoder_QpEncoderTest extends Swift_Tests_SwiftUnitTestCase
         $exps = Expectations::create();
 
         $exps -> one($charStream)->flushContents()
-     -> one($charStream)->importString($input)
-     ;
+        -> one($charStream)->importString($input)
+        ;
 
         $output = '';
         for ($i = 0; $i < 100; ++$i) {
@@ -262,14 +258,14 @@ class Swift_Encoder_QpEncoderTest extends Swift_Tests_SwiftUnitTestCase
                 -> one($charStream)->flushContents()
                 -> one($charStream)->importString($char)
                 -> one($charStream)->readBytes(optional()) -> returns(array($ordinal))
-                -> atLeast(1)->of($charStream)->readBytes(optional()) -> returns(false)
-                );
+                -> atLeast(1)->of($charStream)->readBytes(optional()) -> returns(false));
 
             $encoder = new Swift_Encoder_QpEncoder($charStream);
 
             $this->assertEqual(
-                sprintf('=%02X', $ordinal), $encoder->encodeString($char)
-                );
+                sprintf('=%02X', $ordinal),
+                $encoder->encodeString($char)
+            );
         }
     }
 
@@ -286,8 +282,7 @@ class Swift_Encoder_QpEncoderTest extends Swift_Tests_SwiftUnitTestCase
             -> one($charStream)->flushContents()
             -> one($charStream)->importString($char)
             -> one($charStream)->readBytes(optional()) -> returns(array(61))
-            -> atLeast(1)->of($charStream)->readBytes(optional()) -> returns(false)
-            );
+            -> atLeast(1)->of($charStream)->readBytes(optional()) -> returns(false));
 
         $encoder = new Swift_Encoder_QpEncoder($charStream);
 
@@ -308,14 +303,14 @@ class Swift_Encoder_QpEncoderTest extends Swift_Tests_SwiftUnitTestCase
                 -> one($charStream)->flushContents()
                 -> one($charStream)->importString($char)
                 -> one($charStream)->readBytes(optional()) -> returns(array($ordinal))
-                -> atLeast(1)->of($charStream)->readBytes(optional()) -> returns(false)
-                );
+                -> atLeast(1)->of($charStream)->readBytes(optional()) -> returns(false));
 
             $encoder = new Swift_Encoder_QpEncoder($charStream);
 
             $this->assertEqual(
-                sprintf('=%02X', $ordinal), $encoder->encodeString($char)
-                );
+                sprintf('=%02X', $ordinal),
+                $encoder->encodeString($char)
+            );
         }
     }
 
@@ -347,9 +342,10 @@ class Swift_Encoder_QpEncoderTest extends Swift_Tests_SwiftUnitTestCase
 
         $encoder = new Swift_Encoder_QpEncoder($charStream);
         $this->assertEqual(
-            $output, $encoder->encodeString($input, 22),
+            $output,
+            $encoder->encodeString($input, 22),
             '%s: First line should start at offset 22 so can only have max length 54'
-            );
+        );
     }
 
     // -- Creation methods

@@ -9,17 +9,20 @@ class Swift_Events_ResponseEventTest extends Swift_Tests_SwiftUnitTestCase
     public function testResponseCanBeFetchViaGetter()
     {
         $evt = $this->_createEvent($this->_createTransport(), "250 Ok\r\n", true);
-        $this->assertEqual("250 Ok\r\n", $evt->getResponse(),
+        $this->assertEqual(
+            "250 Ok\r\n",
+            $evt->getResponse(),
             '%s: Response should be available via getResponse()'
-            );
+        );
     }
 
     public function testResultCanBeFetchedViaGetter()
     {
         $evt = $this->_createEvent($this->_createTransport(), "250 Ok\r\n", false);
-        $this->assertFalse($evt->isValid(),
+        $this->assertFalse(
+            $evt->isValid(),
             '%s: Result should be checkable via isValid()'
-            );
+        );
     }
 
     public function testSourceIsBuffer()

@@ -1,7 +1,7 @@
 <?php
-    if (count($HTTP_GET_VARS) > 0) {
-        $_GET = $HTTP_GET_VARS;
-    }
+if (count($HTTP_GET_VARS) > 0) {
+    $_GET = $HTTP_GET_VARS;
+}
 ?><html>
     <head><title>Test of form self submission</title></head>
     <body>
